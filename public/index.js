@@ -73,9 +73,10 @@ const initSicklistData = (data) => {
     .tickFormat(d => d);
 
   svg.append('g')
-    .attr('transform', `translate(0,${height-30})`)
+    .attr('transform', `translate(0,${height - 30})`)
     .call(xAxis)
-    .select(".domain").remove();
+    .select('.domain')
+    .remove();
 };
 
 
