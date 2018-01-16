@@ -1,0 +1,27 @@
+{
+  "name": "utas-tas-convict-datavis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nf-s/utas-tas-convict-datavis"
+  },
+  "author": "nfs",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "d3": "^4.12.2",
+    "finalhandler": "^1.1.0",
+    "serve-static": "^1.13.1"
+  },
+  "devDependencies": {
+    "watchify": "^3.9.0",
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0"
+  }
+}
