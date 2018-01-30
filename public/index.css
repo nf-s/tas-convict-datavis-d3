@@ -1,0 +1,52 @@
+body, html {
+    background-color: #111;
+    color: #eee;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+svg, #container, #overlay{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#overlay {
+    margin: 0;
+    z-index: 10;
+    pointer-events:none;
+}
+
+input, select {
+    pointer-events:auto;
+}
+
+line{
+    stroke: #eee;
+}
+
+path{
+    stroke: #eee;
+}
+
+.tick text {
+    font-size: 30px;
+    fill-opacity: 0.6;
+    fill: #fff;
+}
+
+.axis-no-line .domain {
+    display: none;
+}
+
+/* grid line */
+.tick line {
+    opacity: 0.3;
+}
+
+.zoom {
+    pointer-events: all;
+}

@@ -4,8 +4,22 @@
     <meta charset="utf-8">
     <title>Convict Test</title>
     <script src="bundle.js"></script>
+    <script src="d3.xyzoom.min.js"></script>
+    <link rel="stylesheet" href="index.css" type="text/css">
 </head>
 <body>
+
+<div id="overlay">
+    <select id="sortSelect"></select>
+
+<label for="xAxisDate">Date on x-axis</label><input type="checkbox" name="xAxisDate" id="xAxisDate" />
+
+</div>
+
+<div id="container">
+    <svg id="main" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 3000 2000">
+    </svg>
+</div>
 
 </body>
 
