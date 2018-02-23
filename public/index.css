@@ -20,7 +20,7 @@ svg, #container, #overlay{
     pointer-events:none;
 }
 
-input, select {
+input, select, button {
     pointer-events:auto;
 }
 
@@ -32,8 +32,14 @@ path{
     stroke: #eee;
 }
 
+.voyage-label text {
+    font-size: 24px;
+    fill-opacity: 0.8;
+    fill: #fff;
+}
+
 .tick text {
-    font-size: 30px;
+    font-size: 24px;
     fill-opacity: 0.6;
     fill: #fff;
 }

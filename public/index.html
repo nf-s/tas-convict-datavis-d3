@@ -10,9 +10,34 @@
 <body>
 
 <div id="overlay">
-    <select id="sortSelect"></select>
+    <label for="groupByVoyage">Group By Voyage</label><input type="radio" value="voyage" name="groupBy" id="groupByVoyage" checked="checked"/>
+    <label for="noGrouping">None</label><input type="radio" value="none" name="groupBy"
+                                                       id="noGrouping"/>
 
-<label for="xAxisDate">Date on x-axis</label><input type="checkbox" name="xAxisDate" id="xAxisDate" />
+    <select id="sortSelect">
+        <option value="Trade">Trade</option>
+        <option value="Disease.1.Code">Disease.1.Code</option>
+        <option value="Disease.2.Code">Disease.2.Code</option>
+        <option value="OnInDays" selected>OnInDays</option>
+        <option value="OnDate">OnDate</option>
+        <option value="OnPercentVoyage">OnPercentVoyage</option>
+        <option value="OffInDays">OffInDays</option>
+        <option value="OffDate">OffDate</option>
+        <option value="OffPercentVoyage">OffPercentVoyage</option>
+        <option value="TotalInDays">TotalInDays</option>
+        <option value="TotalPercentVoyage">TotalPercentVoyage</option>
+        <option value="Gender">Gender</option>
+        <option value="AgeInYears">AgeInYears</option>
+    </select>
+
+    <label for="xAxisDay">Day</label><input type="radio" value="day" name="xAxis" id="xAxisDay" checked="checked"/>
+    <label for="xAxisPercent">Percentage</label><input type="radio" value="percent" name="xAxis"
+                                                       id="xAxisPercent"/>
+    <label for="xAxisDate">Date</label><input type="radio" value="date" name="xAxis"
+                                              id="xAxisDate"/>
+
+    <button id="zoomInBtn">+</button>
+    <button id="zoomOutBtn">-</button>
 
 </div>
 

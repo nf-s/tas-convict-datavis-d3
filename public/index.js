@@ -13,10 +13,19 @@ const margin = {
 const width = svgWidth - margin.left - margin.right;
 const height = svgHeight - margin.top - margin.bottom;
 
-const padding = 100;
+const padding = 50;
 
-const defaultSickRowHeight = 20;
+const defaultSickRowHeight = 10;
+const defaultSickRowPaddingRatio = 0.25;
 const defaultVoyageVertPadding = 100;
+
+const defaultSickRowXtransitionDuration = 750;
+const defaultSickRowXtransitionInitialDelay = 100;
+const defaultSickRowXtransitionTotalDelay = 1000;
+
+const defaultSickRowYtransitionDuration = 750;
+const defaultSickRowYtransitionInitialDelay = 100;
+const defaultSickRowYtransitionTotalDelay = 1000;
 
 const dateParser = d3.timeParse('%Y-%m-%d %H:%M:%S');
 
@@ -24,42 +33,121 @@ const dateParser = d3.timeParse('%Y-%m-%d %H:%M:%S');
 const svg = d3.select('svg')
   .style('border', '0px solid');
 
+// Declare cols
+const defaultSickRowCol = '#fff';
+const zeroLengthSickRowCol = '#777';
+const deathSickRowCol = '#F33';
+
 // Declare Gradients
 const defs = svg.append('defs');
 
-const gradient = defs.append('linearGradient')
+const deathGradient = defs.append('linearGradient')
   .attr('id', 'deathGradient')
   .attr('x1', '0%')
   .attr('x2', '100%')
   .attr('y1', '0%')
   .attr('y2', '0%');
 
-gradient.append('stop')
+deathGradient.append('stop')
   .attr('class', 'start')
   .attr('offset', '0%')
-  .attr('stop-color', '#fff')
+  .attr('stop-color', defaultSickRowCol)
   .attr('stop-opacity', 1);
 
-gradient.append('stop')
+deathGradient.append('stop')
   .attr('class', 'end')
   .attr('offset', '100%')
-  .attr('stop-color', '#F33')
+  .attr('stop-color', deathSickRowCol)
+  .attr('stop-opacity', 1);
+
+const marginTopGradient = defs.append('linearGradient')
+  .attr('id', 'marginTopGradient')
+  .attr('x1', '0%')
+  .attr('x2', '0%')
+  .attr('y1', '0%')
+  .attr('y2', '100%');
+
+marginTopGradient.append('stop')
+  .attr('offset', '0%')
+  .attr('stop-color', '#111')
+  .attr('stop-opacity', 1);
+
+marginTopGradient.append('stop')
+  .attr('offset', `${100 - ((padding * 100) / (margin.top + padding))}%`)
+  .attr('stop-color', '#111')
+  .attr('stop-opacity', 1);
+
+marginTopGradient.append('stop')
+  .attr('offset', '100%')
+  .attr('stop-color', '#111')
+  .attr('stop-opacity', 0);
+
+const marginBottomGradient = defs.append('linearGradient')
+  .attr('id', 'marginBottomGradient')
+  .attr('x1', '0%')
+  .attr('x2', '0%')
+  .attr('y1', '0%')
+  .attr('y2', '100%');
+
+marginBottomGradient.append('stop')
+  .attr('offset', '0%')
+  .attr('stop-color', '#111')
+  .attr('stop-opacity', 0);
+
+marginBottomGradient.append('stop')
+  .attr('offset', `${(padding * 100) / (margin.bottom + padding)}%`)
+  .attr('stop-color', '#111')
+  .attr('stop-opacity', 1);
+
+marginBottomGradient.append('stop')
+  .attr('offset', '100%')
+  .attr('stop-color', '#111')
   .attr('stop-opacity', 1);
 
 // Inner Drawing Space
-const innerSpace = svg.append('g')
+const zoomSpace = svg.append('g')
   .attr('class', 'inner_space zoom')
-  .attr('transform', `translate(${margin.left},${margin.top})`)
+  .attr('transform', `translate(${margin.left + padding},${margin.top + padding})`)
   .style('fill', ' #111');
+
+// Inner Drawing Space
+const noZoomSpace = svg.append('g')
+  .attr('class', 'inner_space')
+  .attr('transform', `translate(${margin.left + padding},${margin.top + padding})`)
+  .style('fill', ' #111');
+
+// Gradient on margin (fade out elements off screen)
+const marginTopGradientRect = svg.append('rect')
+  .attr('class', 'fade-out-margin')
+  .attr('x', 0)
+  .attr('y', 0)
+  .attr('width', svgWidth)
+  .attr('height', margin.top + padding)
+  .style('fill', 'url(#marginTopGradient)')
+  .attr('opacity', 1);
+
+const marginBottomGradientRect = svg.append('rect')
+  .attr('class', 'fade-out-margin')
+  .attr('x', 0)
+  .attr('y', svgHeight - margin.bottom - padding)
+  .attr('width', svgWidth)
+  .attr('height', margin.bottom + padding)
+  .style('fill', 'url(#marginBottomGradient)')
+  .attr('opacity', 1);
 
 const initSicklist = (shipyearsData, sicklistData) => {
   let x = null;
   let xAxis = null;
 
-  const allVoyageLines = {};
-  const allVoyageYscales = {};
+  const allVoyageSicklists = {};
+
   let currentZoomTransform = null;
-  let xAxisByDate = false;
+  let currentYZoom = 1.0;
+
+  // SET X-AXIS
+  let currentXkey = null;
+  let xStartKey = null;
+  let xEndKey = null;
 
   // Setup shipyears
   shipyearsData.sort((a, b) => a.ShipWithYear > b.ShipWithYear);
@@ -67,26 +155,49 @@ const initSicklist = (shipyearsData, sicklistData) => {
   sicklistData.forEach(d => d.OnDate = dateParser(d.OnDate));
   sicklistData.forEach(d => d.OffDate = dateParser(d.OffDate));
 
+  shipyearsData.forEach(d => d.departureDate = dateParser(d.departureDate));
+  shipyearsData.forEach(d => d.arrivalDate = dateParser(d.arrivalDate));
 
-  // SET X-AXIS
-  const setXscaleByDay = data =>
-    d3.scaleLinear()
+  const setXscaleByDay = (data) => {
+    x = d3.scaleLinear()
       .domain([
         d3.min(data, d => d.OnInDays),
         d3.max(data, d => d.OffInDays)
       ])
-      .range([padding, width - padding]);
+      .range([0, svgWidth]);
 
+    currentXkey = 'byDay';
+    xStartKey = 'OffInDays';
+    xEndKey = 'OnInDays';
+  };
 
-  const setXscaleByDate = data =>
-    d3.scaleTime()
+  const setXscaleByPercentage = (data) => {
+    x = d3.scaleLinear()
+      .domain([
+        d3.min(data, d => d.OnPercentVoyage),
+        d3.max(data, d => d.OffPercentVoyage)
+      ])
+      .range([0, svgWidth]);
+
+    currentXkey = 'byPercent';
+    xStartKey = 'OffPercentVoyage';
+    xEndKey = 'OnPercentVoyage';
+  };
+
+  const setXscaleByDate = (data) => {
+    x = d3.scaleTime()
       .domain([
         d3.min(data, d => d.OnDate),
         d3.max(data, d => d.OffDate)
       ])
-      .range([padding, width - padding]);
+      .range([0, svgWidth]);
 
-  const setXaxisByDay = () =>
+    currentXkey = 'byDate';
+    xStartKey = 'OffDate';
+    xEndKey = 'OnDate';
+  };
+
+  const setXaxisByNumerical = () =>
     xAxis.ticks(5)
       .tickSize(-height)
       .tickPadding(10)
@@ -98,38 +209,15 @@ const initSicklist = (shipyearsData, sicklistData) => {
       .tickPadding(10)
       .tickFormat(d3.timeFormat('%B %d, %Y'));
 
-  x = setXscaleByDay(sicklistData);
+  // Set BY DAY as default
+  setXscaleByDay(sicklistData);
   xAxis = d3.axisBottom(x);
-  setXaxisByDay();
+  setXaxisByNumerical();
 
   const xAxisG = svg.append('g')
     .attr('class', 'axis axis--x axis-no-line')
-    .attr('transform', `translate(0,${height})`)
+    .attr('transform', `translate(0,${svgHeight - margin.bottom})`)
     .call(xAxis);
-
-  // Setup sicklist entry lines X properties (i.e. width and x-position)
-  const setLinesXproperties = (lines, xStartKey, xEndKey, transition = true) => {
-    console.log('asdf');
-    let lineSelection = lines;
-
-    if (transition) {
-      lineSelection = lineSelection.transition()
-        .duration(500)
-        .delay((d, i) => i * 50);
-    }
-
-    // if (currentZoomTransform === null) {
-    lineSelection
-      .attr('width', d => x(d[xStartKey]) - x(d[xEndKey]))
-      .attr('x', d => x(d[xEndKey]));
-    /* } else {
-      const xt = currentZoomTransform.rescaleX(x);
-
-      lineSelection
-        .attr('width', d => (x(d[xStartKey]) - x(d[xEndKey])) * currentZoomTransform.k)
-        .attr('x', (d => xt(d[xEndKey])));
-    } */
-  };
 
   // Mouse functions
   // Create Event Handlers for mouse
@@ -163,36 +251,41 @@ const initSicklist = (shipyearsData, sicklistData) => {
 */
   }
 
-  // Setup sort selection
-  Object.keys(sicklistData[0])
-    .forEach(key => $('#sortSelect')
-      .append(new Option(key, key, false, false)));
+  // Find an element with the minimum width - i.e. a sicklist record which is only 1 day long
+  // This is used for when the total days is 0 - so the element doesn't disappear
+  const minWidthElement = sicklistData.filter(d => d.TotalInDays === 1)[0];
 
-  const initSicklistVoyageData = (voyageData, startY = 0) => {
-    const currentVoyage = voyageData[0].ShipWithYear;
+  function VoyageSicklist(currentVoyageSicklist, startY = 0) {
+    this.id = currentVoyageSicklist[0].ShipWithYear;
+    this.details = shipyearsData.filter(d => d.ShipWithYear === this.id)[0];
 
-    // Sort data
-    voyageData.sort((a, b) => a.OnInDays - b.OnInDays);
+    this.xDomain = {
+      byDay: [0, this.details.lengthOfVoyage],
+      byPercent: [0, 100],
+      byDate: [this.details.arrivalDate, this.details.departureDate]
+    };
 
-    const endY = startY + (defaultSickRowHeight * voyageData.length);
+    this.startY = startY;
+    this.setStartY = (y) => {
+      this.startY = y;
+    };
+    this.endY = startY + (defaultSickRowHeight * currentVoyageSicklist.length);
 
-    const y = d3.scaleBand()
-      .domain(voyageData.map(d => d.id))
-      .rangeRound([startY, endY])
-      .paddingInner(0.5);
-
-    allVoyageYscales[currentVoyage] = y;
-
-    const lines = innerSpace.append('g')
+    this.sickRowLines = zoomSpace.append('g')
       .selectAll('rect')
-      .data(voyageData)
+      .data(currentVoyageSicklist)
       .enter()
       .append('rect')
-      .attr('height', y.bandwidth())
-      .attr('y', d => y(d.id))
+      .classed('sick-row', true)
       .style('fill', (d) => {
         if (!d.Died) {
-          return '#fff';
+          if (d.TotalInDays === 0) {
+            return zeroLengthSickRowCol;
+          }
+          return defaultSickRowCol;
+        }
+        if (d.TotalInDays === 0) {
+          return deathSickRowCol;
         }
         return 'url(#deathGradient)';
       })
@@ -201,93 +294,314 @@ const initSicklist = (shipyearsData, sicklistData) => {
       .on('mouseover', handleMouseOver)
       .on('mouseout', handleMouseOut);
 
-    allVoyageLines[currentVoyage] = lines;
+    // Sick row lines X-POSITION_______________
 
-    setLinesXproperties(lines, 'OffInDays', 'OnInDays');
+    this.setSickRowLinesXPosition = (transition = true) => {
+      let lineSelection = this.sickRowLines;
 
-    // Sort listnener
-    $('#sortSelect')
-      .change(() => {
-        let str = '';
-        $('#sortSelect')
-          .find('option:selected')
-          .each(function () {
-            str += $(this)
-              .text();
-          });
+      if (transition) {
+        const lineXDelay = (defaultSickRowXtransitionTotalDelay / currentVoyageSicklist.length);
 
-        const y0 = y.domain(voyageData.sort((a, b) => a[str] - b[str])
+        lineSelection = lineSelection.transition()
+          .duration(defaultSickRowXtransitionDuration)
+          .delay((d, i) => defaultSickRowXtransitionInitialDelay +
+            (i * lineXDelay));
+      }
+
+      function calculateWidth(d) {
+        return x(d[xStartKey]) - x(d[xEndKey]) || x(minWidthElement[xStartKey]) - x(minWidthElement[xEndKey]);
+      }
+
+      lineSelection
+        .attr('width', calculateWidth)
+        .attr('x', d => x(d[xEndKey]));
+    };
+
+    // Sick row lines Y-POSITION_______________
+    this.setSickRowLinesYPosition = (str, transition = true) => {
+      const yScale = d3.scaleBand()
+        .domain(currentVoyageSicklist.sort((a, b) => a[str] - b[str])
           .map(d => d.id))
-          .copy();
+        .rangeRound([this.startY, this.endY])
+        .paddingInner(defaultSickRowPaddingRatio);
 
-        lines
-          .sort((a, b) => y0(a.id) - y0(b.id));
+      this.sickRowLines
+        .sort((a, b) => yScale(a.id) - yScale(b.id));
 
-        lines.transition()
-          .duration(750)
-          .delay((d, i) => i * 50)
-          .attr('y', d => y0(d.id));
-      });
+      let sickRowLinesSelection = this.sickRowLines;
 
-    return endY;
-  };
+      if (transition) {
+        const lineYDelay = (defaultSickRowYtransitionTotalDelay / currentVoyageSicklist.length);
+        sickRowLinesSelection = this.sickRowLines.transition().duration(defaultSickRowYtransitionDuration)
+          .delay((d, i) => defaultSickRowYtransitionInitialDelay +
+            (i * lineYDelay));
+      }
 
-  let endY = initSicklistVoyageData(sicklistData.filter(d => d.ShipWithYear === shipyearsData[0].ShipWithYear));
-  endY = initSicklistVoyageData(sicklistData.filter(d => d.ShipWithYear === shipyearsData[1].ShipWithYear), endY + defaultVoyageVertPadding);
-  endY = initSicklistVoyageData(sicklistData.filter(d => d.ShipWithYear === shipyearsData[2].ShipWithYear), endY + defaultVoyageVertPadding);
-  endY += defaultVoyageVertPadding;
+      sickRowLinesSelection
+        .attr('height', yScale.bandwidth())
+        .attr('y', d => yScale(d.id));
+    };
 
+    // Voyage Label _______________
+    this.voyageLabel = {};
 
-  // X ZOOMING
-  function xZoomed(event) {
-    currentZoomTransform = d3.zoomTransform(this);
+    this.voyageLabel.g = noZoomSpace.append('g')
+      .attr('class', 'voyage-label');
 
-    /*
-    if (xAxisByDate) {
-      Object.keys(allVoyageLines).forEach((key) => {
-        setLinesXproperties(allVoyageLines[key], 'OffDate', 'OnDate', false);
-      });
-    } else {
-      Object.keys(allVoyageLines).forEach((key) => {
-        setLinesXproperties(allVoyageLines[key], 'OffInDays', 'OnInDays', false);
-      });
+    this.voyageLabel.line = this.voyageLabel.g.append('line')
+      .style('stroke', defaultSickRowCol)
+      .style('stroke-width', 2);
+
+    this.voyageLabel.text = this.voyageLabel.g.append('text')
+      .attr('text-anchor', 'middle')
+      .style('fill', defaultSickRowCol)
+      .attr('y', -10)
+      .text(this.details.ShipWithYear);
+
+    this.setVoyageLabelPosition = (transition = true) => {
+      let yPos = ((this.startY) * currentYZoom) - margin.top - padding - 5;
+
+      let xt = x;
+      if (currentZoomTransform !== null) {
+        xt = currentZoomTransform.rescaleX(x);
+        yPos += currentZoomTransform.y;
+      }
+
+      const x1 = xt(this.xDomain[currentXkey][0]);
+      const x2 = xt(this.xDomain[currentXkey][1]);
+
+      let voyageLabelG = this.voyageLabel.g;
+      let voyageLabelLine = this.voyageLabel.line;
+      let voyageLabelText = this.voyageLabel.text;
+
+      if (transition) {
+        voyageLabelG = voyageLabelG.transition()
+          .duration(defaultSickRowXtransitionDuration);
+
+        voyageLabelLine = voyageLabelLine.transition()
+          .duration(defaultSickRowXtransitionDuration);
+
+        voyageLabelText = voyageLabelText.transition()
+          .duration(defaultSickRowXtransitionDuration);
+      }
+
+      voyageLabelG
+        .attr('transform', `translate(${x1 - margin.left - padding},${yPos})`)
+        .attr('opacity', 1);
+
+      voyageLabelLine
+        .attr('x2', x2 - x1);
+
+      voyageLabelText
+        .attr('x', (x2 - x1) / 2);
+    };
+  }
+
+  function setAllSickRowLinesYPosition(sortString) {
+    const sickRowLines = d3.selectAll('.sick-row');
+
+    const yScale = d3.scaleBand()
+      .domain(allSicklistData.sort((a, b) => a[sortString] - b[sortString])
+        .map(d => d.id))
+      .rangeRound([0, defaultSickRowHeight * allSicklistData.length])
+      .paddingInner(defaultSickRowPaddingRatio);
+
+    sickRowLines.sort((a, b) => yScale(a.id) - yScale(b.id));
+
+    const lineYDelay = (defaultSickRowYtransitionTotalDelay / allSicklistData.length);
+
+    // Keep the lineHeight at a minimum of 1px (which is 1/currentYZoom px)
+    const lineHeight = Math.max(yScale.bandwidth(), 1 / currentYZoom);
+
+    sickRowLines.transition()
+      .duration(defaultSickRowYtransitionDuration)
+      .delay((d, i) => defaultSickRowYtransitionInitialDelay +
+        (i * lineYDelay))
+      .attr('y', d => yScale(d.id))
+      .attr('height', lineHeight);
+  }
+
+  function hideAllVoyageLabels() {
+    d3.selectAll('.voyage-label').transition().duration(defaultSickRowYtransitionDuration).attr('opacity', 0);
+  }
+
+  /* ------------------------------------------------------------------------------------------
+   * SORTING AND GROUPING
+   *   - Sort by ...
+   *   - Group by voyage
+   *   - No grouping
+   * ------------------------------------------------------------------------------------------ */
+  let groupBy = 'voyage';
+  let currentSortString = 'OnInDays';
+
+  $('#sortSelect')
+    .change(() => {
+      currentSortString = '';
+      $('#sortSelect')
+        .find('option:selected')
+        .each(function () {
+          currentSortString += $(this).text();
+        });
+
+      applySortingWithGrouping();
+    });
+
+  // CHANGE GROUP BY
+  $('input[name=\'groupBy\']')
+    .change((evt) => {
+      groupBy = evt.currentTarget.value;
+      applySortingWithGrouping();
+    });
+
+  function applySortingWithGrouping(transition = true) {
+    switch (groupBy) {
+      case 'voyage':
+        Object.keys(allVoyageSicklists)
+          .forEach((key) => {
+            allVoyageSicklists[key].setSickRowLinesXPosition(transition);
+            allVoyageSicklists[key].setVoyageLabelPosition(transition);
+
+            allVoyageSicklists[key].setSickRowLinesYPosition(currentSortString, transition);
+          });
+        break;
+      case 'none':
+        Object.keys(allVoyageSicklists)
+          .forEach((key) => {
+            allVoyageSicklists[key].setSickRowLinesXPosition(transition);
+          });
+        setAllSickRowLinesYPosition(currentSortString);
+        hideAllVoyageLabels();
+        break;
+      default:
+        break;
     }
-    */
+  }
+
+  /* ------------------------------------------------------------------------------------------
+   * ZOOMING - X-AXIS
+   * PANNING - Y and X Axis
+   *   - Handled by scrolling and limited touch support
+   * ------------------------------------------------------------------------------------------ */
+  function setupZoom(maxY) {
+    const xZoom = d3.xyzoom()
+      .extent([[x.range()[0], 0], [x.range()[1], height]])
+      .scaleExtent([[1, 50], [1, 1]])
+      .translateExtent([[0 - margin.left, 0 - margin.top - padding], [width + margin.right, maxY]])
+      .on('zoom', onZoom);
+
+    svg.call(xZoom);
+
+    const defaultZoom = d3.xyzoomIdentity;
+
+    defaultZoom.x = margin.left;
+    defaultZoom.y = (margin.top + padding);
+
+    svg.call(xZoom.transform, defaultZoom);
+  }
+
+  function onZoom() {
+    // console.log(d3.touches(this));
+
+    currentZoomTransform = d3.zoomTransform(this);
+    // const modifiedTransform = d3.zoomIdentity.scale(currentZoomTransform.kx, currentZoomTransform.ky).translate(currentZoomTransform.x, currentZoomTransform.y);
 
     xAxisG
       .call(xAxis.scale(currentZoomTransform.rescaleX(x)));
 
-    innerSpace.attr('transform', currentZoomTransform);
+    zoomSpace.attr('transform', `translate(${currentZoomTransform.x},${currentZoomTransform.y
+    }) scale(${currentZoomTransform.kx},${currentYZoom})`);
+
+    // If grouped by voyage => labesl will be visible => need to update label position
+    if (groupBy === 'voyage') {
+      Object.keys(allVoyageSicklists)
+        .forEach((key) => {
+          allVoyageSicklists[key].setVoyageLabelPosition(false);
+        });
+    }
+
+    /* MARGIN GRADIENT MOVE
+    if (currentZoomTransform.y === margin.top) {
+      marginTopGradientRect.transition().duration(500).attr('y', -margin.top);
+      marginBottomGradientRect.transition().duration(500).attr('y', svgHeight - (2 * margin.bottom));
+    } else if (currentZoomTransform.y === (height - endY) + defaultVoyageVertPadding) {
+      marginTopGradientRect.transition().duration(500).attr('y', 0);
+      marginBottomGradientRect.transition().duration(500).attr('y', svgHeight - (margin.bottom));
+    } else {
+      if (marginTopGradientRect.attr('y') === (-margin.top).toString()) {
+        marginTopGradientRect.transition()
+          .duration(500)
+          .attr('y', 0);
+      }
+
+      if (marginBottomGradientRect.attr('y') === (svgHeight - (margin.bottom)).toString()) {
+        marginBottomGradientRect.transition()
+          .duration(500)
+          .attr('y', svgHeight - (2 * margin.bottom));
+      }
+
+    } */
   }
 
-  const xZoom = d3.xyzoom()
-    .extent([[x.range()[0], 0], [x.range()[1], height]])
-    .scaleExtent([[1, 50], [1, 1]])
-    .translateExtent([[0 - margin.left, 0 - margin.top], [width + margin.right, endY + margin.bottom]])
-    .on('zoom', xZoomed);
+  /* ------------------------------------------------------------------------------------------
+   * ZOOMING - Y-AXIS
+   *   - Handled by buttons
+   * ------------------------------------------------------------------------------------------ */
 
-  svg.call(xZoom);
+  const applyYZoom = () => {
+    zoomSpace.attr('transform', `translate(${currentZoomTransform.x},${currentZoomTransform.y
+    }) scale(${currentZoomTransform.kx},${currentYZoom})`);
 
-  // CHANGE X-AXIS FUNCTIONS
-  $('#xAxisDate')
+    // If grouped by voyage => labesl will be visible => need to update label position
+    if (groupBy === 'voyage') {
+      Object.keys(allVoyageSicklists)
+        .forEach((key) => {
+          allVoyageSicklists[key].setVoyageLabelPosition(false);
+        });
+    }
+  };
+
+  $('#zoomInBtn').on('click', (event) => {
+    currentYZoom += 0.1;
+    applyYZoom();
+  });
+
+  $('#zoomOutBtn').on('click', (event) => {
+    if (currentYZoom < 0.21) {
+      currentYZoom = 0.1;
+    } else {
+      currentYZoom -= 0.1;
+    }
+    applyYZoom();
+  });
+
+  /* ------------------------------------------------------------------------------------------
+   * X-AXIS MODES
+   *  - By Day
+   *  - By % Voyage Elapsed
+   *  - By Date
+   * ------------------------------------------------------------------------------------------ */
+  $('input[name=\'xAxis\']')
     .change((evt) => {
-      xAxisByDate = evt.currentTarget.checked;
+      const xAxisMode = evt.currentTarget.value;
 
-      let xStartKey = null;
-      let xEndKey = null;
-
-      if (xAxisByDate) {
-        x = setXscaleByDate(sicklistData);
-        setXaxisByDate();
-
-        xStartKey = 'OffDate';
-        xEndKey = 'OnDate';
-      } else {
-        x = setXscaleByDay(sicklistData);
-        setXaxisByDay();
-
-        xStartKey = 'OffInDays';
-        xEndKey = 'OnInDays';
+      switch (xAxisMode) {
+        case 'date': {
+          setXscaleByDate(sicklistData);
+          setXaxisByDate();
+          break;
+        }
+        case 'day': {
+          setXscaleByDay(sicklistData);
+          setXaxisByNumerical();
+          break;
+        }
+        case 'percent': {
+          setXscaleByPercentage(sicklistData);
+          setXaxisByNumerical();
+          break;
+        }
+        default:
+          break;
       }
 
       if (currentZoomTransform === null) {
@@ -298,11 +612,55 @@ const initSicklist = (shipyearsData, sicklistData) => {
           .call(xAxis.scale(currentZoomTransform.rescaleX(x)));
       }
 
-      Object.keys(allVoyageLines).forEach((key) => {
-        setLinesXproperties(allVoyageLines[key], xStartKey, xEndKey);
+      Object.keys(allVoyageSicklists).forEach((key) => {
+        allVoyageSicklists[key].setSickRowLinesXPosition();
+        // If grouped by voyage => labesl will be visible => need to update label position
+        if (groupBy === 'voyage') {
+          allVoyageSicklists[key].setVoyageLabelPosition();
+        }
       });
     });
+
+  /* ------------------------------------------------------------------------------------------
+  * INITIALISATION
+  * ------------------------------------------------------------------------------------------ */
+
+  let prevEndY = 0;
+
+  const allSicklistData = [];
+  for (let i = 0; i < 20; i++) {
+    if (prevEndY !== 0) {
+      prevEndY += defaultVoyageVertPadding;
+    }
+
+    const currentSicklistVoyage = sicklistData.filter(d => d.ShipWithYear === shipyearsData[i].ShipWithYear);
+    allSicklistData.push(...currentSicklistVoyage);
+
+    if (currentSicklistVoyage.length > 0) {
+      const currentVoyageSicklist = new VoyageSicklist(currentSicklistVoyage, prevEndY);
+
+      prevEndY = currentVoyageSicklist.endY;
+
+      allVoyageSicklists[shipyearsData[i].ShipWithYear] = currentVoyageSicklist;
+    } else {
+      console.log(`${shipyearsData[i].ShipWithYear} is empty`);
+    }
+  }
+
+  // Apply sorting/grouping with defaults:
+  //   - groupBy = 'voyage';
+  //   - currentSortString = 'OnInDays';
+  applySortingWithGrouping(false);
+
+  setupZoom(prevEndY);
+
+  console.log(prevEndY);
 };
+
+/* ------------------------------------------------------------------------------------------
+  * STARTUP SCRIPT
+  *  - Fetch JSON
+  * ------------------------------------------------------------------------------------------ */
 axios.get('/data/shipyear.stats.json')
   .then((shipYearStats) => {
   // Get sicklist data
