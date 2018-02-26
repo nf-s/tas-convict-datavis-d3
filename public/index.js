@@ -19,15 +19,18 @@ const defaultSickRowHeight = 10;
 const defaultSickRowPaddingRatio = 0.25;
 const defaultVoyageVertPadding = 100;
 
-const defaultSickRowXtransitionDuration = 750;
-const defaultSickRowXtransitionInitialDelay = 100;
-const defaultSickRowXtransitionTotalDelay = 1000;
+const defaultSickRowEnterExitTransitionDuration = 750;
+const defaultSickRowEnterExitTransitionInitialDelay = 50;
+const defaultSickRowEnterExitTransitionTotalDelay = 500;
+
+const defaultSickRowTransformationDuration = 750;
+const defaultSickRowTransformationInitialDelay = 50;
+const defaultSickRowTransformationTotalDelay = 500;
 
 const defaultSickRowYtransitionDuration = 750;
 const defaultSickRowYtransitionInitialDelay = 100;
 const defaultSickRowYtransitionTotalDelay = 1000;
 
-const dateParser = d3.timeParse('%Y-%m-%d %H:%M:%S');
 
 // Declare SVG element
 const svg = d3.select('svg')
@@ -51,7 +54,7 @@ const deathGradient = defs.append('linearGradient')
 deathGradient.append('stop')
   .attr('class', 'start')
   .attr('offset', '0%')
-  .attr('stop-color', defaultSickRowCol)
+  .attr('stop-color', deathSickRowCol)
   .attr('stop-opacity', 1);
 
 deathGradient.append('stop')
@@ -136,7 +139,7 @@ const marginBottomGradientRect = svg.append('rect')
   .attr('opacity', 1);
 
 const initSicklist = (shipyearsData, sicklistData) => {
-  let x = null;
+  let xScale = null;
   let xAxis = null;
 
   const allVoyageSicklists = {};
@@ -152,6 +155,8 @@ const initSicklist = (shipyearsData, sicklistData) => {
   // Setup shipyears
   shipyearsData.sort((a, b) => a.ShipWithYear > b.ShipWithYear);
 
+  const dateParser = d3.timeParse('%Y-%m-%d %H:%M:%S');
+
   sicklistData.forEach(d => d.OnDate = dateParser(d.OnDate));
   sicklistData.forEach(d => d.OffDate = dateParser(d.OffDate));
 
@@ -159,7 +164,7 @@ const initSicklist = (shipyearsData, sicklistData) => {
   shipyearsData.forEach(d => d.arrivalDate = dateParser(d.arrivalDate));
 
   const setXscaleByDay = (data) => {
-    x = d3.scaleLinear()
+    xScale = d3.scaleLinear()
       .domain([
         d3.min(data, d => d.OnInDays),
         d3.max(data, d => d.OffInDays)
@@ -172,7 +177,7 @@ const initSicklist = (shipyearsData, sicklistData) => {
   };
 
   const setXscaleByPercentage = (data) => {
-    x = d3.scaleLinear()
+    xScale = d3.scaleLinear()
       .domain([
         d3.min(data, d => d.OnPercentVoyage),
         d3.max(data, d => d.OffPercentVoyage)
@@ -185,7 +190,7 @@ const initSicklist = (shipyearsData, sicklistData) => {
   };
 
   const setXscaleByDate = (data) => {
-    x = d3.scaleTime()
+    xScale = d3.scaleTime()
       .domain([
         d3.min(data, d => d.OnDate),
         d3.max(data, d => d.OffDate)
@@ -211,7 +216,7 @@ const initSicklist = (shipyearsData, sicklistData) => {
 
   // Set BY DAY as default
   setXscaleByDay(sicklistData);
-  xAxis = d3.axisBottom(x);
+  xAxis = d3.axisBottom(xScale);
   setXaxisByNumerical();
 
   const xAxisG = svg.append('g')
@@ -255,9 +260,12 @@ const initSicklist = (shipyearsData, sicklistData) => {
   // This is used for when the total days is 0 - so the element doesn't disappear
   const minWidthElement = sicklistData.filter(d => d.TotalInDays === 1)[0];
 
-  function VoyageSicklist(currentVoyageSicklist, startY = 0) {
+  function VoyageSicklist(currentVoyageSicklist) {
     this.id = currentVoyageSicklist[0].ShipWithYear;
     this.details = shipyearsData.filter(d => d.ShipWithYear === this.id)[0];
+
+    this.allRows = currentVoyageSicklist;
+    this.visibleRows = this.allRows;
 
     this.xDomain = {
       byDay: [0, this.details.lengthOfVoyage],
@@ -265,94 +273,175 @@ const initSicklist = (shipyearsData, sicklistData) => {
       byDate: [this.details.arrivalDate, this.details.departureDate]
     };
 
-    this.startY = startY;
-    this.setStartY = (y) => {
-      this.startY = y;
-    };
-    this.endY = startY + (defaultSickRowHeight * currentVoyageSicklist.length);
+    this.startY = 0;
+    this.endY = 0;
 
-    this.sickRowLines = zoomSpace.append('g')
-      .selectAll('rect')
-      .data(currentVoyageSicklist)
-      .enter()
-      .append('rect')
-      .classed('sick-row', true)
-      .style('fill', (d) => {
-        if (!d.Died) {
-          if (d.TotalInDays === 0) {
-            return zeroLengthSickRowCol;
-          }
-          return defaultSickRowCol;
-        }
-        if (d.TotalInDays === 0) {
-          return deathSickRowCol;
-        }
-        return 'url(#deathGradient)';
-      })
-      .style('stroke-width', '0px')
-      .style('opacity', 0.8)
-      .on('mouseover', handleMouseOver)
-      .on('mouseout', handleMouseOut);
+    this.sickRowLinesG = zoomSpace.append('g');
+    // this.sickRowLines = this.sickRowLinesG.selectAll('rect');
 
     // Sick row lines X-POSITION_______________
+    function calculateWidth(d) {
+      return xScale(d[xStartKey]) - xScale(d[xEndKey]) ||
+        xScale(minWidthElement[xStartKey]) - xScale(minWidthElement[xEndKey]);
+    }
 
-    this.setSickRowLinesXPosition = (transition = true) => {
-      let lineSelection = this.sickRowLines;
+    this.yScale = null;
+    // Sick row lines Y-POSITION_______________
+    this.setYScale = (startY = 0, yScale = null) => {
+      if (yScale !== null) {
+        this.yScale = yScale;
+      } else {
+        this.startY = startY;
+        this.endY = startY + (defaultSickRowHeight * this.visibleRows.length);
 
-      if (transition) {
-        const lineXDelay = (defaultSickRowXtransitionTotalDelay / currentVoyageSicklist.length);
-
-        lineSelection = lineSelection.transition()
-          .duration(defaultSickRowXtransitionDuration)
-          .delay((d, i) => defaultSickRowXtransitionInitialDelay +
-            (i * lineXDelay));
+        this.yScale = d3.scaleBand()
+          .domain(this.visibleRows.sort((a, b) => a[currentSortString] - b[currentSortString])
+            .map(d => d.id))
+          .rangeRound([this.startY, this.endY])
+          .paddingInner(defaultSickRowPaddingRatio);
       }
-
-      function calculateWidth(d) {
-        return x(d[xStartKey]) - x(d[xEndKey]) || x(minWidthElement[xStartKey]) - x(minWidthElement[xEndKey]);
-      }
-
-      lineSelection
-        .attr('width', calculateWidth)
-        .attr('x', d => x(d[xEndKey]));
     };
 
-    // Sick row lines Y-POSITION_______________
-    this.setSickRowLinesYPosition = (str, transition = true) => {
-      const yScale = d3.scaleBand()
-        .domain(currentVoyageSicklist.sort((a, b) => a[str] - b[str])
-          .map(d => d.id))
-        .rangeRound([this.startY, this.endY])
-        .paddingInner(defaultSickRowPaddingRatio);
+    this.updateSickRowLines = () => {
+      // reject(error);
 
-      this.sickRowLines
-        .sort((a, b) => yScale(a.id) - yScale(b.id));
+      const sickRowLines = this.sickRowLinesG.selectAll('rect')
+        .data(this.visibleRows, d => d.id);
 
-      let sickRowLinesSelection = this.sickRowLines;
+      const updatePromise = new Promise((resolve, reject) => {
+        // UPDATE EXISTING
 
-      if (transition) {
-        const lineYDelay = (defaultSickRowYtransitionTotalDelay / currentVoyageSicklist.length);
-        sickRowLinesSelection = this.sickRowLines.transition().duration(defaultSickRowYtransitionDuration)
-          .delay((d, i) => defaultSickRowYtransitionInitialDelay +
-            (i * lineYDelay));
+        if (sickRowLines.size() > 0) {
+          let updateTransitions = 0;
+          const updateDelayMult = (defaultSickRowTransformationTotalDelay / this.visibleRows.length);
+
+          sickRowLines.transition()
+            .duration(defaultSickRowTransformationDuration)
+            .delay((d, i) => defaultSickRowTransformationInitialDelay +
+              (i * updateDelayMult))
+            .on('start', () => {
+              updateTransitions++;
+            })
+            .on('end', () => {
+              if (--updateTransitions === 0) {
+                resolve('done');
+              }
+            })
+            .attr('opacity', 0.8)
+            .attr('width', calculateWidth)
+            .attr('x', d => xScale(d[xEndKey]))
+            .attr('height', this.yScale.bandwidth())
+            .attr('y', d => this.yScale(d.id));
+        } else {
+          resolve('done');
+        }
+      });
+
+      // REMOVE OLD
+      const exitPromise = new Promise((resolve, reject) => {
+        const exitSelection = sickRowLines.exit();
+
+        if (exitSelection.size() > 0) {
+          let exitTransitions = 0;
+          const delayMult = (defaultSickRowEnterExitTransitionTotalDelay / exitSelection.size());
+
+          exitSelection
+            .transition()
+            .duration(defaultSickRowEnterExitTransitionDuration)
+            .delay((d, i) => defaultSickRowEnterExitTransitionInitialDelay +
+              (i * delayMult))
+            .attr('opacity', 0)
+            .on('start', () => {
+              exitTransitions++;
+            })
+            .on('end', () => {
+              if (--exitTransitions === 0) {
+                resolve('done');
+              }
+            })
+            .remove();
+        } else {
+          resolve('done');
+        }
+      });
+
+      const enterPromise = new Promise((resolve, reject) => {
+        let enterSelection = sickRowLines.enter();
+
+        if (enterSelection.size() > 0) {
+          const enterDelayMult = (defaultSickRowEnterExitTransitionTotalDelay / enterSelection.size());
+          let enterTransitions = 0;
+
+          enterSelection = enterSelection
+            .append('rect')
+            .classed('sick-row', true)
+            .on('mouseover', handleMouseOver)
+            .on('mouseout', handleMouseOut)
+            .style('fill', (d) => {
+              if (!d.Died) {
+                if (d.TotalInDays === 0) {
+                  return zeroLengthSickRowCol;
+                }
+                return defaultSickRowCol;
+              }
+              if (d.TotalInDays === 0) {
+                return deathSickRowCol;
+              }
+              return 'url(#deathGradient)';
+            })
+            .style('stroke-width', '0px')
+            .attr('width', calculateWidth)
+            .attr('x', d => xScale(d[xEndKey]))
+            .attr('height', this.yScale.bandwidth())
+            .attr('y', d => this.yScale(d.id))
+            .attr('opacity', 0)
+            .transition()
+            .duration(defaultSickRowEnterExitTransitionDuration)
+            .delay((d, i) => defaultSickRowEnterExitTransitionInitialDelay +
+              (i * enterDelayMult))
+            .on('start', () => {
+              enterTransitions++;
+            })
+            .on('end', () => {
+              if (--enterTransitions === 0) {
+                resolve('done');
+              }
+            })
+            .attr('opacity', 0.8);
+        } else {
+          resolve('done');
+        }
+      });
+
+      return Promise.all([updatePromise, enterPromise, exitPromise]);
+    };
+
+    // this.updateSickRowLines(this.allRows);
+
+    this.filterRows = (filter) => {
+      this.visibleRows = this.allRows;
+
+      if (filter !== null) {
+        Object.keys(filter)
+          .forEach((property) => {
+            this.visibleRows = this.visibleRows.filter(row => row[property] === filter[property]);
+          });
       }
 
-      sickRowLinesSelection
-        .attr('height', yScale.bandwidth())
-        .attr('y', d => yScale(d.id));
+      // console.log(this.allRows.length + ' - ' + this.visibleRows.length);
     };
 
     // Voyage Label _______________
-    this.voyageLabel = {};
+    const voyageLabel = {};
 
-    this.voyageLabel.g = noZoomSpace.append('g')
+    voyageLabel.g = noZoomSpace.append('g')
       .attr('class', 'voyage-label');
 
-    this.voyageLabel.line = this.voyageLabel.g.append('line')
+    voyageLabel.line = voyageLabel.g.append('line')
       .style('stroke', defaultSickRowCol)
       .style('stroke-width', 2);
 
-    this.voyageLabel.text = this.voyageLabel.g.append('text')
+    voyageLabel.text = voyageLabel.g.append('text')
       .attr('text-anchor', 'middle')
       .style('fill', defaultSickRowCol)
       .attr('y', -10)
@@ -361,28 +450,28 @@ const initSicklist = (shipyearsData, sicklistData) => {
     this.setVoyageLabelPosition = (transition = true) => {
       let yPos = ((this.startY) * currentYZoom) - margin.top - padding - 5;
 
-      let xt = x;
+      let xt = xScale;
       if (currentZoomTransform !== null) {
-        xt = currentZoomTransform.rescaleX(x);
+        xt = currentZoomTransform.rescaleX(xScale);
         yPos += currentZoomTransform.y;
       }
 
       const x1 = xt(this.xDomain[currentXkey][0]);
       const x2 = xt(this.xDomain[currentXkey][1]);
 
-      let voyageLabelG = this.voyageLabel.g;
-      let voyageLabelLine = this.voyageLabel.line;
-      let voyageLabelText = this.voyageLabel.text;
+      let voyageLabelG = voyageLabel.g;
+      let voyageLabelLine = voyageLabel.line;
+      let voyageLabelText = voyageLabel.text;
 
       if (transition) {
         voyageLabelG = voyageLabelG.transition()
-          .duration(defaultSickRowXtransitionDuration);
+          .duration(defaultSickRowTransformationDuration);
 
         voyageLabelLine = voyageLabelLine.transition()
-          .duration(defaultSickRowXtransitionDuration);
+          .duration(defaultSickRowTransformationDuration);
 
         voyageLabelText = voyageLabelText.transition()
-          .duration(defaultSickRowXtransitionDuration);
+          .duration(defaultSickRowTransformationDuration);
       }
 
       voyageLabelG
@@ -397,32 +486,28 @@ const initSicklist = (shipyearsData, sicklistData) => {
     };
   }
 
-  function setAllSickRowLinesYPosition(sortString) {
-    const sickRowLines = d3.selectAll('.sick-row');
-
-    const yScale = d3.scaleBand()
-      .domain(allSicklistData.sort((a, b) => a[sortString] - b[sortString])
-        .map(d => d.id))
-      .rangeRound([0, defaultSickRowHeight * allSicklistData.length])
-      .paddingInner(defaultSickRowPaddingRatio);
-
-    sickRowLines.sort((a, b) => yScale(a.id) - yScale(b.id));
-
-    const lineYDelay = (defaultSickRowYtransitionTotalDelay / allSicklistData.length);
-
-    // Keep the lineHeight at a minimum of 1px (which is 1/currentYZoom px)
-    const lineHeight = Math.max(yScale.bandwidth(), 1 / currentYZoom);
-
-    sickRowLines.transition()
-      .duration(defaultSickRowYtransitionDuration)
-      .delay((d, i) => defaultSickRowYtransitionInitialDelay +
-        (i * lineYDelay))
-      .attr('y', d => yScale(d.id))
-      .attr('height', lineHeight);
-  }
-
   function hideAllVoyageLabels() {
     d3.selectAll('.voyage-label').transition().duration(defaultSickRowYtransitionDuration).attr('opacity', 0);
+  }
+
+  let filteredSicklistData = [];
+  function filterRows(filter) {
+    filteredSicklistData = allSicklistData;
+
+    if (filter !== null) {
+      Object.keys(filter)
+        .forEach((property) => {
+          filteredSicklistData = filteredSicklistData.filter(row => row[property] === filter[property]);
+        });
+    }
+  }
+
+  function getGlobalSicklistYScale() {
+    return d3.scaleBand()
+      .domain(filteredSicklistData.sort((a, b) => a[currentSortString] - b[currentSortString])
+        .map(d => d.id))
+      .rangeRound([0, defaultSickRowHeight * filteredSicklistData.length])
+      .paddingInner(defaultSickRowPaddingRatio);
   }
 
   /* ------------------------------------------------------------------------------------------
@@ -431,8 +516,12 @@ const initSicklist = (shipyearsData, sicklistData) => {
    *   - Group by voyage
    *   - No grouping
    * ------------------------------------------------------------------------------------------ */
-  let groupBy = 'voyage';
+  let currentGroupBy = 'voyage';
+  let prevGroupBy = 'voyage';
   let currentSortString = 'OnInDays';
+  let prevSortString = 'OnInDays';
+  let currentFilterBy = null;
+  let prevFilterBy = null;
 
   $('#sortSelect')
     .change(() => {
@@ -449,32 +538,72 @@ const initSicklist = (shipyearsData, sicklistData) => {
   // CHANGE GROUP BY
   $('input[name=\'groupBy\']')
     .change((evt) => {
-      groupBy = evt.currentTarget.value;
+      currentGroupBy = evt.currentTarget.value;
       applySortingWithGrouping();
     });
 
+  // CHANGE FILTER
+  $('input[name=\'filter\']')
+    .change((evt) => {
+      const value = evt.currentTarget.value;
+      if (value === '') {
+        currentFilterBy = null;
+      } else {
+        currentFilterBy = {};
+        currentFilterBy[value] = true;
+      }
+      applySortingWithGrouping();
+    });
+
+
   function applySortingWithGrouping(transition = true) {
-    switch (groupBy) {
+    let prevEndY = 0;
+
+    switch (currentGroupBy) {
       case 'voyage':
         Object.keys(allVoyageSicklists)
           .forEach((key) => {
-            allVoyageSicklists[key].setSickRowLinesXPosition(transition);
-            allVoyageSicklists[key].setVoyageLabelPosition(transition);
+            allVoyageSicklists[key].filterRows(currentFilterBy);
 
-            allVoyageSicklists[key].setSickRowLinesYPosition(currentSortString, transition);
+            if (prevEndY !== 0) {
+              prevEndY += defaultVoyageVertPadding;
+            }
+            allVoyageSicklists[key].setYScale(prevEndY);
+            prevEndY = allVoyageSicklists[key].endY;
+
+            allVoyageSicklists[key].setVoyageLabelPosition(transition);
+            allVoyageSicklists[key].updateSickRowLines().then((response) => {
+
+            });
           });
+
+        setupZoom(prevEndY, transition);
         break;
       case 'none':
+        hideAllVoyageLabels();
+        filterRows(currentFilterBy);
+        const globalYScale = getGlobalSicklistYScale();
+
         Object.keys(allVoyageSicklists)
           .forEach((key) => {
-            allVoyageSicklists[key].setSickRowLinesXPosition(transition);
+            allVoyageSicklists[key].filterRows(currentFilterBy);
+
+            allVoyageSicklists[key].setYScale(0, globalYScale);
+
+            allVoyageSicklists[key].updateSickRowLines().then((response) => {
+
+            });
           });
-        setAllSickRowLinesYPosition(currentSortString);
-        hideAllVoyageLabels();
+
+        setupZoom(defaultSickRowHeight * filteredSicklistData.length, transition);
         break;
       default:
         break;
     }
+
+    prevFilterBy = currentFilterBy;
+    prevSortString = currentSortString;
+    prevGroupBy = currentGroupBy;
   }
 
   /* ------------------------------------------------------------------------------------------
@@ -482,21 +611,23 @@ const initSicklist = (shipyearsData, sicklistData) => {
    * PANNING - Y and X Axis
    *   - Handled by scrolling and limited touch support
    * ------------------------------------------------------------------------------------------ */
-  function setupZoom(maxY) {
+  function setupZoom(maxY, transition = true) {
     const xZoom = d3.xyzoom()
-      .extent([[x.range()[0], 0], [x.range()[1], height]])
+      .extent([[xScale.range()[0], 0], [xScale.range()[1], height]])
       .scaleExtent([[1, 50], [1, 1]])
-      .translateExtent([[0 - margin.left, 0 - margin.top - padding], [width + margin.right, maxY]])
+      .translateExtent([[0 - margin.left, 0 - margin.top - padding], [width + margin.right, maxY * currentYZoom]])
       .on('zoom', onZoom);
 
     svg.call(xZoom);
 
-    const defaultZoom = d3.xyzoomIdentity;
+    if (!transition) {
+      const defaultZoom = d3.xyzoomIdentity;
 
-    defaultZoom.x = margin.left;
-    defaultZoom.y = (margin.top + padding);
+      defaultZoom.x = margin.left;
+      defaultZoom.y = (margin.top + padding);
 
-    svg.call(xZoom.transform, defaultZoom);
+      svg.call(xZoom.transform, defaultZoom);
+    }
   }
 
   function onZoom() {
@@ -506,13 +637,13 @@ const initSicklist = (shipyearsData, sicklistData) => {
     // const modifiedTransform = d3.zoomIdentity.scale(currentZoomTransform.kx, currentZoomTransform.ky).translate(currentZoomTransform.x, currentZoomTransform.y);
 
     xAxisG
-      .call(xAxis.scale(currentZoomTransform.rescaleX(x)));
+      .call(xAxis.scale(currentZoomTransform.rescaleX(xScale)));
 
     zoomSpace.attr('transform', `translate(${currentZoomTransform.x},${currentZoomTransform.y
     }) scale(${currentZoomTransform.kx},${currentYZoom})`);
 
     // If grouped by voyage => labesl will be visible => need to update label position
-    if (groupBy === 'voyage') {
+    if (currentGroupBy === 'voyage') {
       Object.keys(allVoyageSicklists)
         .forEach((key) => {
           allVoyageSicklists[key].setVoyageLabelPosition(false);
@@ -552,7 +683,7 @@ const initSicklist = (shipyearsData, sicklistData) => {
     }) scale(${currentZoomTransform.kx},${currentYZoom})`);
 
     // If grouped by voyage => labesl will be visible => need to update label position
-    if (groupBy === 'voyage') {
+    if (currentGroupBy === 'voyage') {
       Object.keys(allVoyageSicklists)
         .forEach((key) => {
           allVoyageSicklists[key].setVoyageLabelPosition(false);
@@ -606,18 +737,21 @@ const initSicklist = (shipyearsData, sicklistData) => {
 
       if (currentZoomTransform === null) {
         xAxisG
-          .call(xAxis.scale(x));
+          .call(xAxis.scale(xScale));
       } else {
         xAxisG
-          .call(xAxis.scale(currentZoomTransform.rescaleX(x)));
+          .call(xAxis.scale(currentZoomTransform.rescaleX(xScale)));
       }
 
+
       Object.keys(allVoyageSicklists).forEach((key) => {
-        allVoyageSicklists[key].setSickRowLinesXPosition();
         // If grouped by voyage => labesl will be visible => need to update label position
-        if (groupBy === 'voyage') {
+        if (currentGroupBy === 'voyage') {
           allVoyageSicklists[key].setVoyageLabelPosition();
         }
+        allVoyageSicklists[key].updateSickRowLines().then((response) => {
+
+        });
       });
     });
 
@@ -625,23 +759,13 @@ const initSicklist = (shipyearsData, sicklistData) => {
   * INITIALISATION
   * ------------------------------------------------------------------------------------------ */
 
-  let prevEndY = 0;
-
-  const allSicklistData = [];
+  let allSicklistData = [];
   for (let i = 0; i < 20; i++) {
-    if (prevEndY !== 0) {
-      prevEndY += defaultVoyageVertPadding;
-    }
-
     const currentSicklistVoyage = sicklistData.filter(d => d.ShipWithYear === shipyearsData[i].ShipWithYear);
     allSicklistData.push(...currentSicklistVoyage);
 
     if (currentSicklistVoyage.length > 0) {
-      const currentVoyageSicklist = new VoyageSicklist(currentSicklistVoyage, prevEndY);
-
-      prevEndY = currentVoyageSicklist.endY;
-
-      allVoyageSicklists[shipyearsData[i].ShipWithYear] = currentVoyageSicklist;
+      allVoyageSicklists[shipyearsData[i].ShipWithYear] = new VoyageSicklist(currentSicklistVoyage);
     } else {
       console.log(`${shipyearsData[i].ShipWithYear} is empty`);
     }
@@ -651,10 +775,6 @@ const initSicklist = (shipyearsData, sicklistData) => {
   //   - groupBy = 'voyage';
   //   - currentSortString = 'OnInDays';
   applySortingWithGrouping(false);
-
-  setupZoom(prevEndY);
-
-  console.log(prevEndY);
 };
 
 /* ------------------------------------------------------------------------------------------
