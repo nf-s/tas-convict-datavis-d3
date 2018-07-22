@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Convict Test</title>
+    <script src="../bundle.js"></script>
+</head>
+<body>
+
+<canvas id="main-canvas" style="position:absolute; top: 0; left: 0;"></canvas>
+
+</body>
+
+<script>
+  // Get our canvas element
+  const canvas = document.getElementById('main-canvas');
+  const width = 3000;
+  const height = 2000;
+
+  // Create a WebGL 2D platform on the canvas:
+  const platform = Stardust.platform('webgl-2d', canvas, width, height);
+
+  const circleSpec = Stardust.mark.circle();
+
+  const circles = Stardust.mark.create(circleSpec, platform);
+
+  circles.data([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]);
+
+  // Custom scale with expression
+  let positionScale = Stardust.scale.custom(`
+    Vector2(
+    (R - r) * cos(value) + d * cos((R / r - 1) * value),
+    (R - r) * sin(value) - d * sin((R / r - 1) * value)
+    ) * 50 + Vector2(1000, 1000)
+    `);
+  // Define attributes in the expression
+  positionScale
+    .attr("d", 2.19).attr("R", 10).attr("r", 5 * (18 / 41));
+
+  // Another custom scale for color
+  let colorScale = Stardust.scale.custom(`
+    hcl2rgb(Color(value, 0.5, 0.5, 0.1))
+    `);
+
+  circles
+    .attr("center", positionScale(d => d * 41))
+    .attr("color", colorScale(d => d * 41))
+    .attr("radius", 10);
+
+  circles.render();
+
+  console.log(circles);
+
+</script>
+</html>

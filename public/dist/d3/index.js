@@ -760,7 +760,8 @@ const initSicklist = (shipyearsData, sicklistData) => {
   * ------------------------------------------------------------------------------------------ */
 
   let allSicklistData = [];
-  for (let i = 0; i < 20; i++) {
+  //shipyearsData.length
+  for (let i = 0; i < 25; i++) {
     const currentSicklistVoyage = sicklistData.filter(d => d.ShipWithYear === shipyearsData[i].ShipWithYear);
     allSicklistData.push(...currentSicklistVoyage);
 
