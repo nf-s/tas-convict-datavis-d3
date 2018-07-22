@@ -3,6 +3,6 @@
 
 ## To start
 
-browserify app/main.js -o public/bundle.js
+browserify public/app/main.js -o public/dist/bundle.js
 
 node server.js

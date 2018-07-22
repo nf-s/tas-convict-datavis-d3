@@ -1,0 +1,41 @@
+body, html {
+    background-color: #111;
+    color: #eee;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+canvas#main-canvas {
+    background-color: #111;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+svg#main-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#overlay{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    z-index: 10;
+    pointer-events:none;
+}
+
+#top-controls {
+    background: linear-gradient(to bottom, rgba(0,0,0,.9) 0%,rgba(0,0,0,0.7) 50%,rgba(0,0,0,0) 100%);
+    padding: 10px 20px 25px 10px;
+}
+
+input, select, button {
+    pointer-events:auto;
+}

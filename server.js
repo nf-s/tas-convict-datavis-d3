@@ -3,7 +3,7 @@ const http = require('http');
 const serveStatic = require('serve-static');
 
 // Serve up public/ftp folder
-const serve = serveStatic('public/', { index: ['index.html', 'index.htm'] });
+const serve = serveStatic('public/dist', { index: ['index.html', 'index.htm'] });
 
 // Create server
 const server = http.createServer((req, res) => {
