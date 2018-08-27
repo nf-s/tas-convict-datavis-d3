@@ -14,28 +14,88 @@ canvas#main-canvas {
     left: 0;
 }
 
-svg#main-svg {
+svg#main-svg, svg#overlay-svg {
     position: absolute;
     top: 0;
     left: 0;
+    touch-action: none;
 }
 
 #overlay{
     position: absolute;
     top: 0;
     bottom: 0;
-    height: 100%;
-    width: 100%;
     margin: 0;
     z-index: 10;
     pointer-events:none;
 }
 
 #top-controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
     background: linear-gradient(to bottom, rgba(0,0,0,.9) 0%,rgba(0,0,0,0.7) 50%,rgba(0,0,0,0) 100%);
     padding: 10px 20px 25px 10px;
+    min-height: 20px;
+    z-index: 30;
+}
+
+#bottom-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    background: linear-gradient(to top, rgba(0,0,0,.9) 0%,rgba(0,0,0,0.7) 50%,rgba(0,0,0,0) 100%);
+    padding: 25px 20px 10px 10px;
+    min-height: 20px;
+    z-index: 10;
+}
+
+#left-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100vh;
+    background: linear-gradient(to right, rgba(7,7,7,.9) 0%, rgba(7,7,7,0) 100%);
+    min-width: 40px;
+    z-index: 10;
+    pointer-events:none;
+}
+
+#overlay-svg {
+    z-index: 20;
 }
 
 input, select, button {
     pointer-events:auto;
+}
+
+
+line{
+    stroke: rgba(255, 255, 255, 0.71);
+}
+
+path{
+    stroke: rgba(255, 255, 255, 0.71);
+}
+
+.voyage-label text {
+    fill-opacity: 0.8;
+    fill: #fff;
+}
+
+.tick text {
+    font-size: 12px;
+    fill-opacity: 0.6;
+    fill: #fff;
+}
+
+.axis-no-line .domain {
+    display: none;
+}
+
+/* grid line */
+.tick line {
+    opacity: 0.3;
 }

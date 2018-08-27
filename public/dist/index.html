@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Convict Test</title>
     <script src="bundle.js"></script>
     <link rel="stylesheet" href="index.css" type="text/css">
@@ -10,29 +11,13 @@
 
 <div id="overlay">
     <div id="top-controls">
-        <b>Group By: </b>
-        <label for="groupByVoyage">Voyage</label><input type="radio" value="voyage"
-                                                                 name="groupBy" id="groupByVoyage"
-                                                                 checked="checked"/>
-        <label for="noGrouping">None</label><input type="radio" value="none" name="groupBy"
-                                                   id="noGrouping"/>
-
-        &mdash;
-
-
-        <label for="sortSelect"><b>Sort By: </b></label>
-        <select id="sortSelect">
+        <label for="groupSelect"><b>Group By: </b></label>
+        <select id="groupSelect">
+            <option value="" selected>None</option>
+            <option value="Convict.ID">Convict.ID</option>
+            <option value="ShipWithYear">ShipWithYear</option>
             <option value="Trade">Trade</option>
-            <option value="Disease.1.Code">Disease.1.Code</option>
-            <option value="Disease.2.Code">Disease.2.Code</option>
-            <option value="OnInDays" selected>OnInDays</option>
-            <option value="OnDate">OnDate</option>
-            <option value="OnPercentVoyage">OnPercentVoyage</option>
-            <option value="OffInDays">OffInDays</option>
-            <option value="OffDate">OffDate</option>
-            <option value="OffPercentVoyage">OffPercentVoyage</option>
-            <option value="TotalInDays">TotalInDays</option>
-            <option value="TotalPercentVoyage">TotalPercentVoyage</option>
+            <option value="Disease.Classification.1">Disease.Classification.1</option>
             <option value="Gender">Gender</option>
             <option value="AgeInYears">AgeInYears</option>
         </select>
@@ -40,11 +25,21 @@
         &mdash;
 
 
-        <label for="colourSelect"><b>Colour: by: </b></label>
+        <label for="sortSelect"><b>Sort By: </b></label>
+        <select id="sortSelect">
+            <option value="On" selected>Entered</option>
+            <option value="Off">Discharged</option>
+            <option value="Total">Duration</option>
+        </select>
+
+        &mdash;
+
+
+        <label for="colourSelect"><b>Colour By: </b></label>
         <select id="colourSelect">
             <option value="Died" selected>Died</option>
             <option value="Quality">Quality</option>
-            <option value="Disease.1.Code">Disease.1.Code</option>
+            <option value="Disease.Classification.1">Disease.Classification.1</option>
             <option value="Disease.2.Code">Disease.2.Code</option>
             <option value="OnInDays" selected>OnInDays</option>
             <option value="OnDate">OnDate</option>
@@ -86,32 +81,32 @@
         &mdash;
 
         <b>X-Axis: </b>
-        <label for="xAxisDay">Day</label><input type="radio" value="day" name="xAxis" id="xAxisDay"
+        <label for="xAxisDay">Day</label><input type="radio" value="InDays" name="xAxis" id="xAxisDay"
                                                 checked="checked"/>
-        <label for="xAxisPercent">Percentage</label><input type="radio" value="percent" name="xAxis"
+        <label for="xAxisPercent">Percentage</label><input type="radio" value="PercentVoyage" name="xAxis"
                                                            id="xAxisPercent"/>
-        <label for="xAxisDate">Date</label><input type="radio" value="date" name="xAxis"
+        <label for="xAxisDate">Date</label><input type="radio" value="Date" name="xAxis"
                                                   id="xAxisDate"/>
+    </div>
 
-        &mdash;
+    <svg id="overlay-svg" xmlns="http://www.w3.org/2000/svg" version="1.1">
+    </svg>
 
-        <b>Filter: </b>
-        <label for="filterNone">None</label><input type="radio" value="" name="filter"
-                                                       id="filterNone" checked="checked"/>
-        <label for="filterDeath">Deaths</label><input type="radio" value="Died" name="filter"
-                                                           id="filterDeath"/>
+    <div id="left-controls"></div>
+    <div id="bottom-controls">
     </div>
 </div>
 
 <div id="container">
     <canvas id="main-canvas"></canvas>
-    <svg id="main-svg" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1500 1000">
+    <svg id="main-svg" xmlns="http://www.w3.org/2000/svg" version="1.1">
     </svg>
 </div>
 
 
 </body>
 
+<script src="touchEvts.js"></script>
 <script src="index.js"></script>
 
 

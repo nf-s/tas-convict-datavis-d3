@@ -785,7 +785,7 @@ const initSicklist = (shipyearsData, sicklistData) => {
 axios.get('/data/shipyear.stats.json')
   .then((shipYearStats) => {
   // Get sicklist data
-    axios.get('/data/sicklist.final1.json')
+    axios.get('/data/sicklist.json')
       .then((sickList) => {
         initSicklist(shipYearStats.data, sickList.data);
       })
