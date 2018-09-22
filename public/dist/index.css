@@ -1,10 +1,11 @@
 body, html {
     background-color: #111;
     color: #eee;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
     padding: 0;
     margin: 0;
     overflow: hidden;
+    font-weight: 300;
 }
 
 canvas#main-canvas {
@@ -21,36 +22,59 @@ svg#main-svg, svg#overlay-svg {
     touch-action: none;
 }
 
+
 #overlay{
     position: absolute;
     top: 0;
     bottom: 0;
     margin: 0;
     z-index: 10;
-    pointer-events:none;
+    pointer-events: none;
 }
 
-#top-controls {
+#top-controls, #bottom-controls {
+    font-size: 14px;
     position: absolute;
+    width: 100vw;
+    min-height: 20px;
+    pointer-events: auto;
+    text-align: center;
+    opacity: 0.5;
+    transition: opacity linear .5s;
+}
+
+#top-controls b, #bottom-controls b {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+#top-controls *, #top-controls *{
+    vertical-align: middle;
+}
+
+#bottom-controls:hover, #top-controls:hover {
+    opacity: 1;
+}
+
+
+#top-controls {
     top: 0;
     left: 0;
-    width: 100vw;
     background: linear-gradient(to bottom, rgba(0,0,0,.9) 0%,rgba(0,0,0,0.7) 50%,rgba(0,0,0,0) 100%);
     padding: 10px 20px 25px 10px;
-    min-height: 20px;
     z-index: 30;
 }
 
 #bottom-controls {
-    position: absolute;
     bottom: 0;
     left: 0;
-    width: 100vw;
+
     background: linear-gradient(to top, rgba(0,0,0,.9) 0%,rgba(0,0,0,0.7) 50%,rgba(0,0,0,0) 100%);
     padding: 25px 20px 10px 10px;
-    min-height: 20px;
+
     z-index: 10;
 }
+
 
 #left-controls {
     position: absolute;
@@ -65,6 +89,70 @@ svg#main-svg, svg#overlay-svg {
 
 #overlay-svg {
     z-index: 20;
+}
+
+#popup-svg {
+    z-index: 100;
+}
+
+.row-label {
+    pointer-events:auto;
+}
+
+.row-label text {
+    user-select: none;
+    pointer-events:none;
+}
+
+.row-popup-bg, .row-popup {
+    pointer-events:auto;
+}
+
+.row-popup-title {
+    margin-bottom: 6px;
+    display: block;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.row-popup-key {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.row-popup-value {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.row-popup-id {
+    display: block;
+    font-size: 12px;
+    font-weight: 300;
+    position: absolute;
+    top: calc(50% - 285px);
+    text-align: right;
+    width: 365px;
+}
+
+.row-popup-div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: #000;
+    height: 570px;
+    width: 370px;
+    margin-top: -300px;
+    margin-left: -200px;
+    z-index: 100;
+    padding: 15px;
+    pointer-events: auto;
+    overflow: auto;
+}
 }
 
 input, select, button {
@@ -87,7 +175,7 @@ path{
 
 .tick text {
     font-size: 12px;
-    fill-opacity: 0.6;
+    fill-opacity: 0.85;
     fill: #fff;
 }
 
@@ -99,3 +187,75 @@ path{
 .tick line {
     opacity: 0.3;
 }
+
+div#filter-overlay {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: calc(100vh - 35px);
+    width: 300px;
+    z-index: 50;
+    background-color: #2f2e2e;
+    box-shadow: 0 0 40px #000000;
+    overflow: auto;
+    padding-top: 35px;
+}
+
+
+#filter-overlay-titlebar {
+    padding: 10px 10px 5px;
+    width: 275px;
+    top: 0;
+    position: fixed;
+    background-color: #2f2e2e;
+}
+
+#filter-overlay-titlebar button {
+    background: #969696;
+    color: white;
+    box-shadow: none;
+    border: none;
+    border-radius: 2px;
+    font-size: 12px;
+    padding: 2px 7px;
+    margin-top: -1px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.filterGroupTitle, .filterGroupItem {
+    width: calc(100% - 20px);
+    display: block;
+    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: white;
+    text-decoration: none;
+    transition: background-color .2s linear;
+}
+
+.filterGroupTitle:hover, .filterGroupItem:hover {
+    background-color: #111;
+    cursor: pointer;
+}
+
+.filterGroupTitle {
+    font-size: 15px;
+    font-weight: 400;
+    padding: 5px 10px;
+
+    border-top: #737373 solid 1px;
+}
+
+.filterGroupItem {
+    font-size: 13px;
+    font-weight: 300;
+    padding: 2px 10px;
+}
+
+.filterGroupItemNumber {
+    font-weight: 500;
+    float: right;
+}
+

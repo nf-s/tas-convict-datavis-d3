@@ -19,6 +19,7 @@ const defaultSickRowHeight = 10;
 const defaultSickRowPaddingRatio = 0.25;
 const defaultVoyageVertPadding = 100;
 
+
 const defaultSickRowEnterExitTransitionDuration = 750;
 const defaultSickRowEnterExitTransitionInitialDelay = 50;
 const defaultSickRowEnterExitTransitionTotalDelay = 500;
@@ -785,7 +786,7 @@ const initSicklist = (shipyearsData, sicklistData) => {
 axios.get('/data/shipyear.stats.json')
   .then((shipYearStats) => {
   // Get sicklist data
-    axios.get('/data/sicklist.json')
+    axios.get('/data/sicklist.merged.json')
       .then((sickList) => {
         initSicklist(shipYearStats.data, sickList.data);
       })

@@ -1,15 +1,20 @@
 class TouchEvts {
-  constructor(el, defaultTransform, maxExtent, callback, log = false) {
+  constructor(el, defaultTransform, callback, log = false) {
     this.callback = callback;
     this.logEvents = log;
 
     this.evCache = [];
     this.prevDiff = {
-      xDist: -1, yDist: -1, xCent: -1, yCent: -1
+      xDist: -1, yDist: -1, xCent: -1, yCent: -1, xCent1P: -1, yCent1P: -1
     };
     this.defaultTransform = defaultTransform;
     this.currentTransform = defaultTransform;
-    this.maxExtent = maxExtent;
+    this.maxExtent = {
+      kx: [1, 1],
+      ky: [1, 1],
+      x: [0, 0],
+      y: [0, 0]
+    };
 
     el.onpointerdown = (evt) => { evt.preventDefault(); this.pointerDownHandler(evt); };
     el.onpointermove = (evt) => { evt.preventDefault(); this.pointerMoveHandler(evt); };
@@ -60,7 +65,7 @@ class TouchEvts {
       this.currentTransform.kx = newKx;
     }
 
-    this.currentTransform.x = xCent - ((xCent - this.currentTransform.x) * (dkx));
+    this.currentTransform.x = Math.min(Math.max(xCent - ((xCent - this.currentTransform.x) * (dkx)), this.maxExtent.x[0] * this.currentTransform.kx), this.maxExtent.x[1]);
 
     if (newKy < this.maxExtent.ky[0]) {
       dky = this.maxExtent.ky[0] / this.currentTransform.ky;
@@ -72,12 +77,12 @@ class TouchEvts {
       this.currentTransform.ky = newKy;
     }
 
-    this.currentTransform.y = yCent - ((yCent - this.currentTransform.y) * (dky));
+    this.currentTransform.y = Math.min(Math.max(yCent - ((yCent - this.currentTransform.y) * (dky)), this.maxExtent.y[0] * this.currentTransform.ky), this.maxExtent.y[1]);
   }
 
   handlePan(dX, dY) {
-    this.currentTransform.x += dX;
-    this.currentTransform.y += dY;
+    this.currentTransform.x = Math.min(Math.max(dX + this.currentTransform.x, this.maxExtent.x[0] * this.currentTransform.kx), this.maxExtent.x[1]);
+    this.currentTransform.y = Math.min(Math.max(dY + this.currentTransform.y, this.maxExtent.y[0] * this.currentTransform.ky), this.maxExtent.y[1]);
   }
 
   transformUpdated() {
@@ -137,19 +142,27 @@ class TouchEvts {
         );
       }
 
-    // 1 Pointer
-    } else if (this.evCache.length === 1) {
-      curDiff.xCent = this.evCache[0].clientX;
-      curDiff.yCent = this.evCache[0].clientY;
-    }
-
-    // If ANY pointers
-    if (this.evCache.length >= 1) {
       // Handle panning
       if (this.prevDiff.xCent > 0 && this.prevDiff.yCent > 0) {
         this.handlePan(
           curDiff.xCent - this.prevDiff.xCent,
           curDiff.yCent - this.prevDiff.yCent
+        );
+      }
+
+      this.transformUpdated();
+      this.prevDiff = curDiff;
+
+    // 1 Pointer
+    } else if (this.evCache.length === 1) {
+      curDiff.xCent1P = this.evCache[0].clientX;
+      curDiff.yCent1P = this.evCache[0].clientY;
+
+      // Handle panning
+      if (this.prevDiff.xCent1P > 0 && this.prevDiff.yCent1P > 0) {
+        this.handlePan(
+          curDiff.xCent1P - this.prevDiff.xCent1P,
+          curDiff.yCent1P - this.prevDiff.yCent1P
         );
       }
 

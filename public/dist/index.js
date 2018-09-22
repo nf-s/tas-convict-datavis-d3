@@ -2,26 +2,30 @@
 const canvas = document.getElementById('main-canvas');
 
 const pixelRatio = window.devicePixelRatio;
-const width = 3000 / pixelRatio;
-const height = 2000 / pixelRatio;
+const width = 1024 / pixelRatio;
+const height = 768 / pixelRatio;
 
 const backgroundCol = [0.03, 0.03, 0.03, 1];
 
+const defaultSickRowCol = '#fff';
 const defaultSickRowHeight = 10;
 const defaultSickRowPaddingRatio = 0.25;
 const defaultSickRowInversePaddingRatio = 1 - defaultSickRowPaddingRatio;
 const defaultVoyageVertPadding = 100;
 
-const sickRowLabelMarginLeft = 10 / pixelRatio;
+const sickRowLabelMarginLeft = 10;
+const sickRowMissingCol = [0.2, 0.2, 0.2, 1];
+const sickRowHighlightCol = [0, 0.84, 0.67, 1];
 
-const xAxisMarginBottom = 80 / pixelRatio;
-const yAxisMarginLeft = 10 / pixelRatio;
-const yAxisLabelGroupYPadding = 200 / defaultSickRowHeight;
+const xAxisMarginBottom = 60;
+const yAxisMarginLeft = 5;
+const yAxisLabelGroupYPadding = 500 / defaultSickRowHeight;
 const yAxisLabelGroupXPadding = 15;
-const yAxisWidth = 200 / pixelRatio;
+const yAxisWidth = 100;
 const yAxisTickCol = '#fff';
 
 const defaultSickRowYtransitionDuration = 750;
+const defaultUiTransitionDuration = 250;
 
 // Create a WebGL 2D platform on the canvas:
 const platform = Stardust.platform('webgl-2d', canvas, width, height);
@@ -41,17 +45,125 @@ const overlaySvg = d3.select('#overlay-svg')
   .style('border', '0px solid')
   .attr('viewBox', `0 0 ${width} ${height}`);
 
+const filterOverlay = d3.select('#filter-overlay')
+  .style('opacity', '0')
+  .style('display', 'none');
+
 let currentZoomTransform = {
-  x: 0, y: 0, kx: 1, ky: 1
+  x: 0,
+  y: 0,
+  kx: 1,
+  ky: 1
 };
 
 // Adapted from d3 rescaleX fn [currentZoomTransformRescale(xAxisScale, 'x')]
 function currentZoomTransformRescale(scale, axis = 'x') {
-  return scale.copy().domain(scale.range()
-    .map(x => (x - currentZoomTransform[axis]) / currentZoomTransform[`k${axis}`], currentZoomTransform)
-    .map(scale.invert, scale));
+  return scale.copy()
+    .domain(scale.range()
+      .map(x => (x - currentZoomTransform[axis]) / currentZoomTransform[`k${axis}`], currentZoomTransform)
+      .map(scale.invert, scale));
 }
 
+const getComparator = (type, key = undefined, invert = false) => {
+  if (type === 'Numerical' || type === 'CategoricalId') {
+    return numericalKeyComparator(key, invert);
+  } else if (typeof key === 'undefined') {
+    return invert ? (a, b) => a < b : (a, b) => a > b;
+  }
+  return invert ? (a, b) => a[key] < b[key] : (a, b) => a[key] > b[key];
+};
+
+const numericalKeyComparator = (key, invert) => {
+  if (invert) {
+    if (typeof key === 'undefined') {
+      return (a, b) => {
+        if (typeof a === 'undefined' || isNaN(a)) {
+          return false;
+        }
+        if (typeof b === 'undefined' || isNaN(b)) {
+          return true;
+        }
+
+        return Number(a) < Number(b);
+      };
+    }
+    return (a, b) => {
+      if (typeof a[key] === 'undefined' || isNaN(a[key])) {
+        return false;
+      }
+      if (typeof b[key] === 'undefined' || isNaN(b[key])) {
+        return true;
+      }
+
+      return Number(a[key]) < Number(b[key]);
+    };
+  }
+  if (typeof key === 'undefined') {
+    return (a, b) => {
+      if (typeof a === 'undefined' || isNaN(a)) {
+        return true;
+      }
+      if (typeof b === 'undefined' || isNaN(b)) {
+        return false;
+      }
+
+      return Number(a) > Number(b);
+    };
+  }
+  return (a, b) => {
+    if (typeof a[key] === 'undefined' || isNaN(a[key])) {
+      return true;
+    }
+    if (typeof b[key] === 'undefined' || isNaN(b[key])) {
+      return false;
+    }
+
+    return Number(a[key]) > Number(b[key]);
+  };
+};
+
+// Adapted from https://codepen.io/znak/pen/aOvMOd
+const canTextBeDarkForBg = (col) => {
+  if (typeof col === 'string') {
+    col = d3.rgb(col);
+  }
+
+  const C = [col.r / 255, col.g / 255, col.b / 255];
+
+  for (let i = 0; i < 3; ++i) {
+    if (C[i] <= 0.03928) {
+      C[i] = C[i] / 12.92;
+    } else {
+      C[i] = Math.pow((C[i] + 0.055) / 1.055, 2.4);
+    }
+  }
+
+  return (0.2126 * C[0]) + (0.7152 * C[1]) + (0.0722 * C[2]) > 0.179;
+};
+
+const normalise = (min, max) => (val) => {
+  const a = 1 / (max - min);
+  return (a * val) + -(a * min);
+};
+
+const strToRGBA = (str) => {
+  const rgb = d3.rgb(str);
+  return [rgb.r / 255, rgb.g / 255, rgb.b / 255, 1];
+};
+
+const paste = (array, sep = ' ') => {
+  let returnString = '';
+
+  let first = true;
+  array.forEach((elem) => {
+    if (elem !== '') {
+      returnString += (first ? '' : sep) + elem;
+      first = false;
+    }
+  });
+
+  return returnString;
+};
 
 /* ------------------------------------------------------------------------------------------
  * X-AXIS
@@ -62,29 +174,29 @@ let xAxisScale = null;
 let xAxisScaleT = null;
 let xAxisG = null;
 
-const setXaxisByNumerical = () => {
+const setXAxisTicks = (mode = 'InDays') => {
   xAxis = d3.axisBottom(xAxisScale);
 
   xAxis.ticks(5)
     .tickSize(-height)
-    .tickPadding(10)
-    .tickFormat(d => d);
+    .tickPadding(10);
+
+  switch (mode) {
+    case 'Date':
+      xAxis.tickFormat(d3.timeFormat('%B %d, %Y'));
+      break;
+    case 'PercentVoyage':
+      xAxis.tickFormat(d => `${d}%`);
+      break;
+    default:
+      xAxis.tickFormat(d => `${d} days`);
+      break;
+  }
 
   if (xAxisG !== null) {
     xAxisG
       .call(xAxis.scale(xAxisScaleT));
   }
-};
-
-const setXaxisByDate = () => {
-  xAxis = d3.axisBottom(xAxisScale);
-
-  xAxis.tickSize(-height)
-    .tickPadding(10)
-    .tickFormat(d3.timeFormat('%B %d, %Y'));
-
-  xAxisG
-    .call(xAxis.scale(xAxisScaleT));
 };
 
 const setXAxisScaleByDay = (data) => {
@@ -97,7 +209,7 @@ const setXAxisScaleByDay = (data) => {
 
   xAxisScaleT = currentZoomTransformRescale(xAxisScale, 'x');
 
-  setXaxisByNumerical();
+  setXAxisTicks('InDays');
 };
 
 const setXAxisScaleByPercentage = (data) => {
@@ -110,7 +222,7 @@ const setXAxisScaleByPercentage = (data) => {
 
   xAxisScaleT = currentZoomTransformRescale(xAxisScale, 'x');
 
-  setXaxisByNumerical();
+  setXAxisTicks('PercentVoyage');
 };
 
 const setXAxisScaleByDate = (data) => {
@@ -123,16 +235,38 @@ const setXAxisScaleByDate = (data) => {
 
   xAxisScaleT = currentZoomTransformRescale(xAxisScale, 'x');
 
-  setXaxisByDate();
+  setXAxisTicks('Date');
 };
 
-const initXAxis = (data) => {
-  setXAxisScaleByDay(data);
+const setXAxisScale = (data, mode) => {
+  switch (mode) {
+    case 'Date': {
+      setXAxisScaleByDate(data);
+      break;
+    }
+    case 'InDays': {
+      setXAxisScaleByDay(data);
+      break;
+    }
+    case 'PercentVoyage': {
+      setXAxisScaleByPercentage(data);
+      break;
+    }
+    default:
+      break;
+  }
+};
 
-  xAxisG = overlaySvg.append('g')
-    .attr('class', 'axis axis--x axis-no-line')
-    .attr('transform', `translate(0,${height - xAxisMarginBottom})`)
-    .call(xAxis);
+let xAxisInitialised = false;
+const initXAxisG = () => {
+  if (!xAxisInitialised) {
+    xAxisInitialised = true;
+
+    xAxisG = overlaySvg.append('g')
+      .attr('class', 'axis axis--x axis-no-line')
+      .attr('transform', `translate(0,${height - xAxisMarginBottom})`)
+      .call(xAxis);
+  }
 };
 
 /* ------------------------------------------------------------------------------------------
@@ -146,7 +280,13 @@ let yAxisG = null;
 // Adapted from https://stackoverflow.com/questions/5667888/counting-the-occurrences-frequency-of-array-elements
 const countYBins = (data, yKey, x1Key, x2Key) => data.reduce((acc, curr) => {
   if (typeof acc[curr[yKey]] === 'undefined') {
-    acc[curr[yKey]] = { value: 1, minX: curr[x1Key], maxX: curr[x2Key] };
+    acc[curr[yKey]] = {
+      key: curr[yKey],
+      value: 1,
+      minX: curr[x1Key],
+      maxX: curr[x2Key],
+      rows: [curr]
+    };
   } else {
     acc[curr[yKey]].value += 1;
 
@@ -157,34 +297,38 @@ const countYBins = (data, yKey, x1Key, x2Key) => data.reduce((acc, curr) => {
     if (curr[x2Key] > acc[curr[yKey]].maxX) {
       acc[curr[yKey]].maxX = curr[x2Key];
     }
+
+    acc[curr[yKey]].rows.push(curr);
   }
 
   return acc;
 }, {});
 
 // Voyage Label _______________
-const setYLabel = (label, y, yBin, transition) => {
-  const voyageLabel = {};
+const setYLabel = (yGroupBy, label, y, yBin, transition) => {
+  const yGroupLabel = {};
 
-  voyageLabel.g = overlaySvg.append('g')
+  yGroupLabel.g = overlaySvg.append('g')
     .attr('class', 'voyage-label');
 
-  voyageLabel.line = voyageLabel.g.append('line')
+  yGroupLabel.line = yGroupLabel.g.append('line')
     .style('stroke', yAxisTickCol)
-    .style('stroke-width', 2);
+    .style('stroke-width', 1)
+    .attr('y2', 0);
 
-  voyageLabel.text = voyageLabel.g.append('text')
+  yGroupLabel.text = yGroupLabel.g.append('text')
     .attr('opacity', 0)
     .attr('text-anchor', 'end')
     .style('fill', yAxisTickCol)
-    .text(label);
+    .text((typeof sicklistCategoricalIdMap[yGroupBy] !== 'undefined') ?
+      sicklistCategoricalIdMap[yGroupBy][label] : label)  ;
 
-  voyageLabel.hidden = false;
+  yGroupLabel.hidden = false;
 
   const minXPosition = yAxisMarginLeft + (2 * yAxisLabelGroupXPadding);
   const minYPosition = xAxisMarginBottom;
 
-  voyageLabel.setPosition = (setPositionTransition = false) => {
+  yGroupLabel.setPosition = (setPositionTransition = false) => {
     const yZoom = currentZoomTransform.ky;
 
     let yT = yAxisScaleT(y);
@@ -211,31 +355,30 @@ const setYLabel = (label, y, yBin, transition) => {
       }
     }
 
-    voyageLabel.g
+    yGroupLabel.g
       .attr('transform', `translate(${xMinT - yAxisLabelGroupXPadding},${yT})`);
 
     if (yHeightT > 8) {
-      if (voyageLabel.hidden) {
-        voyageLabel.hidden = false;
-        voyageLabel.g
+      if (yGroupLabel.hidden) {
+        yGroupLabel.hidden = false;
+        yGroupLabel.g
           .transition()
           .duration(defaultSickRowYtransitionDuration)
           .attr('opacity', 1);
       }
 
       if (setPositionTransition) {
-        voyageLabel.line
-          .attr('y2', 0)
+        yGroupLabel.line
           .transition()
           .delay(defaultSickRowYtransitionDuration)
           .duration(defaultSickRowYtransitionDuration)
           .attr('y2', yHeightT);
       } else {
-        voyageLabel.line
+        yGroupLabel.line
           .attr('y2', yHeightT);
       }
 
-      voyageLabel.text
+      yGroupLabel.text
         .attr('font-size', `${10 + Math.min(yZoom * 6, 4)}px`)
         .attr('x', -5)
         .attr('y', 10)
@@ -243,68 +386,73 @@ const setYLabel = (label, y, yBin, transition) => {
 
       // Rotate text if label is against y-axis
       if (xMinT > minXPosition) {
-        voyageLabel.text
+        yGroupLabel.text
           .attr('transform', 'rotate(0, -10, 5)');
       } else {
-        voyageLabel.text
+        yGroupLabel.text
           .attr('transform', 'rotate(-90, -10, 5)');
       }
-    } else if (!voyageLabel.hidden) {
-      voyageLabel.hidden = true;
-      voyageLabel.g
-        .attr('opacity', 1)
+    } else if (!yGroupLabel.hidden) {
+      yGroupLabel.hidden = true;
+      yGroupLabel.g
         .transition()
         .duration(defaultSickRowYtransitionDuration)
         .attr('opacity', 0);
     }
   };
 
-  voyageLabel.remove = () => {
-    voyageLabel.g
-      .attr('opacity', 1)
+  yGroupLabel.remove = () => {
+    yGroupLabel.g
       .transition()
       .duration(defaultSickRowYtransitionDuration)
       .attr('opacity', 0)
       .remove();
 
-    voyageLabel.line.transition()
-      .duration(defaultSickRowYtransitionDuration).attr('y2', 0).remove();
+    yGroupLabel.line.transition()
+      .duration(defaultSickRowYtransitionDuration)
+      .attr('y2', 0)
+      .remove();
 
-    voyageLabel.text.transition()
-      .duration(defaultSickRowYtransitionDuration).attr('font-size', 0).remove();
+    yGroupLabel.text.transition()
+      .duration(defaultSickRowYtransitionDuration)
+      .attr('font-size', 0)
+      .remove();
   };
 
-  voyageLabel.setPosition(true);
+  yGroupLabel.setPosition(true);
 
   if (transition) {
-    voyageLabel.text.transition()
+    yGroupLabel.text.transition()
       .delay(defaultSickRowYtransitionDuration)
-      .duration(defaultSickRowYtransitionDuration).attr('opacity', 1);
+      .duration(defaultSickRowYtransitionDuration)
+      .attr('opacity', 1);
   }
 
-  return voyageLabel;
+  return yGroupLabel;
 };
 
 function hideAllVoyageLabels() {
-  d3.selectAll('.voyage-label').transition().duration(defaultSickRowYtransitionDuration).attr('opacity', 0);
+  d3.selectAll('.voyage-label')
+    .transition()
+    .duration(defaultSickRowYtransitionDuration)
+    .attr('opacity', 0);
 }
 
 const yLabels = [];
 
-let oldYGroupBy = '';
-const setYLabelAxis = (data, yGroupBy, x1Key, x2Key, transition = false) => {
+const setYLabelAxis = (data, yGroupBy, yGroupByType, x1Key, x2Key, transition = false) => {
   yLabels.forEach(label => label.remove());
 
   if (yGroupBy === '') {
     return false;
   }
-  oldYGroupBy = yGroupBy;
 
   const yBins = countYBins(data, yGroupBy, x1Key, x2Key);
 
   const yBinKeys = Object.keys(yBins);
 
-  stable.inplace(yBinKeys, (a, b) => a > b);
+  const comparator = getComparator(yGroupByType);
+  stable.inplace(yBinKeys, comparator);
 
   yAxisScale = d3.scaleLinear()
     .domain([0, (data.length + (yBinKeys.length * yAxisLabelGroupYPadding))])
@@ -316,130 +464,242 @@ const setYLabelAxis = (data, yGroupBy, x1Key, x2Key, transition = false) => {
   yBinKeys.forEach((key) => {
     let count = index * yAxisLabelGroupYPadding;
     yBinKeys.forEach((previousKey) => {
-      if (key > previousKey) {
+      if (comparator(key, previousKey)) {
         count += yBins[previousKey].value;
       }
     });
 
-    yLabels.push(setYLabel(key, count, yBins[key], transition));
+    if (key !== '' && key !== 'undefined' && key != null) {
+      yLabels.push(setYLabel(yGroupBy, key, count, yBins[key], transition));
+    }
     index += 1;
   });
 
   return true;
 };
 
+const showDensity = false;
 const setYDensityAxis = (data, yKey) => {
-  yAxisScale = d3.scaleLinear()
-    .domain([0, data.length])
-    .range([0, data.length * defaultSickRowHeight]);
+  if (showDensity) {
+    const yValues = [];
 
-  yAxisScaleT = currentZoomTransformRescale(yAxisScale, 'y');
+    data.forEach((row) => {
+      if (!isNaN(row[yKey])) {
+        yValues.push(row[yKey]);
+      }
+    });
 
-  const yValues = [];
+    // KDE adapted from https://github.com/jasondavies/science.js/blob/master/examples/kde/kde.js
+    const kde = science.stats.kde()
+      .sample(yValues);
 
-  data.forEach((row) => {
-    if (!isNaN(row[yKey])) { yValues.push(row[yKey]); }
-  });
+    const kdeX = d3.scaleLinear()
+      .domain([0, 0.1])
+      .range([yAxisMarginLeft, yAxisMarginLeft + yAxisWidth]);
+    const kdeY = d3.scaleLinear()
+      .domain([0, 100])
+      .range([xAxisMarginBottom, height - xAxisMarginBottom]);
 
-  // KDE adapted from https://github.com/jasondavies/science.js/blob/master/examples/kde/kde.js
-  const kde = science.stats.kde().sample(yValues);
+    const line = d3.line()
+      .x(d => kdeX(d[1]))
+      .y(d => kdeY(d[0]));
 
-  const kdeX = d3.scaleLinear().domain([0, 0.1]).range([yAxisMarginLeft, yAxisMarginLeft + yAxisWidth]);
-  const kdeY = d3.scaleLinear().domain([0, 100]).range([xAxisMarginBottom, height - xAxisMarginBottom]);
-
-  const line = d3.line()
-    .x(d => kdeX(d[1]))
-    .y(d => kdeY(d[0]));
-
-  overlaySvg.append('path')
-    .attr('class', 'y-axis-density')
-    .attr('fill', 'none')
-    .attr('stroke', '#000')
-    .attr('stroke-width', 1.5)
-    .attr('stroke-linejoin', 'round')
-    .attr('opacity', 0)
-    .attr('d', line(kde(d3.range(0, 100, 0.1))))
-    .transition()
-    .delay(defaultSickRowYtransitionDuration)
-    .attr('opacity', 1);
+    overlaySvg.append('path')
+      .attr('class', 'y-axis-density')
+      .attr('fill', 'none')
+      .attr('stroke', '#000')
+      .attr('stroke-width', 1.5)
+      .attr('stroke-linejoin', 'round')
+      .attr('opacity', 0)
+      .attr('d', line(kde(d3.range(0, 100, 0.1))))
+      .transition()
+      .delay(defaultSickRowYtransitionDuration)
+      .attr('opacity', 1);
+  }
 };
 
 const removeYDensityAxis = () => {
-  overlaySvg.select('path.y-axis-density').transition()
-    .delay(defaultSickRowYtransitionDuration).remove();
+  overlaySvg.select('path.y-axis-density')
+    .transition()
+    .delay(defaultSickRowYtransitionDuration)
+    .remove();
 };
 
-let oldYAxisKey = '';
 let densityTimeout = null;
 const setYAxis = (data, ySortBy, yGroupBy) => {
   if (yGroupBy !== '') {
     removeYDensityAxis();
-  } else if (oldYAxisKey !== ySortBy) {
-    oldYAxisKey = ySortBy;
-
+  } else {
     removeYDensityAxis();
 
     if (densityTimeout !== null) {
       clearTimeout(densityTimeout);
     }
+
+    yAxisScale = d3.scaleLinear()
+      .domain([0, data.length])
+      .range([0, data.length * defaultSickRowHeight]);
+
+    yAxisScaleT = currentZoomTransformRescale(yAxisScale, 'y');
+
     densityTimeout = setTimeout(() => setYDensityAxis(data, ySortBy), 1500);
   }
 };
 
-const initYAxis = (data, ySortKey, yGroupKey, x1Key, x2Key) => {
-  yAxisG = overlaySvg.append('g')
-    .attr('class', 'axis axis--y axis-no-line')
-    .attr('transform', `translate(${yAxisMarginLeft},0)`);
-  // .call(yAxisScale);
+let yAxisInitialised = false;
+const initYAxisG = () => {
+  if (!yAxisInitialised) {
+    yAxisInitialised = true;
 
-  setYAxis(data, ySortKey, yGroupKey);
-  setYLabelAxis(data, yGroupKey, x1Key, x2Key, true);
+    yAxisG = overlaySvg.append('g')
+      .attr('class', 'axis axis--y axis-no-line')
+      .attr('transform', `translate(${yAxisMarginLeft},0)`);
+  }
 };
 
 /* ------------------------------------------------------------------------------------------
  * MAIN SICKLIST FUNCTION
  * ------------------------------------------------------------------------------------------ */
 
+const sicklistDataTypes = {
+  'Status.Code': 'CategoricalId',
+  ShipWithYear: 'Categorical',
+  Died: 'Categorical',
+  Quality: 'Categorical',
+  'Disease.1.Code': 'CategoricalId',
+  'Disease.2.Code': 'CategoricalId',
+  OnInDays: 'Numerical',
+  OnDate: 'Date',
+  OnDateNum: 'Numerical',
+  OnPercentVoyage: 'Numerical',
+  OffInDays: 'Numerical',
+  OffDate: 'Date',
+  OffDateNum: 'Numerical',
+  OffPercentVoyage: 'Numerical',
+  TotalInDays: 'Numerical',
+  TotalPercentVoyage: 'Numerical',
+  Gender: 'CategoricalId',
+  AgeInYears: 'Numerical',
+  AgeInYearsInt: 'Numerical',
+  Crime_SentenceCat: 'Numerical',
+  LiteracyReadCat: 'Categorical',
+  LiteracyWriteCat: 'Categorical',
+  PriorConvictionCount: 'Numerical',
+  NP_GridRefCode: 'Categorical',
+  Trial_PlaceGridRef: 'Categorical',
+  'Occupation.code': 'CategoricalId',
+  NP_Town: 'Categorical',
+  NP_CountyState: 'Categorical',
+  NP_Country: 'Categorical',
+  Trial_PlaceCourt: 'Categorical',
+  Trial_PlaceLocation: 'Categorical',
+  Trial_PlaceCountry: 'Categorical',
+  'Coutry.of.Departure': 'CategoricalId'
+};
+
+const sicklistFilters = ['Died', 'Gender', 'AgeInYearsInt', 'ShipWithYear', 'Disease.1.Code', 'Convict', 'Status.Code'];
+
+const sicklistConvictFilters = ['Crime_SentenceCat', 'Occupation.code', 'LiteracyReadCat', 'LiteracyWriteCat',
+  'PriorConvictionCount', 'NP_Country'];
+
+const diseaseMap = {
+  1: 'Accident',
+  2: 'Convulsions and teething',
+  3: 'Debility and marasmus',
+  4: 'Diarrhoea and dysentery',
+  5: 'Diseases of the blood and blood forming organs',
+  6: 'Diseases of the circulatory system',
+  7: 'Diseases of the digestive system',
+  8: 'Diseases of the eye and ear',
+  9: 'Diseases of the genitourinary system',
+  10: 'Diseases of the musculoskeletal system',
+  11: 'Diseases of the nervous system',
+  12: 'Diseases of the respiratory system',
+  13: 'Diseases of the skin and subcutaneous tissue',
+  14: 'Endocrine, deficiency and metabolic disorders',
+  15: 'Influenza',
+  16: 'Malingering',
+  17: 'Measles',
+  18: 'Mental and behavioural disorders',
+  19: 'Nausea',
+  20: 'Neoplasm',
+  21: 'Old age and decay',
+  22: 'Other fever',
+  23: 'Other infectious diseases',
+  24: 'Other tuberculosis',
+  25: 'Paralysis',
+  26: 'Parasitic disease',
+  27: 'Pregnancy, childbirth and the puerperium',
+  28: 'Respiratory tuberculosis',
+  29: 'Scarlet fever',
+  30: 'Sexually transmitted diseases',
+  31: 'Suicide',
+  32: 'Unclassifiable',
+  33: 'Unknown',
+  34: 'Unspecified natural causes',
+  35: 'Vaccinated',
+  36: 'Whooping cough'
+};
+const sicklistCategoricalIdMap = {
+  Gender: {
+    1: 'Male',
+    2: 'Female'
+  },
+  'Occupation.code': {
+    1: 'White‐collar',
+    2: 'Retail',
+    3: 'Food and drink preparation',
+    4: 'Construction',
+    5: 'Worker in wood',
+    6: 'Worker in metal',
+    7: 'Worker in leather',
+    8: 'Agricultural worker',
+    9: 'Labourer and unskilled',
+    10: 'Maritime',
+    11: 'Domestic Service',
+    13: 'Other trades',
+    14: 'Textiles',
+    15: 'Military service',
+    16: 'Mining and quarrying',
+    17: 'Land transport',
+    18: 'Printing and associated trades',
+    19: 'Clothing manufacturing',
+    20: 'Jewellers and watchmakers',
+    21: 'Errand boys'
+  },
+  'Disease.1.Code': diseaseMap,
+  'Disease.2.Code': diseaseMap,
+  'Status.Code': {
+    1: 'Convict',
+    2: 'Member of the ship’s crew including the surgeon superintendent',
+    3: 'Member of the military detachment including officers',
+    4: 'Soldier or officer’s wife',
+    5: 'Soldier or officer’s child',
+    6: 'Convict’s child',
+    7: 'Other passenger',
+    8: 'Other passenger’s child',
+
+    10: 'Status unknown',
+    11: 'No data'
+  },
+  'Coutry.of.Departure': {
+    1: 'England',
+    2: 'Ireland',
+    3: 'Bermuda'
+  }
+};
+
 const initSicklist = (shipyearsData, sicklistData) => {
   /* ------------------------------------------------------------------------------------------
   * SETUP DATA
   * ------------------------------------------------------------------------------------------ */
-  const allSicklistData = [];
-
-  const sicklistDataTypes = {
-    ShipWithYear: 'Categorical',
-    Died: 'CategoricalId',
-    Quality: 'Categorical',
-    'Disease.Classification.1': 'Categorical',
-    'Disease.2.Code': 'CategoricalId',
-    OnInDays: 'Numerical',
-    OnDate: 'Date',
-    OnDateNum: 'Numerical',
-    OnPercentVoyage: 'Numerical',
-    OffInDays: 'Numerical',
-    OffDate: 'Date',
-    OffDateNum: 'Numerical',
-    OffPercentVoyage: 'Numerical',
-    TotalInDays: 'Numerical',
-    TotalPercentVoyage: 'Numerical',
-    Gender: 'CategoricalId',
-    AgeInYears: 'Numerical'
-  };
-
-  // shipyearsData.length
-  for (let i = 0; i < shipyearsData.length; i += 1) {
-    const currentSicklistVoyage = sicklistData.filter(d => d.ShipWithYear === shipyearsData[i].ShipWithYear);
-
-    allSicklistData.push(...currentSicklistVoyage);
-
-    if (currentSicklistVoyage.length === 0) {
-      console.log(`${shipyearsData[i].ShipWithYear} is empty`);
-    }
-  }
+  const allSicklistData = sicklistData;
 
   allSicklistData.forEach((d) => {
     d.OnDate = dateParser(d.OnDate);
     d.OffDate = dateParser(d.OffDate);
+
+    d.Convict = d.ConvictId !== '';
   });
 
   // Set date values
@@ -467,418 +727,61 @@ const initSicklist = (shipyearsData, sicklistData) => {
   });
 
   /* ------------------------------------------------------------------------------------------
-  * SETUP MARK
-  * ------------------------------------------------------------------------------------------ */
-
-  const rectangleCustomSpec = Stardust.mark.compile(`     
-    let pan: Vector2;
-    let zoom: Vector2;
-    
-    function clamp01(t: float): float {
-        if(t < 0) t = 0;
-        if(t > 1) t = 1;
-        return t;
-    }
-    
-    // Adapted from https://gist.github.com/gre/1650294
-    function quinticEaseInOut(t: float): float {
-        if (t<0.5)  {
-          t = 16*t*t*t*t*t;
-        }
-        else {
-          t = t-1;
-          t = 1+16*t*t*t*t*t ;
-        }
-        return t;
-    }
-            
-    mark RectangleXY(
-        index: float,
-        indexSecondary: float,
-        maxIndex: float,
-        maxIndexSecondary: float,
-        x: Vector2 = [ 0, 0 ],
-        y: Vector2 = [ 0, 0 ],
-        xSecondary: Vector2 = [ 0, 0 ],
-        ySecondary: Vector2 = [ 0, 0 ],
-        color: Color = [ 0, 0, 0, 1 ],
-        
-        defaultSickRowPaddingRatio: float,
-        tx: float, ty: float, skewing: float
-    ) {
-    
-        x = mix(x, xSecondary, quinticEaseInOut(clamp01(tx*2 - (skewing * index)/maxIndex)));
-        y = mix(y, ySecondary, quinticEaseInOut(clamp01(ty*2 - (skewing * index)/maxIndex)));
-        
-        // Zoom + Pan
-        x = x * zoom.x + Vector2(pan.x, pan.x);
-        y = y * zoom.y + Vector2(pan.y, pan.y);
-        
-        // Reduce opacity as bars get smaller
-        let opacity = 1;
-        
-        // Note: all pixel values are twice the half the actual value -> 0.5 is actually 1 pixel width
-        if (y.y - y.x + defaultSickRowPaddingRatio/2 < 0.5) {
-          y = Vector2(y.x, y.x + 0.5);
-          
-          opacity = (y.y - y.x) + 0.5;
-        }
-        
-        let col = Color(color.r, color.g, color.b, opacity);
-    
-        emit [
-            { position: Vector2(x.x, y.x), color: col },
-            { position: Vector2(x.y, y.x), color: col },
-            { position: Vector2(x.y, y.y), color: col }
-        ];
-        emit [
-            { position: Vector2(x.x, y.x), color: col },
-            { position: Vector2(x.x, y.y), color: col },
-            { position: Vector2(x.y, y.y), color: col }
-        ];
-    }
-`);
-
-  const rectangles = Stardust.mark.create(rectangleCustomSpec.RectangleXY, platform);
-
-  rectangles
-    .attr('pan', [0, 0])
-    .attr('zoom', [1, 1]);
-
-  rectangles
-    .attr('tx', 0)
-    .attr('ty', 0)
-    .attr('skewing', 1)
-    .attr('defaultSickRowPaddingRatio', defaultSickRowPaddingRatio);
-
-  // newvalue = a * value + b. a = (max'-min')/(max-min) and b = min' - (a * min) [adapted from: https://stats.stackexchange.com/questions/70801/how-to-normalize-data-to-0-1-range]
-  const xScalePrimary = Stardust.scale.custom(`
-  Vector2(
-    (a * xStartValue) + b, 
-    (a * xEndValue) + b
-  )
-  `);
-
-  const xScaleSecondary = Stardust.scale.custom(`
-  Vector2(
-    (a * xStartValue) + b, 
-    (a * xEndValue) + b
-  )
-  `);
-
-  // Set X scale to normalise x values to width of screen
-  function setXScale(scale, xStartKey, xEndKey) {
-    const domainMin = d3.min(allSicklistData, d => d[xStartKey]);
-    const domainMax = d3.max(allSicklistData, d => d[xEndKey]);
-
-    const a = (width) / (domainMax - domainMin);
-
-    scale
-      .attr('a', a).attr('b', -(a * domainMin));
-
-    scale
-      .attr('xStartValue', d => d[xStartKey])
-      .attr('xEndValue', d => d[xEndKey]);
-  }
-
-  // Set y scale to normalise y values to width of screen and add padding between each row
-  const yScalePrimary = Stardust.scale.custom(`
-    Vector2(
-      value * rowHeight, 
-      (value + rowPadding) * rowHeight
-    )
-  `);
-
-  function setYScale(scale) {
-    scale
-      .attr('rowHeight', defaultSickRowHeight)
-      .attr('rowPadding', defaultSickRowInversePaddingRatio);
-  }
-
-  setYScale(yScalePrimary);
-
-  function setRectXPoints(xScale, xStartKey, xEndKey, attrAddString = '') {
-    setXScale(xScale, xStartKey, xEndKey);
-
-    // const maxYIndex = d3.max(allSicklistData, d => d.index);
-
-    rectangles
-      .attr(`x${attrAddString}`, xScale());
-  }
-
-  let oldYSortByR = '';
-  let oldYGroupByR = '';
-  // Add duplicate yScale values (i.e. secondary to primary values)
-  function setRectYPoints(yScale, ySortBy, yGroupBy, attrAddString = '') {
-    if (ySortBy !== oldYSortByR || yGroupBy !== oldYGroupByR) {
-      oldYSortByR = ySortBy;
-      oldYGroupByR = yGroupBy;
-
-      const numericalKeyComparator = (a, b) => {
-        if (typeof a[ySortBy] === 'undefined') {
-          return true;
-        }
-        if (typeof b[ySortBy] === 'undefined') {
-          return false;
-        }
-
-        return Number(a[ySortBy]) > Number(b[ySortBy]);
-      };
-
-      stable.inplace(allSicklistData, numericalKeyComparator);
-
-      if (yGroupBy !== '') {
-        stable.inplace(allSicklistData, (a, b) => a[yGroupBy] > b[yGroupBy]);
-
-        let currentYValue = allSicklistData[0][yGroupBy];
-        let yGroupIndex = 0;
-        allSicklistData.forEach((row) => {
-          if (row[yGroupBy] !== currentYValue) {
-            currentYValue = row[yGroupBy];
-            yGroupIndex += 1;
-          }
-          row[`index${attrAddString}`] = allSicklistData.indexOf(row) + (yGroupIndex * yAxisLabelGroupYPadding);
-        });
-      } else {
-        allSicklistData.forEach(row => row[`index${attrAddString}`] = allSicklistData.indexOf(row));
-      }
-
-      rectangles
-        .attr(`index${attrAddString}`, d => d[`index${attrAddString}`])
-        .attr(`maxIndex${attrAddString}`, d3.max(allSicklistData, d => d[`index${attrAddString}`]))
-        .attr(`y${attrAddString}`, yScale(d => d[`index${attrAddString}`]));
-    }
-  }
-
-  function copyRectYPointsFromSecondary(yScale) {
-    rectangles
-      .attr('index', d => d.indexSecondary)
-      .attr('maxIndex', d3.max(allSicklistData, d => d.indexSecondary))
-      .attr('y', yScale(d => d.indexSecondary));
-  }
-
-  function createRectLabel(d, x1, x2, y) {
-    if (typeof d.visible === 'undefined' || !d.visible) {
-      const rowLabel = {};
-
-      rowLabel.g = overlaySvg.append('g')
-        .attr('opacity', 0)
-        .attr('class', 'row-label');
-
-      rowLabel.text = rowLabel.g.append('text')
-        .attr('text-anchor', 'start')
-        .style('fill', 'rgba(0,0,0,.8)')
-        .style('font-weight', d.Died ? '900' : 'normal')
-        .attr('x', sickRowLabelMarginLeft)
-        .text(`
-          ${d.Forenames} ${d.Name}
-          ${(typeof d.AgeInYears !== 'undefined') ? ` (${d.AgeInYears}) ` : ''}
-          — ${d['Disease.Classification.1']}
-          ${(d['Disease.Classification.2'] !== '') ? ` (${d['Disease.Classification.2']})` : ''}`);
-
-      rowLabel.g.transition()
-        .duration(defaultSickRowYtransitionDuration)
-        .attr('opacity', 1);
-
-      rowLabel.setPosition = (xStart, xEnd, yPos) => {
-        const xStartMin = Math.max(xStart, yAxisLabelGroupXPadding + sickRowLabelMarginLeft);
-
-        rowLabel.g
-          .attr('transform', `translate(${Math.max(xStartMin, yAxisLabelGroupXPadding + sickRowLabelMarginLeft)}, ${yPos})`)
-          .style(
-            'clip-path',
-            `polygon(
-              0 0, 
-              ${((xEnd - xStartMin) / pixelRatio) - sickRowLabelMarginLeft}px 0, 
-              ${((xEnd - xStartMin) / pixelRatio) - sickRowLabelMarginLeft}px ${defaultSickRowHeight * currentZoomTransform.ky}px, 
-              0% ${defaultSickRowHeight * currentZoomTransform.ky}px)`
-          );
-        rowLabel.text
-          .attr('y', currentZoomTransform.ky / 2)
-          .attr('font-size', `${4 * currentZoomTransform.ky}px`);
-      };
-
-      rowLabel.remove = () => {
-        rowLabel.g
-          // .attr('opacity', 1)
-          // .transition()
-          // .duration(defaultSickRowYtransitionDuration)
-          .attr('opacity', 0)
-          .remove();
-
-        delete d.label.remove;
-      };
-
-      d.visible = true;
-      d.label = rowLabel;
-
-      rowLabel.setPosition(x1, x2, y);
-    }
-  }
-
-  function setRectLabel(xStartKey, xEndKey) {
-    if (currentZoomTransform.ky * defaultSickRowHeight > 10) {
-      allSicklistData.forEach((d) => {
-        const startY = ((d.index + 0.5) * defaultSickRowHeight * currentZoomTransform.ky) + currentZoomTransform.y;
-
-        if (startY > 0 && startY < height) {
-          const startX = xAxisScaleT(d[xStartKey]);
-          const endX = xAxisScaleT(d[xEndKey]);
-
-          // If visible
-          if ((startX < 0 && endX > 0) ||
-            (startX < width && endX > width) ||
-            (startX > 0 && endX < width)) {
-            // If was previously visible -> update position
-            if (d.visible && 'label' in d) {
-              d.label.setPosition(startX, endX, startY);
-
-            // If was previously INvisible -> create label
-            } else {
-              createRectLabel(d, startX, endX, startY);
-            }
-
-          // If was previously visible -> remove label
-          } else if (d.visible && 'label' in d) {
-            d.visible = false;
-            d.label.remove();
-          }
-
-        // If was previously visible -> remove label
-        } else if (d.visible && 'label' in d) {
-          d.visible = false;
-          d.label.remove();
-        }
-      });
-    } else {
-      allSicklistData.forEach((d) => {
-        if (d.visible && 'label' in d) {
-          d.visible = false;
-          d.label.remove();
-        }
-      });
-    }
-  }
-
-  let currentXkey = 'byDay';
-  let xStartKey = 'OnInDays';
-  let xEndKey = 'OffInDays';
-  let xAxisStartKey = 'OnInDays';
-  let xAxisEndKey = 'OffInDays';
-  let currentSortBy = 'OnInDays';
-  let currentGroupBy = '';
-
-  setRectXPoints(xScalePrimary, xStartKey, xEndKey);
-  setRectYPoints(yScalePrimary, currentSortBy, currentGroupBy);
-
-  initXAxis(allSicklistData);
-  initYAxis(allSicklistData, currentSortBy, currentGroupBy, xAxisStartKey, xAxisEndKey);
-
-  setRectLabel(xAxisStartKey, xAxisEndKey);
-
-  /* ------------------------------------------------------------------------------------------
-  * SETUP COLOUR
-  * ------------------------------------------------------------------------------------------ */
-
-  const normalise = (min, max) => (val) => {
-    const a = 1 / (max - min);
-    return (a * val) + -(a * min);
-  };
-
-  // From https://stardustjs.github.io/examples/sanddance/
-  const strToRGBA = (str) => {
-    const rgb = d3.rgb(str);
-    return [rgb.r / 255, rgb.g / 255, rgb.b / 255, 1];
-  };
-
-  function setColourScale() {
-    const colScheme = d3[currentColourSchemeString];
-
-    const normaliseVal = normalise(d3.min(allSicklistData, d => d[currentColourString]), d3.max(allSicklistData, d => d[currentColourString]));
-
-    if (currentColourSchemeInvert) {
-      rectangles.attr('color', d => strToRGBA(colScheme(1 - normaliseVal(d[currentColourString]))));
-    } else {
-      rectangles.attr('color', d => strToRGBA(colScheme(normaliseVal(d[currentColourString]))));
-    }
-    // Handle missing values
-
-
-    requestRender();
-  }
-
-  // Set rectangles data!
-  rectangles.data(allSicklistData);
-
-  /* ------------------------------------------------------------------------------------------
-   * RENDERING
-   *   - Adapted from https://github.com/stardustjs/stardust-examples/blob/master/examples/graph/index.html
-   * ------------------------------------------------------------------------------------------ */
-
-  let requested = null;
-  function requestRender() {
-    if (requested) return;
-    requested = requestAnimationFrame(render);
-  }
-
-  function render() {
-    requested = null;
-    // Cleanup and re-render.
-    platform.clear(backgroundCol);
-
-    rectangles.render();
-  }
-
-  requestRender();
-
-  /* ------------------------------------------------------------------------------------------
    * ZOOMING - X-AXIS
    * PANNING - Y and X Axis
    *   - Handled by scrolling and limited touch support
    * ------------------------------------------------------------------------------------------ */
-  let touchEvts = null;
-  function setupZoom(maxY = height * 2, transition = true) {
-    touchEvts = new TouchEvts(
-      svg.node(),
-      currentZoomTransform,
-      {
-        kx: [1 / 2, 100], ky: [1 / 500, 5]
-      },
-      onPanOrZoom
-    );
-  }
+  const touchEvts = new TouchEvts(
+    svg.node(),
+    currentZoomTransform,
+    onPanOrZoom
+  );
 
-  function setZoomMaxExtent(xKey) {
+  function setZoomMaxExtent(xKey, xStartKey, xEndKey) {
+    const maxX = xAxisScale(d3.max(visibleSicklistData, d => d[xEndKey])); //= width
+    const minX = -maxX; // =-width
+    const maxY = height;
+
+    let minY;
+    if (yAxisScale === null) {
+      minY = -d3.max(visibleSicklistData, d => d.index) * defaultSickRowHeight;
+    } else {
+      minY = -yAxisScale.range()[1];
+    }
+
+    if (touchEvts.maxExtent.y[0] !== 0) {
+      // const dky = minY / touchEvts.maxExtent.y[0];
+      // touchEvts.currentTransform.ky /= dky;
+      // currentZoomTransform.ky /= dky;
+      // touchEvts.transformUpdated();
+    }
+
     switch (xKey) {
-      case 'byDate': {
+      case 'Date': {
         touchEvts.maxExtent = {
-          kx: [1 / 4, 2000], ky: [1 / 500, 5]
+          kx: [0.67, 2000],
+          ky: [1 / 1000, 5]
         };
         break;
       }
-      case 'byPercent':
-      case 'byDay': {
+      case 'PercentVoyage':
+      case 'InDays': {
         touchEvts.maxExtent = {
-          kx: [1 / 2, 100], ky: [1 / 500, 5]
+          kx: [0.67, 100],
+          ky: [1 / 1000, 5]
         };
         break;
       }
       default:
         break;
     }
+
+    touchEvts.maxExtent.x = [minX, maxX];
+    touchEvts.maxExtent.y = [minY, maxY];
   }
 
   function onPanOrZoom(transform) {
     currentZoomTransform = transform;
-
-    rectangles
-      .attr('pan', [currentZoomTransform.x, currentZoomTransform.y])
-      .attr('zoom', [currentZoomTransform.kx, currentZoomTransform.ky]);
-
-    // As zoom out - reduce row padding
-    if (currentZoomTransform.ky < 1) {
-      yScalePrimary.attr('rowPadding', 1 - ((1 - defaultSickRowInversePaddingRatio) * currentZoomTransform.ky));
-    }
 
     xAxisScaleT = currentZoomTransformRescale(xAxisScale, 'x');
     yAxisScaleT = currentZoomTransformRescale(yAxisScale, 'y');
@@ -888,52 +791,59 @@ const initSicklist = (shipyearsData, sicklistData) => {
 
     yLabels.forEach(label => label.setPosition());
 
-    setRectLabel(xAxisStartKey, xAxisEndKey);
+    rectangleOverlays.setRectLabel(xAxisStartKey, xAxisEndKey, currentZoomTransform, xAxisScaleT);
 
-    requestRender();
+    rectangles.updatePanZoom(currentZoomTransform);
+    rectangles.requestRender();
   }
 
-  setupZoom();
+  /* ------------------------------------------------------------------------------------------
+  * SET DEFAULTS, AXIS and RENDER RECTANGLES
+  * ------------------------------------------------------------------------------------------ */
 
-  /*
-   NO! - this is from graph example
+  let visibleSicklistData = allSicklistData;
 
-  let isDragging = false;
-  let draggingLocation = null;
-  // Handle dragging.
-  canvas.onmousedown = function (e) {
-    const startX = e.clientX - canvas.getBoundingClientRect().left;
-    const startY = e.clientY - canvas.getBoundingClientRect().top;
+  let xAxisMode = 'InDays';
+  let xStartKey = 'OnInDays';
+  let xEndKey = 'OffInDays';
+  let xAxisStartKey = 'OnInDays';
+  let xAxisEndKey = 'OffInDays';
 
-    isDragging = true;
-    draggingLocation = [selectedNode.x, selectedNode.y];
+  let currentSortBy = 'OnInDays';
+  let currentGroupBy = '';
 
-    const onMove = function (e) {
-      const nx = e.clientX - canvas.getBoundingClientRect().left;
-      const ny = e.clientY - canvas.getBoundingClientRect().top;
-      selectedNode.x = nx;
-      selectedNode.y = ny;
-      draggingLocation = [nx, ny];
-      requestRender();
-    };
+  let currentColourString = 'Died';
+  let currentColourSchemeString = 'interpolateReds';
+  let currentColourSchemeInvert = false;
 
-    const onUp = function () {
-      window.removeEventListener('mousemove', onMove);
-      window.removeEventListener('mouseup', onUp);
-      draggingLocation = null;
-      isDragging = false;
-    };
+  let currentAnimateInvert = false;
+  let currentAnimationKey = '';
 
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseup', onUp);
-  };
+  let currentMinOpacity = 0;
 
-  canvas.onmousemove = function (e) {
-    if (isDragging) return;
-    //
-  };
-  */
+  const rectangles = new Rectangles(allSicklistData, visibleSicklistData);
+  const rectangleOverlays = new RectangleOverlays(allSicklistData, visibleSicklistData, touchEvts);
 
+  setXAxisScale(visibleSicklistData, xAxisMode);
+  initXAxisG();
+  setYAxis(visibleSicklistData, currentSortBy, currentGroupBy);
+  initYAxisG();
+  setYLabelAxis(visibleSicklistData, currentGroupBy, sicklistDataTypes[currentGroupBy], xAxisStartKey, xAxisEndKey, true);
+
+  rectangleOverlays.hideAllRectLabels();
+  rectangleOverlays.setRectLabel(xAxisStartKey, xAxisEndKey, currentZoomTransform, xAxisScaleT);
+
+  rectangles.setRectXPoints(xStartKey, xEndKey);
+  rectangles.setRectYPoints(currentSortBy, currentGroupBy, sicklistDataTypes[currentGroupBy]);
+
+  rectangles.setColourScale(currentColourString, currentColourSchemeString, currentColourSchemeInvert);
+  rectangles.setMinOpacity(currentMinOpacity);
+
+  rectangles.setAnimationIndex(currentAnimationKey, currentAnimateInvert, sicklistDataTypes[currentAnimationKey]);
+
+  rectangles.requestRender();
+
+  setZoomMaxExtent(xAxisMode, xStartKey, xEndKey);
 
   /* ------------------------------------------------------------------------------------------
    * UI EVENT HANDLING
@@ -943,51 +853,48 @@ const initSicklist = (shipyearsData, sicklistData) => {
    *   - Filter: None or Deaths
    * ------------------------------------------------------------------------------------------ */
 
-  let currentColourString = 'Died';
-  let currentColourSchemeString = 'interpolateReds';
-  let currentColourSchemeInvert = false;
-
-  setColourScale();
-
-  let currentFilterBy = null;
-
-  let yTransitionInProgress = false;
-
+  /* ------------------------------------------------------------------------------------------
+  * SORTING
+  * ------------------------------------------------------------------------------------------ */
   $('#sortSelect')
     .change(() => {
-      applyYSort($('#sortSelect').val());
-      updateYSortAndGroupBy();
-      setRectLabel(xAxisStartKey, xAxisEndKey);
+      setYSortBy($('#sortSelect')
+        .val());
+      applyTransitions('sortBySelected');
     });
 
   $('#groupSelect')
     .change(() => {
-      applyYGroupBy($('#groupSelect').val());
-      updateYSortAndGroupBy();
-      setRectLabel(xAxisStartKey, xAxisEndKey);
+      setYGroupBy($('#groupSelect')
+        .val());
+      applyTransitions('groupBySelected');
     });
 
-  const applyYGroupBy = (groupBy = currentGroupBy) => {
+  const setYGroupBy = (groupBy = currentGroupBy) => {
     if (groupBy !== currentGroupBy) {
       currentGroupBy = groupBy;
     }
   };
 
   let oldSortString = 'On';
-  const applyYSort = (sortString = oldSortString) => {
+  const setYSortBy = (sortString = oldSortString) => {
     oldSortString = sortString;
     let newSortString = '';
 
-    if (xAxisMode === 'Date') {
-      // `TotalDate` field doesn't exist -> so use TotalInDays
-      if (sortString === 'Total') {
-        newSortString = 'TotalInDays';
-      // All other Date fields need 'Num' appended (i.e. OnDateNum)
+    if (sortString === 'On' || sortString === 'Off' || sortString === 'Total') {
+      if (xAxisMode === 'Date') {
+        // `TotalDate` field doesn't exist -> so use TotalInDays
+        if (sortString === 'Total') {
+          newSortString = 'TotalInDays';
+          // All other Date fields need 'Num' appended (i.e. OnDateNum)
+        } else {
+          newSortString = `${sortString}DateNum`;
+        }
       } else {
-        newSortString = `${sortString + xAxisMode}Num`;
+        newSortString = sortString + xAxisMode;
       }
     } else {
-      newSortString = sortString + xAxisMode;
+      newSortString = sortString;
     }
 
     if (currentSortBy !== newSortString) {
@@ -995,87 +902,94 @@ const initSicklist = (shipyearsData, sicklistData) => {
     }
   };
 
-  const updateYSortAndGroupBy = () => {
-    const transition = () => {
-      beginTransition('ySort', (t) => {
-        rectangles.attr('ty', t);
-        requestRender();
-      }, () => {
-        //setRectYPoints(yScalePrimary, currentSortBy, currentGroupBy);
-        copyRectYPointsFromSecondary(yScalePrimary);
 
-        rectangles.attr('ty', 0);
-        requestRender();
-
-        yTransitionInProgress = false;
-
-        // Time for animation
-      }, 1.5);
-    };
-
-    if (!yTransitionInProgress) {
-      setRectYPoints(yScalePrimary, currentSortBy, currentGroupBy, 'Secondary');
-
-      yTransitionInProgress = true;
-
-      transition();
-    }
-
-    setYAxis(allSicklistData, currentSortBy, currentGroupBy);
-    setYLabelAxis(allSicklistData, currentGroupBy, xAxisStartKey, xAxisEndKey, true);
-  };
-
+  /* ------------------------------------------------------------------------------------------
+  * COLOUR SELECTION
+  * ------------------------------------------------------------------------------------------ */
   $('#colourSelect')
     .change(() => {
-      currentColourString = '';
-      $('#colourSelect')
-        .find('option:selected')
-        .each(function () {
-          currentColourString += $(this).text();
-        });
+      setColourString($('#colourSelect').val());
 
-      setColourScale();
+      rectangles.setColourScale(currentColourString, currentColourSchemeString, currentColourSchemeInvert);
+      rectangles.requestRender();
+
+      rectangleOverlays.hideAllRectLabels();
+      rectangleOverlays.setRectLabel(xAxisStartKey, xAxisEndKey, currentZoomTransform, xAxisScaleT);
     });
+
+  let oldColourString = currentColourString;
+  const setColourString = (colourString = oldColourString) => {
+    oldColourString = colourString;
+    let newColourString = '';
+
+    if (colourString === 'On' || colourString === 'Off' || colourString === 'Total') {
+      if (xAxisMode === 'Date') {
+        // `TotalDate` field doesn't exist -> so use TotalInDays
+        if (colourString === 'Total') {
+          newColourString = 'TotalInDays';
+          // All other Date fields need 'Num' appended (i.e. OnDateNum)
+        } else {
+          newColourString = `${colourString}Date`;
+        }
+      } else {
+        newColourString = colourString + xAxisMode;
+      }
+    } else {
+      newColourString = colourString;
+    }
+
+    if (currentColourString !== newColourString) {
+      currentColourString = newColourString;
+    }
+  };
 
   $('#colourSchemeSelect')
     .change(() => {
-      currentColourSchemeString = '';
-      $('#colourSchemeSelect')
-        .find('option:selected')
-        .each(function () {
-          currentColourSchemeString += $(this).text();
-        });
+      currentColourSchemeString = $('#colourSchemeSelect').val();
 
-      setColourScale();
+      rectangles.setColourScale(currentColourString, currentColourSchemeString, currentColourSchemeInvert);
+      rectangles.requestRender();
+
+      rectangleOverlays.hideAllRectLabels();
+      rectangleOverlays.setRectLabel(xAxisStartKey, xAxisEndKey, currentZoomTransform, xAxisScaleT);
     });
 
-  $('#colourSchemeInvert').click((evt) => {
-    currentColourSchemeInvert = $('#colourSchemeInvert').is(':checked');
+  $('#colourSchemeInvert')
+    .click((evt) => {
+      currentColourSchemeInvert = $('#colourSchemeInvert')
+        .is(':checked');
 
-    setColourScale();
-  });
+      rectangles.setColourScale(currentColourString, currentColourSchemeString, currentColourSchemeInvert);
+      rectangles.requestRender();
 
-  // CHANGE FILTER
-  $('input[name=\'filter\']')
-    .change((evt) => {
-      const value = evt.currentTarget.value;
-      if (value === '') {
-        currentFilterBy = null;
-      } else {
-        currentFilterBy = {};
-        currentFilterBy[value] = true;
-      }
-      applySortingWithGrouping();
+      rectangleOverlays.hideAllRectLabels();
+      rectangleOverlays.setRectLabel(xAxisStartKey, xAxisEndKey, currentZoomTransform, xAxisScaleT);
+    });
+
+  $('#opacitySlider')
+    .change(() => {
+      currentMinOpacity = $('#opacitySlider').val() / 100;
+      rectangles.setMinOpacity(currentMinOpacity);
+      rectangles.requestRender();
+    });
+
+  $('#animateSelect')
+    .change(() => {
+      currentAnimationKey = $('#animateSelect').val();
+      rectangles.setAnimationIndex(currentAnimationKey, currentAnimateInvert, sicklistDataTypes[currentAnimationKey]);
+    });
+
+  $('#animateInvert')
+    .click((evt) => {
+      currentAnimateInvert = $('#animateInvert').is(':checked');
+
+      rectangles.setAnimationIndex(currentAnimationKey, currentAnimateInvert, sicklistDataTypes[currentAnimationKey]);
     });
 
 
-  // X-AXIS MODES:
-  // - By Day
-  // - By % Voyage Elapsed
-  // - By Date
-
-  let xTransitionInProgress = false;
-  let xAxisMode = 'InDays';
+  /* ------------------------------------------------------------------------------------------
+  * XAXIS MODE SELECTION
+  * ------------------------------------------------------------------------------------------ */
 
   $('input[name=\'xAxis\']')
     .change((evt) => {
@@ -1083,35 +997,26 @@ const initSicklist = (shipyearsData, sicklistData) => {
 
       switch (xAxisMode) {
         case 'Date': {
-          currentXkey = 'byDate';
           xStartKey = 'OnDateNum';
           xEndKey = 'OffDateNum';
           xAxisStartKey = 'OnDate';
           xAxisEndKey = 'OffDate';
 
-          setXAxisScaleByDate(allSicklistData);
-
           break;
         }
         case 'InDays': {
-          currentXkey = 'byDay';
           xStartKey = 'OnInDays';
           xEndKey = 'OffInDays';
           xAxisStartKey = 'OnInDays';
           xAxisEndKey = 'OffInDays';
 
-          setXAxisScaleByDay(allSicklistData);
-
           break;
         }
         case 'PercentVoyage': {
-          currentXkey = 'byPercent';
           xStartKey = 'OnPercentVoyage';
           xEndKey = 'OffPercentVoyage';
           xAxisStartKey = 'OnPercentVoyage';
           xAxisEndKey = 'OffPercentVoyage';
-
-          setXAxisScaleByPercentage(allSicklistData);
 
           break;
         }
@@ -1119,86 +1024,191 @@ const initSicklist = (shipyearsData, sicklistData) => {
           break;
       }
 
-      applyXSort();
+      setXAxisScale(allSicklistData, xAxisMode);
 
-      applyYSort();
-      applyYGroupBy();
+      setZoomMaxExtent(xAxisMode, xStartKey, xEndKey);
 
-      updateYSortAndGroupBy();
-      setRectLabel(xAxisStartKey, xAxisEndKey);
+      setYSortBy();
+      setYGroupBy();
 
-      setZoomMaxExtent(currentXkey);
+      applyTransitions('xAxisModeSelected');
     });
 
-  const applyXSort = () => {
-    const transition = () => {
-      beginTransition('xSort', (t) => {
-        rectangles.attr('tx', t);
-        requestRender();
-      }, () => {
-        // On finish transition - set original "xScaleCustom" scale to xScaleCustomInterpolateTo
-        setRectXPoints(xScalePrimary, xStartKey, xEndKey);
-        rectangles.attr('tx', 0);
-        requestRender();
-
-        xTransitionInProgress = false;
-
-        // Time for animation
-      }, 1.5);
+  const applyTransitions = (action = '') => {
+    const callback = () => {
+      rectangleOverlays.setRectLabel(xAxisStartKey, xAxisEndKey, currentZoomTransform, xAxisScaleT);
     };
 
-    if (!xTransitionInProgress) {
-      setRectXPoints(xScaleSecondary, xStartKey, xEndKey, 'Secondary');
+    rectangles.transition(
+      action, xStartKey, xEndKey, xAxisStartKey, xAxisEndKey,
+      currentZoomTransform, xAxisScaleT,
+      currentSortBy, currentGroupBy, sicklistDataTypes[currentGroupBy],
+      currentColourString, currentColourSchemeString, currentColourSchemeInvert,
+      callback
+    );
 
-      xTransitionInProgress = true;
-
-      transition();
+    rectangleOverlays.hideAllRectLabels();
+    setYAxis(visibleSicklistData, currentSortBy, currentGroupBy);
+    if (action !== 'sortBySelected') {
+      setYLabelAxis(visibleSicklistData, currentGroupBy, sicklistDataTypes[currentGroupBy], xAxisStartKey, xAxisEndKey, true);
+      setZoomMaxExtent(xAxisMode, xStartKey, xEndKey);
     }
   };
 
-  // Adapted from https://github.com/stardustjs/stardust-examples/blob/master/examples/isotype/index.html
-  const _previousTransition = {};
+  /* ------------------------------------------------------------------------------------------
+  * FILTER SELECTION
+  * ------------------------------------------------------------------------------------------ */
+  let activeFilters = {};
 
-  function beginTransition(transitionId, func, finishedFunc, maxTime) {
-    if (transitionId in _previousTransition) _previousTransition[transitionId].stop();
-    delete _previousTransition[transitionId];
-    maxTime = maxTime || 1;
-    const t0 = new Date().getTime();
-    let req = null;
-    let totalFrames = 0;
-    const rerender = function () {
-      req = null;
-      const t1 = new Date().getTime();
-      let t = (t1 - t0) / 1000;
-      let shouldStop = false;
-      if (t > maxTime) {
-        t = maxTime;
-        shouldStop = true;
-      }
-      func(t / maxTime);
-      totalFrames += 1;
-      if (!shouldStop) {
-        req = requestAnimationFrame(rerender);
-      } else {
-        finishedFunc();
-      }
-    };
-    req = requestAnimationFrame(rerender);
-    _previousTransition[transitionId] = {
-      stop() {
-        if (req != null) cancelAnimationFrame(rerender);
-      }
-    };
-    return _previousTransition[transitionId];
+  $('#filterShowBtn')
+    .click(() => {
+      showFilterOverlay();
+    });
+
+  $('#filterHideBtn')
+    .click(() => {
+      hideFilterOverlay();
+    });
+
+  $('#filterClearBtn')
+    .click(() => {
+      clearFilters();
+    });
+
+  function showFilterOverlay() {
+    filterOverlay
+      .style('display', 'block')
+      .transition()
+      .duration(defaultUiTransitionDuration)
+      .style('opacity', '1');
   }
-};
 
-/* ------------------------------------------------------------------------------------------
- * MAIN CONVICT FUNCTION
- * ------------------------------------------------------------------------------------------ */
+  function hideFilterOverlay() {
+    filterOverlay.transition()
+      .duration(defaultUiTransitionDuration)
+      .style('opacity', '0')
+      .on('end', () => filterOverlay.style('display', 'none'));
+  }
 
-const initConvicts = (convictData) => {
+  /* ------------------------------------------------------------------------------------------
+  * FILTER GROUP GENERATION
+  * ------------------------------------------------------------------------------------------ */
+  const filterGroups = {};
+  function createFilterGroup(currentFilter) {
+    const yBins = countYBins(visibleSicklistData, currentFilter, 'OnInDays', 'OffInDays');
+    const filterValues = Object.values(yBins);
 
+    // if (sicklistDataTypes[currentFilter] === 'CategoricalId') {
+    //   stable.inplace(filterValues, getComparator(sicklistDataTypes[currentFilter], 'value'));
+    // } else {
+    stable.inplace(filterValues, getComparator(sicklistDataTypes[currentFilter], 'key'));
+    // }
+
+    if (filterValues.length > 1) {
+      const filterGroupDiv = filterOverlay
+        .append('div')
+        .attr('class', 'filterGroup')
+        .classed('filterGroupHidden', true)
+        .attr('id', `filter-group-${currentFilter}`);
+
+      filterGroupDiv
+        .append('a')
+        .classed('filterGroupTitle', true)
+        .html(currentFilter)
+        .on('click', () => {
+          const hide = !filterGroupDiv.classed('filterGroupHidden');
+          filterGroupDiv.classed('filterGroupHidden', hide);
+
+          if (hide) {
+            filterGroupDiv
+              .selectAll('a.filterGroupItem')
+              .style('display', 'none');
+          } else {
+            filterGroupDiv
+              .selectAll('a.filterGroupItem')
+              .style('display', 'block');
+          }
+        });
+
+      filterGroupDiv
+        .selectAll('a.filterGroupItem')
+        .data(filterValues, d => d.id)
+        .enter()
+        .append('a')
+        .style('display', 'none')
+        .classed('filterGroupItem', true)
+        .classed('selected', true)
+        .html(d => `<span class="filterGroupItemNumber">${d.value}</span>${
+          (d.key !== '') ?
+            ((typeof sicklistCategoricalIdMap[currentFilter] !== 'undefined') ?
+              sicklistCategoricalIdMap[currentFilter][d.key] : d.key)
+            : 'Undefined'
+        }`)
+        .on('mouseover', filterItemMouseOver(currentFilter))
+        .on('mouseout', filterItemMouseOut(currentFilter))
+        .on('click', filterItemClick(currentFilter));
+
+      filterGroups[currentFilter] = filterGroupDiv;
+    }
+  }
+
+  function filterItemMouseOver(currentFilter) {
+    return (d, i) => {
+      visibleSicklistData.forEach(row => row.opacity = 0.015);
+      d.rows.forEach(row => row.opacity = 1);
+      rectangles.visibleData = visibleSicklistData;
+
+      rectangles.requestRender();
+
+      rectangleOverlays.setRectLabel(xAxisStartKey, xAxisEndKey, currentZoomTransform, xAxisScaleT);
+    };
+  }
+
+  function filterItemMouseOut(currentFilter) {
+    return (d, i) => {
+      visibleSicklistData.forEach(row => row.opacity = 1);
+      rectangles.visibleData = visibleSicklistData;
+
+      rectangles.requestRender();
+
+      rectangleOverlays.setRectLabel(xAxisStartKey, xAxisEndKey, currentZoomTransform, xAxisScaleT);
+    };
+  }
+
+  function filterItemClick(currentFilter) {
+    return (d, i) => {
+      activeFilters[currentFilter] = d.key;
+
+      visibleSicklistData = d.rows;
+      rectangles.visibleData = visibleSicklistData;
+      rectangleOverlays.visibleData = visibleSicklistData;
+
+      setupFilters();
+      applyTransitions('filter');
+    };
+  }
+
+  function clearFilters() {
+    activeFilters = {};
+    visibleSicklistData = allSicklistData;
+    rectangles.visibleData = visibleSicklistData;
+    rectangleOverlays.visibleData = visibleSicklistData;
+
+    setupFilters();
+    applyTransitions('filter');
+  }
+
+  function setupFilters() {
+    filterOverlay
+      .selectAll('div.filterGroup').remove();
+    sicklistFilters.forEach(currentFilter => createFilterGroup(currentFilter));
+
+    if ('Convict' in activeFilters && activeFilters.Convict) {
+      sicklistConvictFilters.forEach(currentFilter => createFilterGroup(currentFilter));
+    }
+  }
+
+  setupFilters();
 };
 
 /* ------------------------------------------------------------------------------------------
@@ -1208,18 +1218,9 @@ const initConvicts = (convictData) => {
 axios.get('/data/shipyear.stats.json')
   .then((shipYearStats) => {
     // Get sicklist data
-    axios.get('/data/sicklist.json')
+    axios.get('/data/sicklist.merged.json')
       .then((sickList) => {
         initSicklist(shipYearStats.data, sickList.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    // Get convict data
-    axios.get('/data/convict.json')
-      .then((convicts) => {
-        initConvicts(convicts.data);
       })
       .catch((error) => {
         console.log(error);
@@ -1232,9 +1233,18 @@ axios.get('/data/shipyear.stats.json')
 
 /* ------------------------------------------------------------------------------------------
   * TODO:
-  *  - Add animation field (i.e. Sex = M=0, F=1 for index or something)
+  *  - Pre calculate densities (or wipe out - only good for totals and age
+  *  - Add densities for group by
+  *  - Add densities for xAxis
+  *  - Make densities use WebWorker
   *
-  *  - Pre calculate densities
+  *  - Clip yGroupLabel when rotated
   *
-  *  - Add convict view
+  *  - add categoricalid maps to rectagnle overlays
+  *
+  *  - Add voyage information? (voyage start / end) NAH
+  *
+  *  - Add static gap between voyages? - NAH
+  *
+  *  - oN FILTER - change axis min/max - change zoom transform to keep size constant - NAH
   * ------------------------------------------------------------------------------------------ */
