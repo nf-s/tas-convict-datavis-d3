@@ -1,0 +1,2892 @@
+[
+  {
+    "ShipWithYear": "Aboukir1852",
+    "Sick": 29,
+    "Dead": 3,
+    "Year": "1852",
+    "Ship": "Aboukir",
+    "departureDate": "1851-12-28",
+    "arrivalDate": "1852-12-20",
+    "lengthOfVoyage": "83"
+  },
+  {
+    "ShipWithYear": "Adelaide1849",
+    "Sick": 121,
+    "Dead": 2,
+    "Year": "1849",
+    "Ship": "Adelaide",
+    "departureDate": "1849-08-17",
+    "arrivalDate": "1849-08-29",
+    "lengthOfVoyage": "104"
+  },
+  {
+    "ShipWithYear": "Albion1823",
+    "Sick": 10,
+    "Dead": 0,
+    "Year": "1823",
+    "Ship": "Albion",
+    "departureDate": "1823-05-20",
+    "arrivalDate": "1823-05-21",
+    "lengthOfVoyage": "154"
+  },
+  {
+    "ShipWithYear": "America1831",
+    "Sick": 114,
+    "Dead": 6,
+    "Year": "1831",
+    "Ship": "America",
+    "departureDate": "1831-01-06",
+    "arrivalDate": "1831-01-09",
+    "lengthOfVoyage": "123"
+  },
+  {
+    "ShipWithYear": "Andromeda1827",
+    "Sick": 55,
+    "Dead": 3,
+    "Year": "1827",
+    "Ship": "Andromeda",
+    "departureDate": "1826-10-14",
+    "arrivalDate": "1827-10-30",
+    "lengthOfVoyage": "412"
+  },
+  {
+    "ShipWithYear": "Angelina1844",
+    "Sick": 84,
+    "Dead": 5,
+    "Year": "1844",
+    "Ship": "Angelina",
+    "departureDate": "1844-04-28",
+    "arrivalDate": "1844-04-24",
+    "lengthOfVoyage": "118"
+  },
+  {
+    "ShipWithYear": "Anna Maria1848",
+    "Sick": 151,
+    "Dead": 0,
+    "Year": "1848",
+    "Ship": "Anna Maria",
+    "departureDate": "1848-03-09",
+    "arrivalDate": "1848-03-07",
+    "lengthOfVoyage": "90"
+  },
+  {
+    "ShipWithYear": "Anna Maria1852",
+    "Sick": 91,
+    "Dead": 9,
+    "Year": "1852",
+    "Ship": "Anna Maria",
+    "departureDate": "1851-10-06",
+    "arrivalDate": "1852-10-26",
+    "lengthOfVoyage": "112"
+  },
+  {
+    "ShipWithYear": "Anson1844",
+    "Sick": 106,
+    "Dead": 1,
+    "Year": "1844",
+    "Ship": "Anson",
+    "departureDate": "1843-10-01",
+    "arrivalDate": "1844-10-04",
+    "lengthOfVoyage": "126"
+  },
+  {
+    "ShipWithYear": "Arab1822",
+    "Sick": 5,
+    "Dead": 3,
+    "Year": "1822",
+    "Ship": "Arab",
+    "departureDate": "1822-07-13",
+    "arrivalDate": "1822-07-06",
+    "lengthOfVoyage": "116"
+  },
+  {
+    "ShipWithYear": "Arab1834",
+    "Sick": 7,
+    "Dead": 2,
+    "Year": "1834",
+    "Ship": "Arab",
+    "departureDate": "1834-02-26",
+    "arrivalDate": "1834-02-30",
+    "lengthOfVoyage": "124"
+  },
+  {
+    "ShipWithYear": "Arab1836",
+    "Sick": 49,
+    "Dead": 2,
+    "Year": "1836",
+    "Ship": "Arab",
+    "departureDate": "1835-12-30",
+    "arrivalDate": "1836-12-25",
+    "lengthOfVoyage": "117"
+  },
+  {
+    "ShipWithYear": "Arabian1847",
+    "Sick": 27,
+    "Dead": 8,
+    "Year": "1847",
+    "Ship": "Arabian",
+    "departureDate": "1846-11-22",
+    "arrivalDate": "1847-11-25",
+    "lengthOfVoyage": "95"
+  },
+  {
+    "ShipWithYear": "Argyle 1831",
+    "Sick": 153,
+    "Dead": 7,
+    "Year": "1831",
+    "Ship": "Argyle ",
+    "departureDate": "1831-03-18",
+    "arrivalDate": "1831-03-03",
+    "lengthOfVoyage": "138"
+  },
+  {
+    "ShipWithYear": "Asia 1827",
+    "Sick": 70,
+    "Dead": 1,
+    "Year": "1827",
+    "Ship": "Asia ",
+    "departureDate": "1827-08-01",
+    "arrivalDate": "1827-08-30",
+    "lengthOfVoyage": "121"
+  },
+  {
+    "ShipWithYear": "Asia1824",
+    "Sick": 17,
+    "Dead": 2,
+    "Year": "1824",
+    "Ship": "Asia",
+    "departureDate": "1823-08-09",
+    "arrivalDate": "1824-08-19",
+    "lengthOfVoyage": "163"
+  },
+  {
+    "ShipWithYear": "Asia1827",
+    "Sick": 39,
+    "Dead": 2,
+    "Year": "1827",
+    "Ship": "Asia",
+    "departureDate": "1827-08-17",
+    "arrivalDate": "1827-08-07",
+    "lengthOfVoyage": "112"
+  },
+  {
+    "ShipWithYear": "Asia1836",
+    "Sick": 64,
+    "Dead": 3,
+    "Year": "1836",
+    "Ship": "Asia",
+    "departureDate": "1835-11-08",
+    "arrivalDate": "1836-11-21",
+    "lengthOfVoyage": "105"
+  },
+  {
+    "ShipWithYear": "Asia1840",
+    "Sick": 49,
+    "Dead": 2,
+    "Year": "1840",
+    "Ship": "Asia",
+    "departureDate": "1840-04-27",
+    "arrivalDate": "1840-04-06",
+    "lengthOfVoyage": "101"
+  },
+  {
+    "ShipWithYear": "Asia1841",
+    "Sick": 112,
+    "Dead": 2,
+    "Year": "1841",
+    "Ship": "Asia",
+    "departureDate": "1841-04-17",
+    "arrivalDate": "1841-04-21",
+    "lengthOfVoyage": "126"
+  },
+  {
+    "ShipWithYear": "Asia1847",
+    "Sick": 101,
+    "Dead": 2,
+    "Year": "1847",
+    "Ship": "Asia",
+    "departureDate": "1847-03-23",
+    "arrivalDate": "1847-03-21",
+    "lengthOfVoyage": "120"
+  },
+  {
+    "ShipWithYear": "Asiatic1843",
+    "Sick": 87,
+    "Dead": 2,
+    "Year": "1843",
+    "Ship": "Asiatic",
+    "departureDate": "1843-05-28",
+    "arrivalDate": "1843-05-23",
+    "lengthOfVoyage": "118"
+  },
+  {
+    "ShipWithYear": "Atlas1833",
+    "Sick": 20,
+    "Dead": 2,
+    "Year": "1833",
+    "Ship": "Atlas",
+    "departureDate": "1833-04-30",
+    "arrivalDate": "1833-04-24",
+    "lengthOfVoyage": "116"
+  },
+  {
+    "ShipWithYear": "Atwick1838",
+    "Sick": 41,
+    "Dead": 1,
+    "Year": "1838",
+    "Ship": "Atwick",
+    "departureDate": "1837-09-30",
+    "arrivalDate": "1838-09-23",
+    "lengthOfVoyage": "115"
+  },
+  {
+    "ShipWithYear": "Augusta Jessie1835",
+    "Sick": 53,
+    "Dead": 1,
+    "Year": "1835",
+    "Ship": "Augusta Jessie",
+    "departureDate": "1838-08-14",
+    "arrivalDate": "1835-08-22",
+    "lengthOfVoyage": "-1300"
+  },
+  {
+    "ShipWithYear": "Aurora1835",
+    "Sick": 158,
+    "Dead": 3,
+    "Year": "1835",
+    "Ship": "Aurora",
+    "departureDate": "1835-06-27",
+    "arrivalDate": "1835-06-07",
+    "lengthOfVoyage": "102"
+  },
+  {
+    "ShipWithYear": "Aurora1851",
+    "Sick": 17,
+    "Dead": 6,
+    "Year": "1851",
+    "Ship": "Aurora",
+    "departureDate": "1851-04-26",
+    "arrivalDate": "1851-04-10",
+    "lengthOfVoyage": "106"
+  },
+  {
+    "ShipWithYear": "Australasia1849",
+    "Sick": 155,
+    "Dead": 6,
+    "Year": "1849",
+    "Ship": "Australasia",
+    "departureDate": "1849-06-26",
+    "arrivalDate": "1849-06-29",
+    "lengthOfVoyage": "95"
+  },
+  {
+    "ShipWithYear": "Bardaster1836",
+    "Sick": 22,
+    "Dead": 6,
+    "Year": "1836",
+    "Ship": "Bardaster",
+    "departureDate": "1835-09-16",
+    "arrivalDate": "1836-09-13",
+    "lengthOfVoyage": "119"
+  },
+  {
+    "ShipWithYear": "Baretto Junior1850",
+    "Sick": 43,
+    "Dead": 6,
+    "Year": "1850",
+    "Ship": "Baretto Junior",
+    "departureDate": "1850-04-13",
+    "arrivalDate": "1850-04-25",
+    "lengthOfVoyage": "103"
+  },
+  {
+    "ShipWithYear": "Baring1819",
+    "Sick": 11,
+    "Dead": 3,
+    "Year": "1819",
+    "Ship": "Baring",
+    "departureDate": "1819-01-27",
+    "arrivalDate": "1819-01-14",
+    "lengthOfVoyage": "138"
+  },
+  {
+    "ShipWithYear": "Barossa1844",
+    "Sick": 184,
+    "Dead": 2,
+    "Year": "1844",
+    "Ship": "Barossa",
+    "departureDate": "1844-05-17",
+    "arrivalDate": "1844-05-05",
+    "lengthOfVoyage": "111"
+  },
+  {
+    "ShipWithYear": "Barrosa1842",
+    "Sick": 1,
+    "Dead": 0,
+    "Year": "1842",
+    "Ship": "Barrosa",
+    "departureDate": "1841-08-30",
+    "arrivalDate": "1842-08-13",
+    "lengthOfVoyage": "136"
+  },
+  {
+    "ShipWithYear": "Bengal Merchant1828",
+    "Sick": 149,
+    "Dead": 4,
+    "Year": "1828",
+    "Ship": "Bengal Merchant",
+    "departureDate": "1828-03-25",
+    "arrivalDate": "1828-03-10",
+    "lengthOfVoyage": "138"
+  },
+  {
+    "ShipWithYear": "Blackfriars1851",
+    "Sick": 117,
+    "Dead": 7,
+    "Year": "1851",
+    "Ship": "Blackfriars",
+    "departureDate": "1851-01-30",
+    "arrivalDate": "1851-01-29",
+    "lengthOfVoyage": "119"
+  },
+  {
+    "ShipWithYear": "Blenheim1837",
+    "Sick": 97,
+    "Dead": 7,
+    "Year": "1837",
+    "Ship": "Blenheim",
+    "departureDate": "1837-03-15",
+    "arrivalDate": "1837-03-16",
+    "lengthOfVoyage": "123"
+  },
+  {
+    "ShipWithYear": "Blenheim1849",
+    "Sick": 78,
+    "Dead": 1,
+    "Year": "1849",
+    "Ship": "Blenheim",
+    "departureDate": "1848-09-23",
+    "arrivalDate": "1849-09-02",
+    "lengthOfVoyage": "132"
+  },
+  {
+    "ShipWithYear": "Blenheim1850",
+    "Sick": 356,
+    "Dead": 6,
+    "Year": "1850",
+    "Ship": "Blenheim",
+    "departureDate": "1850-04-13",
+    "arrivalDate": "1850-04-24",
+    "lengthOfVoyage": "102"
+  },
+  {
+    "ShipWithYear": "Blenheim1851",
+    "Sick": 32,
+    "Dead": 2,
+    "Year": "1851",
+    "Ship": "Blenheim",
+    "departureDate": "1851-07-29",
+    "arrivalDate": "1851-07-31",
+    "lengthOfVoyage": "94"
+  },
+  {
+    "ShipWithYear": "Borneo1828",
+    "Sick": 32,
+    "Dead": 12,
+    "Year": "1828",
+    "Ship": "Borneo",
+    "departureDate": "1828-03-17",
+    "arrivalDate": "1828-03-08",
+    "lengthOfVoyage": "205"
+  },
+  {
+    "ShipWithYear": "British Sovereign1841",
+    "Sick": 105,
+    "Dead": 0,
+    "Year": "1841",
+    "Ship": "British Sovereign",
+    "departureDate": "1840-12-16",
+    "arrivalDate": "1841-12-18",
+    "lengthOfVoyage": "92"
+  },
+  {
+    "ShipWithYear": "Brothers1824",
+    "Sick": 16,
+    "Dead": 3,
+    "Year": "1824",
+    "Ship": "Brothers",
+    "departureDate": "1823-10-16",
+    "arrivalDate": "1824-10-15",
+    "lengthOfVoyage": "182"
+  },
+  {
+    "ShipWithYear": "Bussorah Merchant1830",
+    "Sick": 6,
+    "Dead": 4,
+    "Year": "1830",
+    "Ship": "Bussorah Merchant",
+    "departureDate": "1829-10-06",
+    "arrivalDate": "1830-10-18",
+    "lengthOfVoyage": "104"
+  },
+  {
+    "ShipWithYear": "Cadet1844",
+    "Sick": 39,
+    "Dead": 2,
+    "Year": "1844",
+    "Ship": "Cadet",
+    "departureDate": "1844-04-15",
+    "arrivalDate": "1844-04-24",
+    "lengthOfVoyage": "131"
+  },
+  {
+    "ShipWithYear": "Cadet1848",
+    "Sick": 61,
+    "Dead": 1,
+    "Year": "1848",
+    "Ship": "Cadet",
+    "departureDate": "1847-09-09",
+    "arrivalDate": "1848-09-02",
+    "lengthOfVoyage": "115"
+  },
+  {
+    "ShipWithYear": "Cadet1849",
+    "Sick": 113,
+    "Dead": 9,
+    "Year": "1849",
+    "Ship": "Cadet",
+    "departureDate": "1848-10-16",
+    "arrivalDate": "1849-10-12",
+    "lengthOfVoyage": "178"
+  },
+  {
+    "ShipWithYear": "Candahar1842",
+    "Sick": 42,
+    "Dead": 1,
+    "Year": "1842",
+    "Ship": "Candahar",
+    "departureDate": "1842-04-02",
+    "arrivalDate": "1842-04-20",
+    "lengthOfVoyage": "109"
+  },
+  {
+    "ShipWithYear": "Canton1840",
+    "Sick": 134,
+    "Dead": 2,
+    "Year": "1840",
+    "Ship": "Canton",
+    "departureDate": "1839-09-22",
+    "arrivalDate": "1840-09-12",
+    "lengthOfVoyage": "112"
+  },
+  {
+    "ShipWithYear": "Cape Packet1842",
+    "Sick": 3,
+    "Dead": 1,
+    "Year": "1842",
+    "Ship": "Cape Packet",
+    "departureDate": "1842-10-14",
+    "arrivalDate": "1842-10-23",
+    "lengthOfVoyage": "40"
+  },
+  {
+    "ShipWithYear": "Chapman1824",
+    "Sick": 33,
+    "Dead": 0,
+    "Year": "1824",
+    "Ship": "Chapman",
+    "departureDate": "1824-04-06",
+    "arrivalDate": "1824-04-27",
+    "lengthOfVoyage": "112"
+  },
+  {
+    "ShipWithYear": "Chapman1826",
+    "Sick": 229,
+    "Dead": 0,
+    "Year": "1826",
+    "Ship": "Chapman",
+    "departureDate": "1826-04-10",
+    "arrivalDate": "1826-04-07",
+    "lengthOfVoyage": "180"
+  },
+  {
+    "ShipWithYear": "Claudine1821",
+    "Sick": 6,
+    "Dead": 1,
+    "Year": "1821",
+    "Ship": "Claudine",
+    "departureDate": "1821-08-24",
+    "arrivalDate": "1821-08-15",
+    "lengthOfVoyage": "113"
+  },
+  {
+    "ShipWithYear": "Clyde1830",
+    "Sick": 10,
+    "Dead": 1,
+    "Year": "1830",
+    "Ship": "Clyde",
+    "departureDate": "1830-08-30",
+    "arrivalDate": "1830-08-18",
+    "lengthOfVoyage": "110"
+  },
+  {
+    "ShipWithYear": "Constant1843",
+    "Sick": 48,
+    "Dead": 2,
+    "Year": "1843",
+    "Ship": "Constant",
+    "departureDate": "1843-05-09",
+    "arrivalDate": "1843-05-29",
+    "lengthOfVoyage": "112"
+  },
+  {
+    "ShipWithYear": "Cornwall1851",
+    "Sick": 94,
+    "Dead": 3,
+    "Year": "1851",
+    "Ship": "Cornwall",
+    "departureDate": "1851-02-24",
+    "arrivalDate": "1851-02-11",
+    "lengthOfVoyage": "107"
+  },
+  {
+    "ShipWithYear": "Coromandel1838",
+    "Sick": 311,
+    "Dead": 3,
+    "Year": "1838",
+    "Ship": "Coromandel",
+    "departureDate": "1838-06-27",
+    "arrivalDate": "1838-06-26",
+    "lengthOfVoyage": "121"
+  },
+  {
+    "ShipWithYear": "Cressy1843",
+    "Sick": 59,
+    "Dead": 1,
+    "Year": "1843",
+    "Ship": "Cressy",
+    "departureDate": "1843-04-30",
+    "arrivalDate": "1843-04-20",
+    "lengthOfVoyage": "112"
+  },
+  {
+    "ShipWithYear": "David Clarke1841",
+    "Sick": 278,
+    "Dead": 0,
+    "Year": "1841",
+    "Ship": "David Clarke",
+    "departureDate": "1841-06-07",
+    "arrivalDate": "1841-06-04",
+    "lengthOfVoyage": "119"
+  },
+  {
+    "ShipWithYear": "David Lyon1830",
+    "Sick": 32,
+    "Dead": 3,
+    "Year": "1830",
+    "Ship": "David Lyon",
+    "departureDate": "1830-05-02",
+    "arrivalDate": "1830-05-18",
+    "lengthOfVoyage": "108"
+  },
+  {
+    "ShipWithYear": "Duchess of Northumberland1843",
+    "Sick": 141,
+    "Dead": 3,
+    "Year": "1843",
+    "Ship": "Duchess of Northumberland",
+    "departureDate": "1842-10-02",
+    "arrivalDate": "1843-10-18",
+    "lengthOfVoyage": "108"
+  },
+  {
+    "ShipWithYear": "Duchess of Northumberland1853",
+    "Sick": 61,
+    "Dead": 3,
+    "Year": "1853",
+    "Ship": "Duchess of Northumberland",
+    "departureDate": "1852-11-28",
+    "arrivalDate": "1853-11-21",
+    "lengthOfVoyage": "144"
+  },
+  {
+    "ShipWithYear": "Duke of Cornwall1850",
+    "Sick": 70,
+    "Dead": 2,
+    "Year": "1850",
+    "Ship": "Duke of Cornwall",
+    "departureDate": "1850-07-05",
+    "arrivalDate": "1850-07-27",
+    "lengthOfVoyage": "114"
+  },
+  {
+    "ShipWithYear": "Duke of Richmond1844",
+    "Sick": 102,
+    "Dead": 0,
+    "Year": "1844",
+    "Ship": "Duke of Richmond",
+    "departureDate": "1843-09-21",
+    "arrivalDate": "1844-09-02",
+    "lengthOfVoyage": "134"
+  },
+  {
+    "ShipWithYear": "Duncan1841",
+    "Sick": 34,
+    "Dead": 0,
+    "Year": "1841",
+    "Ship": "Duncan",
+    "departureDate": "1840-12-16",
+    "arrivalDate": "1841-12-18",
+    "lengthOfVoyage": "123"
+  },
+  {
+    "ShipWithYear": "Earl Grey1843",
+    "Sick": 112,
+    "Dead": 7,
+    "Year": "1843",
+    "Ship": "Earl Grey",
+    "departureDate": "1842-10-05",
+    "arrivalDate": "1843-10-14",
+    "lengthOfVoyage": "101"
+  },
+  {
+    "ShipWithYear": "Earl Grey1852",
+    "Sick": 167,
+    "Dead": 9,
+    "Year": "1852",
+    "Ship": "Earl Grey",
+    "departureDate": "1849-12-17",
+    "arrivalDate": "1852-12-09",
+    "lengthOfVoyage": "874"
+  },
+  {
+    "ShipWithYear": "Earl St. Vincent1826",
+    "Sick": 61,
+    "Dead": 1,
+    "Year": "1826",
+    "Ship": "Earl St. Vincent",
+    "departureDate": "1826-04-25",
+    "arrivalDate": "1826-04-13",
+    "lengthOfVoyage": "110"
+  },
+  {
+    "ShipWithYear": "East London1843",
+    "Sick": 39,
+    "Dead": 28,
+    "Year": "1843",
+    "Ship": "East London",
+    "departureDate": "1843-04-13",
+    "arrivalDate": "1843-04-21",
+    "lengthOfVoyage": "161"
+  },
+  {
+    "ShipWithYear": "Eden1836",
+    "Sick": 11,
+    "Dead": 3,
+    "Year": "1836",
+    "Ship": "Eden",
+    "departureDate": "1836-08-31",
+    "arrivalDate": "1836-08-22",
+    "lengthOfVoyage": "113"
+  },
+  {
+    "ShipWithYear": "Eden1842",
+    "Sick": 80,
+    "Dead": 5,
+    "Year": "1842",
+    "Ship": "Eden",
+    "departureDate": "1842-03-22",
+    "arrivalDate": "1842-03-05",
+    "lengthOfVoyage": "105"
+  },
+  {
+    "ShipWithYear": "Edward1834",
+    "Sick": 7,
+    "Dead": 0,
+    "Year": "1834",
+    "Ship": "Edward",
+    "departureDate": "1834-03-07",
+    "arrivalDate": "1834-03-04",
+    "lengthOfVoyage": "181"
+  },
+  {
+    "ShipWithYear": "Egyptian1839",
+    "Sick": 123,
+    "Dead": 1,
+    "Year": "1839",
+    "Ship": "Egyptian",
+    "departureDate": "1839-04-09",
+    "arrivalDate": "1839-04-23",
+    "lengthOfVoyage": "136"
+  },
+  {
+    "ShipWithYear": "Eliza1830",
+    "Sick": 33,
+    "Dead": 5,
+    "Year": "1830",
+    "Ship": "Eliza",
+    "departureDate": "1829-09-24",
+    "arrivalDate": "1830-09-24",
+    "lengthOfVoyage": "153"
+  },
+  {
+    "ShipWithYear": "Eliza1850",
+    "Sick": 41,
+    "Dead": 1,
+    "Year": "1850",
+    "Ship": "Eliza",
+    "departureDate": "1849-12-24",
+    "arrivalDate": "1850-12-03",
+    "lengthOfVoyage": "100"
+  },
+  {
+    "ShipWithYear": "Elizabeth and Henry1845",
+    "Sick": 193,
+    "Dead": 0,
+    "Year": "1845",
+    "Ship": "Elizabeth and Henry",
+    "departureDate": "1845-02-15",
+    "arrivalDate": "1845-02-09",
+    "lengthOfVoyage": "114"
+  },
+  {
+    "ShipWithYear": "Elizabeth and Henry1847",
+    "Sick": 27,
+    "Dead": 1,
+    "Year": "1847",
+    "Ship": "Elizabeth and Henry",
+    "departureDate": "1846-09-17",
+    "arrivalDate": "1847-09-04",
+    "lengthOfVoyage": "109"
+  },
+  {
+    "ShipWithYear": "Elizabeth and Henry1848",
+    "Sick": 36,
+    "Dead": 2,
+    "Year": "1848",
+    "Ship": "Elizabeth and Henry",
+    "departureDate": "1848-02-13",
+    "arrivalDate": "1848-02-30",
+    "lengthOfVoyage": "138"
+  },
+  {
+    "ShipWithYear": "Elizabeth1832",
+    "Sick": 4,
+    "Dead": 0,
+    "Year": "1832",
+    "Ship": "Elizabeth",
+    "departureDate": "1831-10-07",
+    "arrivalDate": "1832-10-14",
+    "lengthOfVoyage": "130"
+  },
+  {
+    "ShipWithYear": "Elphinstone1836",
+    "Sick": 171,
+    "Dead": 4,
+    "Year": "1836",
+    "Ship": "Elphinstone",
+    "departureDate": "1836-01-30",
+    "arrivalDate": "1836-01-24",
+    "lengthOfVoyage": "115"
+  },
+  {
+    "ShipWithYear": "Elphinstone1837",
+    "Sick": 105,
+    "Dead": 1,
+    "Year": "1837",
+    "Ship": "Elphinstone",
+    "departureDate": "1837-06-01",
+    "arrivalDate": "1837-06-02",
+    "lengthOfVoyage": "123"
+  },
+  {
+    "ShipWithYear": "Elphinstone1842",
+    "Sick": 47,
+    "Dead": 1,
+    "Year": "1842",
+    "Ship": "Elphinstone",
+    "departureDate": "1842-04-10",
+    "arrivalDate": "1842-04-28",
+    "lengthOfVoyage": "109"
+  },
+  {
+    "ShipWithYear": "Emerald Isle1843",
+    "Sick": 141,
+    "Dead": 3,
+    "Year": "1843",
+    "Ship": "Emerald Isle",
+    "departureDate": "1843-06-30",
+    "arrivalDate": "1843-06-12",
+    "lengthOfVoyage": "104"
+  },
+  {
+    "ShipWithYear": "Emily1842",
+    "Sick": 236,
+    "Dead": 2,
+    "Year": "1842",
+    "Ship": "Emily",
+    "departureDate": "1842-06-28",
+    "arrivalDate": "1842-06-24",
+    "lengthOfVoyage": "149"
+  },
+  {
+    "ShipWithYear": "Emily1844",
+    "Sick": 22,
+    "Dead": 0,
+    "Year": "1844",
+    "Ship": "Emily",
+    "departureDate": "1844-07-14",
+    "arrivalDate": "1844-07-30",
+    "lengthOfVoyage": "108"
+  },
+  {
+    "ShipWithYear": "Emma Eugenia1842",
+    "Sick": 97,
+    "Dead": 4,
+    "Year": "1842",
+    "Ship": "Emma Eugenia",
+    "departureDate": "1841-11-24",
+    "arrivalDate": "1842-11-09",
+    "lengthOfVoyage": "136"
+  },
+  {
+    "ShipWithYear": "Emma Eugenia1844",
+    "Sick": 19,
+    "Dead": 0,
+    "Year": "1844",
+    "Ship": "Emma Eugenia",
+    "departureDate": "1843-11-30",
+    "arrivalDate": "1844-11-02",
+    "lengthOfVoyage": "124"
+  },
+  {
+    "ShipWithYear": "Emma Eugenia1846",
+    "Sick": 23,
+    "Dead": 6,
+    "Year": "1846",
+    "Ship": "Emma Eugenia",
+    "departureDate": "1846-02-10",
+    "arrivalDate": "1846-02-05",
+    "lengthOfVoyage": "115"
+  },
+  {
+    "ShipWithYear": "Emma Eugenia1851",
+    "Sick": 70,
+    "Dead": 5,
+    "Year": "1851",
+    "Ship": "Emma Eugenia",
+    "departureDate": "1850-10-30",
+    "arrivalDate": "1851-10-07",
+    "lengthOfVoyage": "128"
+  },
+  {
+    "ShipWithYear": "Emperor Alexander1833",
+    "Sick": 262,
+    "Dead": 2,
+    "Year": "1833",
+    "Ship": "Emperor Alexander",
+    "departureDate": "1833-04-10",
+    "arrivalDate": "1833-04-12",
+    "lengthOfVoyage": "124"
+  },
+  {
+    "ShipWithYear": "Enchantress1833",
+    "Sick": 6,
+    "Dead": 1,
+    "Year": "1833",
+    "Ship": "Enchantress",
+    "departureDate": "1833-04-13",
+    "arrivalDate": "1833-04-31",
+    "lengthOfVoyage": "109"
+  },
+  {
+    "ShipWithYear": "England1832",
+    "Sick": 6,
+    "Dead": 2,
+    "Year": "1832",
+    "Ship": "England",
+    "departureDate": "1832-04-04",
+    "arrivalDate": "1832-04-18",
+    "lengthOfVoyage": "105"
+  },
+  {
+    "ShipWithYear": "Equestrian1844",
+    "Sick": 48,
+    "Dead": 4,
+    "Year": "1844",
+    "Ship": "Equestrian",
+    "departureDate": "1844-01-20",
+    "arrivalDate": "1844-01-02",
+    "lengthOfVoyage": "103"
+  },
+  {
+    "ShipWithYear": "Equestrian1845",
+    "Sick": 48,
+    "Dead": 1,
+    "Year": "1845",
+    "Ship": "Equestrian",
+    "departureDate": "1845-07-05",
+    "arrivalDate": "1845-07-15",
+    "lengthOfVoyage": "102"
+  },
+  {
+    "ShipWithYear": "Equestrian1852",
+    "Sick": 159,
+    "Dead": 6,
+    "Year": "1852",
+    "Ship": "Equestrian",
+    "departureDate": "1852-09-01",
+    "arrivalDate": "1852-09-16",
+    "lengthOfVoyage": "106"
+  },
+  {
+    "ShipWithYear": "Fairlie1852",
+    "Sick": 95,
+    "Dead": 2,
+    "Year": "1852",
+    "Ship": "Fairlie",
+    "departureDate": "1852-03-11",
+    "arrivalDate": "1852-03-03",
+    "lengthOfVoyage": "114"
+  },
+  {
+    "ShipWithYear": "Forfarshire1843",
+    "Sick": 78,
+    "Dead": 2,
+    "Year": "1843",
+    "Ship": "Forfarshire",
+    "departureDate": "1843-06-27",
+    "arrivalDate": "1843-06-12",
+    "lengthOfVoyage": "107"
+  },
+  {
+    "ShipWithYear": "Frances Charlotte1833",
+    "Sick": 28,
+    "Dead": 9,
+    "Year": "1833",
+    "Ship": "Frances Charlotte",
+    "departureDate": "1832-09-15",
+    "arrivalDate": "1833-09-10",
+    "lengthOfVoyage": "117"
+  },
+  {
+    "ShipWithYear": "Garland Grove1841",
+    "Sick": 47,
+    "Dead": 1,
+    "Year": "1841",
+    "Ship": "Garland Grove",
+    "departureDate": "1841-06-23",
+    "arrivalDate": "1841-06-10",
+    "lengthOfVoyage": "109"
+  },
+  {
+    "ShipWithYear": "Garland Grove1843",
+    "Sick": 21,
+    "Dead": 8,
+    "Year": "1843",
+    "Ship": "Garland Grove",
+    "departureDate": "1842-10-02",
+    "arrivalDate": "1843-10-20",
+    "lengthOfVoyage": "110"
+  },
+  {
+    "ShipWithYear": "Georgiana1829",
+    "Sick": 57,
+    "Dead": 4,
+    "Year": "1829",
+    "Ship": "Georgiana",
+    "departureDate": "1828-12-15",
+    "arrivalDate": "1829-12-20",
+    "lengthOfVoyage": "126"
+  },
+  {
+    "ShipWithYear": "Georgiana1833",
+    "Sick": 41,
+    "Dead": 2,
+    "Year": "1833",
+    "Ship": "Georgiana",
+    "departureDate": "1832-09-08",
+    "arrivalDate": "1833-09-01",
+    "lengthOfVoyage": "146"
+  },
+  {
+    "ShipWithYear": "Gilbert Henderson1840",
+    "Sick": 201,
+    "Dead": 2,
+    "Year": "1840",
+    "Ship": "Gilbert Henderson",
+    "departureDate": "1839-12-14",
+    "arrivalDate": "1840-12-24",
+    "lengthOfVoyage": "132"
+  },
+  {
+    "ShipWithYear": "Gilmore1832",
+    "Sick": 36,
+    "Dead": 1,
+    "Year": "1832",
+    "Ship": "Gilmore",
+    "departureDate": "1831-10-08",
+    "arrivalDate": "1832-10-22",
+    "lengthOfVoyage": "166"
+  },
+  {
+    "ShipWithYear": "Gilmore1839",
+    "Sick": 181,
+    "Dead": 1,
+    "Year": "1839",
+    "Ship": "Gilmore",
+    "departureDate": "1838-09-12",
+    "arrivalDate": "1839-09-24",
+    "lengthOfVoyage": "134"
+  },
+  {
+    "ShipWithYear": "Gilmore1843",
+    "Sick": 122,
+    "Dead": 3,
+    "Year": "1843",
+    "Ship": "Gilmore",
+    "departureDate": "1843-03-12",
+    "arrivalDate": "1843-03-19",
+    "lengthOfVoyage": "160"
+  },
+  {
+    "ShipWithYear": "Governor Ready1827",
+    "Sick": 5,
+    "Dead": 0,
+    "Year": "1827",
+    "Ship": "Governor Ready",
+    "departureDate": "1827-03-06",
+    "arrivalDate": "1827-03-30",
+    "lengthOfVoyage": "269"
+  },
+  {
+    "ShipWithYear": "Greenlaw1844",
+    "Sick": 172,
+    "Dead": 9,
+    "Year": "1844",
+    "Ship": "Greenlaw",
+    "departureDate": "1844-02-05",
+    "arrivalDate": "1844-02-02",
+    "lengthOfVoyage": "148"
+  },
+  {
+    "ShipWithYear": "Grenada1827",
+    "Sick": 93,
+    "Dead": 8,
+    "Year": "1827",
+    "Ship": "Grenada",
+    "departureDate": "1826-09-10",
+    "arrivalDate": "1827-09-20",
+    "lengthOfVoyage": "436"
+  },
+  {
+    "ShipWithYear": "Guildford1820",
+    "Sick": 7,
+    "Dead": 1,
+    "Year": "1820",
+    "Ship": "Guildford",
+    "departureDate": "1820-05-14",
+    "arrivalDate": "1820-05-28",
+    "lengthOfVoyage": "167"
+  },
+  {
+    "ShipWithYear": "Harmony1829",
+    "Sick": 48,
+    "Dead": 0,
+    "Year": "1829",
+    "Ship": "Harmony",
+    "departureDate": "1828-09-12",
+    "arrivalDate": "1829-09-14",
+    "lengthOfVoyage": "124"
+  },
+  {
+    "ShipWithYear": "Hector1835",
+    "Sick": 9,
+    "Dead": 0,
+    "Year": "1835",
+    "Ship": "Hector",
+    "departureDate": "1835-06-13",
+    "arrivalDate": "1835-06-20",
+    "lengthOfVoyage": "129"
+  },
+  {
+    "ShipWithYear": "Henrietta1843",
+    "Sick": 74,
+    "Dead": 0,
+    "Year": "1843",
+    "Ship": "Henrietta",
+    "departureDate": "1843-07-13",
+    "arrivalDate": "1843-07-19",
+    "lengthOfVoyage": "129"
+  },
+  {
+    "ShipWithYear": "Henry Porcher1836",
+    "Sick": 116,
+    "Dead": 2,
+    "Year": "1836",
+    "Ship": "Henry Porcher",
+    "departureDate": "1836-08-04",
+    "arrivalDate": "1836-08-15",
+    "lengthOfVoyage": "103"
+  },
+  {
+    "ShipWithYear": "Henry1825",
+    "Sick": 21,
+    "Dead": 1,
+    "Year": "1825",
+    "Ship": "Henry",
+    "departureDate": "1824-10-12",
+    "arrivalDate": "1825-10-08",
+    "lengthOfVoyage": "119"
+  },
+  {
+    "ShipWithYear": "Hibernia1819",
+    "Sick": 5,
+    "Dead": 3,
+    "Year": "1819",
+    "Ship": "Hibernia",
+    "departureDate": "1818-11-20",
+    "arrivalDate": "1819-11-11",
+    "lengthOfVoyage": "172"
+  },
+  {
+    "ShipWithYear": "Hindostan1841",
+    "Sick": 182,
+    "Dead": 0,
+    "Year": "1841",
+    "Ship": "Hindostan",
+    "departureDate": "1840-10-07",
+    "arrivalDate": "1841-10-19",
+    "lengthOfVoyage": "104"
+  },
+  {
+    "ShipWithYear": "Hope1842",
+    "Sick": 72,
+    "Dead": 4,
+    "Year": "1842",
+    "Ship": "Hope",
+    "departureDate": "1842-04-10",
+    "arrivalDate": "1842-04-17",
+    "lengthOfVoyage": "129"
+  },
+  {
+    "ShipWithYear": "Hyderabad1849",
+    "Sick": 219,
+    "Dead": 3,
+    "Year": "1849",
+    "Ship": "Hyderabad",
+    "departureDate": "1849-05-23",
+    "arrivalDate": "1849-05-26",
+    "lengthOfVoyage": "95"
+  },
+  {
+    "ShipWithYear": "Hyderabad1850",
+    "Sick": 70,
+    "Dead": 1,
+    "Year": "1850",
+    "Ship": "Hyderabad",
+    "departureDate": "1850-09-13",
+    "arrivalDate": "1850-09-13",
+    "lengthOfVoyage": "91"
+  },
+  {
+    "ShipWithYear": "Hydery1832",
+    "Sick": 119,
+    "Dead": 6,
+    "Year": "1832",
+    "Ship": "Hydery",
+    "departureDate": "1832-03-03",
+    "arrivalDate": "1832-03-10",
+    "lengthOfVoyage": "160"
+  },
+  {
+    "ShipWithYear": "Isabella Watson1842",
+    "Sick": 84,
+    "Dead": 2,
+    "Year": "1842",
+    "Ship": "Isabella Watson",
+    "departureDate": "1842-05-01",
+    "arrivalDate": "1842-05-03",
+    "lengthOfVoyage": "94"
+  },
+  {
+    "ShipWithYear": "Isabella1833",
+    "Sick": 24,
+    "Dead": 11,
+    "Year": "1833",
+    "Ship": "Isabella",
+    "departureDate": "1833-07-28",
+    "arrivalDate": "1833-07-14",
+    "lengthOfVoyage": "109"
+  },
+  {
+    "ShipWithYear": "Isabella1842",
+    "Sick": 203,
+    "Dead": 0,
+    "Year": "1842",
+    "Ship": "Isabella",
+    "departureDate": "1841-12-28",
+    "arrivalDate": "1842-12-19",
+    "lengthOfVoyage": "142"
+  },
+  {
+    "ShipWithYear": "John Barry1834",
+    "Sick": 19,
+    "Dead": 2,
+    "Year": "1834",
+    "Ship": "John Barry",
+    "departureDate": "1834-04-04",
+    "arrivalDate": "1834-04-11",
+    "lengthOfVoyage": "129"
+  },
+  {
+    "ShipWithYear": "John Brewer1842",
+    "Sick": 84,
+    "Dead": 1,
+    "Year": "1842",
+    "Ship": "John Brewer",
+    "departureDate": "1841-12-05",
+    "arrivalDate": "1842-12-06",
+    "lengthOfVoyage": "122"
+  },
+  {
+    "ShipWithYear": "John Calvin1848",
+    "Sick": 93,
+    "Dead": 5,
+    "Year": "1848",
+    "Ship": "John Calvin",
+    "departureDate": "1848-01-24",
+    "arrivalDate": "1848-01-18",
+    "lengthOfVoyage": "115"
+  },
+  {
+    "ShipWithYear": "John Renwick1843",
+    "Sick": 72,
+    "Dead": 0,
+    "Year": "1843",
+    "Ship": "John Renwick",
+    "departureDate": "1842-12-07",
+    "arrivalDate": "1843-12-10",
+    "lengthOfVoyage": "124"
+  },
+  {
+    "ShipWithYear": "John William Dare1852",
+    "Sick": 99,
+    "Dead": 6,
+    "Year": "1852",
+    "Ship": "John William Dare",
+    "departureDate": "1851-12-28",
+    "arrivalDate": "1852-12-22",
+    "lengthOfVoyage": "146"
+  },
+  {
+    "ShipWithYear": "John1831",
+    "Sick": 12,
+    "Dead": 0,
+    "Year": "1831",
+    "Ship": "John",
+    "departureDate": "1830-10-14",
+    "arrivalDate": "1831-10-28",
+    "lengthOfVoyage": "106"
+  },
+  {
+    "ShipWithYear": "John1833",
+    "Sick": 51,
+    "Dead": 4,
+    "Year": "1833",
+    "Ship": "John",
+    "departureDate": "1833-08-06",
+    "arrivalDate": "1833-08-01",
+    "lengthOfVoyage": "117"
+  },
+  {
+    "ShipWithYear": "Joseph Somes1846",
+    "Sick": 235,
+    "Dead": 10,
+    "Year": "1846",
+    "Ship": "Joseph Somes",
+    "departureDate": "1845-12-22",
+    "arrivalDate": "1846-12-19",
+    "lengthOfVoyage": "148"
+  },
+  {
+    "ShipWithYear": "Jupiter1833",
+    "Sick": 19,
+    "Dead": 3,
+    "Year": "1833",
+    "Ship": "Jupiter",
+    "departureDate": "1833-01-07",
+    "arrivalDate": "1833-01-28",
+    "lengthOfVoyage": "141"
+  },
+  {
+    "ShipWithYear": "Katherine Stewt. Forbes1832",
+    "Sick": 144,
+    "Dead": 12,
+    "Year": "1832",
+    "Ship": "Katherine Stewt. Forbes",
+    "departureDate": "1832-02-27",
+    "arrivalDate": "1832-02-16",
+    "lengthOfVoyage": "140"
+  },
+  {
+    "ShipWithYear": "Kinnear (1)1842",
+    "Sick": 6,
+    "Dead": 2,
+    "Year": "1842",
+    "Ship": "Kinnear (1)",
+    "departureDate": "1842-07-10",
+    "arrivalDate": "1842-07-23",
+    "lengthOfVoyage": "105"
+  },
+  {
+    "ShipWithYear": "Kinnear (2)1848",
+    "Sick": 62,
+    "Dead": 5,
+    "Year": "1848",
+    "Ship": "Kinnear (2)",
+    "departureDate": "1848-05-02",
+    "arrivalDate": "1848-05-07",
+    "lengthOfVoyage": "158"
+  },
+  {
+    "ShipWithYear": "Lady East1825",
+    "Sick": 17,
+    "Dead": 4,
+    "Year": "1825",
+    "Ship": "Lady East",
+    "departureDate": "1824-12-16",
+    "arrivalDate": "1825-12-09",
+    "lengthOfVoyage": "114"
+  },
+  {
+    "ShipWithYear": "Lady Harewood1829",
+    "Sick": 7,
+    "Dead": 1,
+    "Year": "1829",
+    "Ship": "Lady Harewood",
+    "departureDate": "1829-03-26",
+    "arrivalDate": "1829-03-28",
+    "lengthOfVoyage": "124"
+  },
+  {
+    "ShipWithYear": "Lady Kennaway1851",
+    "Sick": 142,
+    "Dead": 5,
+    "Year": "1851",
+    "Ship": "Lady Kennaway",
+    "departureDate": "1851-02-05",
+    "arrivalDate": "1851-02-28",
+    "lengthOfVoyage": "112"
+  },
+  {
+    "ShipWithYear": "Lady Montagu1852",
+    "Sick": 41,
+    "Dead": 9,
+    "Year": "1852",
+    "Ship": "Lady Montagu",
+    "departureDate": "1852-08-09",
+    "arrivalDate": "1852-08-09",
+    "lengthOfVoyage": "122"
+  },
+  {
+    "ShipWithYear": "Lady Nugent1836",
+    "Sick": 134,
+    "Dead": 1,
+    "Year": "1836",
+    "Ship": "Lady Nugent",
+    "departureDate": "1836-07-14",
+    "arrivalDate": "1836-07-12",
+    "lengthOfVoyage": "121"
+  },
+  {
+    "ShipWithYear": "Lady of the Lake 1829",
+    "Sick": 9,
+    "Dead": 0,
+    "Year": "1829",
+    "Ship": "Lady of the Lake ",
+    "departureDate": "1829-05-02",
+    "arrivalDate": "1829-05-01",
+    "lengthOfVoyage": "183"
+  },
+  {
+    "ShipWithYear": "Lady Raffles1841",
+    "Sick": 24,
+    "Dead": 3,
+    "Year": "1841",
+    "Ship": "Lady Raffles",
+    "departureDate": "1840-12-02",
+    "arrivalDate": "1841-12-17",
+    "lengthOfVoyage": "105"
+  },
+  {
+    "ShipWithYear": "Lady Ridley1821",
+    "Sick": 12,
+    "Dead": 2,
+    "Year": "1821",
+    "Ship": "Lady Ridley",
+    "departureDate": "1821-01-14",
+    "arrivalDate": "1821-01-27",
+    "lengthOfVoyage": "164"
+  },
+  {
+    "ShipWithYear": "Larkins1831",
+    "Sick": 12,
+    "Dead": 0,
+    "Year": "1831",
+    "Ship": "Larkins",
+    "departureDate": "1831-06-18",
+    "arrivalDate": "1831-06-19",
+    "lengthOfVoyage": "123"
+  },
+  {
+    "ShipWithYear": "Layton (2)1835",
+    "Sick": 61,
+    "Dead": 2,
+    "Year": "1835",
+    "Ship": "Layton (2)",
+    "departureDate": "1835-08-29",
+    "arrivalDate": "1835-08-10",
+    "lengthOfVoyage": "103"
+  },
+  {
+    "ShipWithYear": "Layton (3)1839",
+    "Sick": 94,
+    "Dead": 4,
+    "Year": "1839",
+    "Ship": "Layton (3)",
+    "departureDate": "1839-07-13",
+    "arrivalDate": "1839-07-07",
+    "lengthOfVoyage": "147"
+  },
+  {
+    "ShipWithYear": "Layton (4)1841",
+    "Sick": 95,
+    "Dead": 5,
+    "Year": "1841",
+    "Ship": "Layton (4)",
+    "departureDate": "1841-04-09",
+    "arrivalDate": "1841-04-01",
+    "lengthOfVoyage": "145"
+  },
+  {
+    "ShipWithYear": "Lloyds1845",
+    "Sick": 36,
+    "Dead": 0,
+    "Year": "1845",
+    "Ship": "Lloyds",
+    "departureDate": "1845-07-19",
+    "arrivalDate": "1845-07-07",
+    "lengthOfVoyage": "111"
+  },
+  {
+    "ShipWithYear": "London (1)1844",
+    "Sick": 99,
+    "Dead": 0,
+    "Year": "1844",
+    "Ship": "London (1)",
+    "departureDate": "1844-03-01",
+    "arrivalDate": "1844-03-09",
+    "lengthOfVoyage": "130"
+  },
+  {
+    "ShipWithYear": "London1851",
+    "Sick": 38,
+    "Dead": 5,
+    "Year": "1851",
+    "Ship": "London",
+    "departureDate": "1850-12-20",
+    "arrivalDate": "1851-12-19",
+    "lengthOfVoyage": "89"
+  },
+  {
+    "ShipWithYear": "Lord Auckland (1)1844",
+    "Sick": 81,
+    "Dead": 2,
+    "Year": "1844",
+    "Ship": "Lord Auckland (1)",
+    "departureDate": "1844-06-21",
+    "arrivalDate": "1844-06-15",
+    "lengthOfVoyage": "147"
+  },
+  {
+    "ShipWithYear": "Lord Auckland (2)1846",
+    "Sick": 90,
+    "Dead": 4,
+    "Year": "1846",
+    "Ship": "Lord Auckland (2)",
+    "departureDate": "1846-03-20",
+    "arrivalDate": "1846-03-22",
+    "lengthOfVoyage": "155"
+  },
+  {
+    "ShipWithYear": "Lord Auckland1849",
+    "Sick": 75,
+    "Dead": 3,
+    "Year": "1849",
+    "Ship": "Lord Auckland",
+    "departureDate": "1848-10-11",
+    "arrivalDate": "1849-10-20",
+    "lengthOfVoyage": "101"
+  },
+  {
+    "ShipWithYear": "Lord Auckland1853",
+    "Sick": 173,
+    "Dead": 3,
+    "Year": "1853",
+    "Ship": "Lord Auckland",
+    "departureDate": "1852-09-29",
+    "arrivalDate": "1853-09-29",
+    "lengthOfVoyage": "122"
+  },
+  {
+    "ShipWithYear": "Lord Dalhousie1852",
+    "Sick": 215,
+    "Dead": 5,
+    "Year": "1852",
+    "Ship": "Lord Dalhousie",
+    "departureDate": "1852-04-30",
+    "arrivalDate": "1852-04-14",
+    "lengthOfVoyage": "106"
+  },
+  {
+    "ShipWithYear": "Lord Goderich1841",
+    "Sick": 54,
+    "Dead": 0,
+    "Year": "1841",
+    "Ship": "Lord Goderich",
+    "departureDate": "1841-06-10",
+    "arrivalDate": "1841-06-18",
+    "lengthOfVoyage": "161"
+  },
+  {
+    "ShipWithYear": "Lord Lyndoch (2)1836",
+    "Sick": 137,
+    "Dead": 5,
+    "Year": "1836",
+    "Ship": "Lord Lyndoch (2)",
+    "departureDate": "1836-03-25",
+    "arrivalDate": "1836-03-20",
+    "lengthOfVoyage": "148"
+  },
+  {
+    "ShipWithYear": "Lord Lyndoch (3)1841",
+    "Sick": 88,
+    "Dead": 6,
+    "Year": "1841",
+    "Ship": "Lord Lyndoch (3)",
+    "departureDate": "1840-08-25",
+    "arrivalDate": "1841-08-05",
+    "lengthOfVoyage": "164"
+  },
+  {
+    "ShipWithYear": "Lord Lyndoch1831",
+    "Sick": 7,
+    "Dead": 0,
+    "Year": "1831",
+    "Ship": "Lord Lyndoch",
+    "departureDate": "1831-07-25",
+    "arrivalDate": "1831-07-18",
+    "lengthOfVoyage": "116"
+  },
+  {
+    "ShipWithYear": "Lord Petre1843",
+    "Sick": 88,
+    "Dead": 2,
+    "Year": "1843",
+    "Ship": "Lord Petre",
+    "departureDate": "1843-07-07",
+    "arrivalDate": "1843-07-15",
+    "lengthOfVoyage": "100"
+  },
+  {
+    "ShipWithYear": "Lord William Bentinck1832",
+    "Sick": 169,
+    "Dead": 4,
+    "Year": "1832",
+    "Ship": "Lord William Bentinck",
+    "departureDate": "1832-04-03",
+    "arrivalDate": "1832-04-28",
+    "lengthOfVoyage": "147"
+  },
+  {
+    "ShipWithYear": "Lord William Bentinck1838",
+    "Sick": 152,
+    "Dead": 3,
+    "Year": "1838",
+    "Ship": "Lord William Bentinck",
+    "departureDate": "1838-04-14",
+    "arrivalDate": "1838-04-26",
+    "lengthOfVoyage": "134"
+  },
+  {
+    "ShipWithYear": "Lotus1833",
+    "Sick": 82,
+    "Dead": 1,
+    "Year": "1833",
+    "Ship": "Lotus",
+    "departureDate": "1832-11-05",
+    "arrivalDate": "1833-11-16",
+    "lengthOfVoyage": "192"
+  },
+  {
+    "ShipWithYear": "Maitland1846",
+    "Sick": 357,
+    "Dead": 3,
+    "Year": "1846",
+    "Ship": "Maitland",
+    "departureDate": "1846-06-29",
+    "arrivalDate": "1846-06-27",
+    "lengthOfVoyage": "120"
+  },
+  {
+    "ShipWithYear": "Majestic1839",
+    "Sick": 52,
+    "Dead": 1,
+    "Year": "1839",
+    "Ship": "Majestic",
+    "departureDate": "1838-09-19",
+    "arrivalDate": "1839-09-22",
+    "lengthOfVoyage": "125"
+  },
+  {
+    "ShipWithYear": "Malabar1821",
+    "Sick": 75,
+    "Dead": 0,
+    "Year": "1821",
+    "Ship": "Malabar",
+    "departureDate": "1821-06-01",
+    "arrivalDate": "1821-06-21",
+    "lengthOfVoyage": "142"
+  },
+  {
+    "ShipWithYear": "Mandarin1840",
+    "Sick": 97,
+    "Dead": 2,
+    "Year": "1840",
+    "Ship": "Mandarin",
+    "departureDate": "1840-02-25",
+    "arrivalDate": "1840-02-30",
+    "lengthOfVoyage": "126"
+  },
+  {
+    "ShipWithYear": "Mangles1835",
+    "Sick": 107,
+    "Dead": 1,
+    "Year": "1835",
+    "Ship": "Mangles",
+    "departureDate": "1835-04-21",
+    "arrivalDate": "1835-04-01",
+    "lengthOfVoyage": "102"
+  },
+  {
+    "ShipWithYear": "Manlius1828",
+    "Sick": 17,
+    "Dead": 1,
+    "Year": "1828",
+    "Ship": "Manlius",
+    "departureDate": "1828-07-20",
+    "arrivalDate": "1828-07-09",
+    "lengthOfVoyage": "112"
+  },
+  {
+    "ShipWithYear": "Manlius1830",
+    "Sick": 14,
+    "Dead": 0,
+    "Year": "1830",
+    "Ship": "Manlius",
+    "departureDate": "1830-04-02",
+    "arrivalDate": "1830-04-12",
+    "lengthOfVoyage": "132"
+  },
+  {
+    "ShipWithYear": "Margaret1843",
+    "Sick": 122,
+    "Dead": 5,
+    "Year": "1843",
+    "Ship": "Margaret",
+    "departureDate": "1843-05-14",
+    "arrivalDate": "1843-05-19",
+    "lengthOfVoyage": "66"
+  },
+  {
+    "ShipWithYear": "Maria Somes1850",
+    "Sick": 149,
+    "Dead": 5,
+    "Year": "1850",
+    "Ship": "Maria Somes",
+    "departureDate": "1844-04-01",
+    "arrivalDate": "1850-04-09",
+    "lengthOfVoyage": "2321"
+  },
+  {
+    "ShipWithYear": "Maria1849",
+    "Sick": 89,
+    "Dead": 3,
+    "Year": "1849",
+    "Ship": "Maria",
+    "departureDate": "1849-04-05",
+    "arrivalDate": "1849-04-23",
+    "lengthOfVoyage": "109"
+  },
+  {
+    "ShipWithYear": "Marion1844",
+    "Sick": 55,
+    "Dead": 0,
+    "Year": "1844",
+    "Ship": "Marion",
+    "departureDate": "1843-11-09",
+    "arrivalDate": "1844-11-03",
+    "lengthOfVoyage": "146"
+  },
+  {
+    "ShipWithYear": "Marion1845",
+    "Sick": 51,
+    "Dead": 3,
+    "Year": "1845",
+    "Ship": "Marion",
+    "departureDate": "1845-05-18",
+    "arrivalDate": "1845-05-16",
+    "lengthOfVoyage": "121"
+  },
+  {
+    "ShipWithYear": "Marion1848",
+    "Sick": 103,
+    "Dead": 2,
+    "Year": "1848",
+    "Ship": "Marion",
+    "departureDate": "1847-09-01",
+    "arrivalDate": "1848-09-09",
+    "lengthOfVoyage": "130"
+  },
+  {
+    "ShipWithYear": "Marmion1828",
+    "Sick": 42,
+    "Dead": 3,
+    "Year": "1828",
+    "Ship": "Marmion",
+    "departureDate": "1827-11-07",
+    "arrivalDate": "1828-11-29",
+    "lengthOfVoyage": "265"
+  },
+  {
+    "ShipWithYear": "Marquis of Hastings1839",
+    "Sick": 219,
+    "Dead": 4,
+    "Year": "1839",
+    "Ship": "Marquis of Hastings",
+    "departureDate": "1839-03-17",
+    "arrivalDate": "1839-03-23",
+    "lengthOfVoyage": "128"
+  },
+  {
+    "ShipWithYear": "Marquis of Hastings1842",
+    "Sick": 118,
+    "Dead": 2,
+    "Year": "1842",
+    "Ship": "Marquis of Hastings",
+    "departureDate": "1842-07-18",
+    "arrivalDate": "1842-07-07",
+    "lengthOfVoyage": "112"
+  },
+  {
+    "ShipWithYear": "Martin Luther1852",
+    "Sick": 32,
+    "Dead": 0,
+    "Year": "1852",
+    "Ship": "Martin Luther",
+    "departureDate": "1852-06-08",
+    "arrivalDate": "1852-06-01",
+    "lengthOfVoyage": "85"
+  },
+  {
+    "ShipWithYear": "Mary Ann1822",
+    "Sick": 142,
+    "Dead": 1,
+    "Year": "1822",
+    "Ship": "Mary Ann",
+    "departureDate": "1821-12-25",
+    "arrivalDate": "1822-12-02",
+    "lengthOfVoyage": "128"
+  },
+  {
+    "ShipWithYear": "Mary Ann1841",
+    "Sick": 41,
+    "Dead": 2,
+    "Year": "1841",
+    "Ship": "Mary Ann",
+    "departureDate": "1840-11-27",
+    "arrivalDate": "1841-11-19",
+    "lengthOfVoyage": "112"
+  },
+  {
+    "ShipWithYear": "Mary1823",
+    "Sick": 21,
+    "Dead": 6,
+    "Year": "1823",
+    "Ship": "Mary",
+    "departureDate": "1823-06-10",
+    "arrivalDate": "1823-06-05",
+    "lengthOfVoyage": "117"
+  },
+  {
+    "ShipWithYear": "Mary1830",
+    "Sick": 5,
+    "Dead": 1,
+    "Year": "1830",
+    "Ship": "Mary",
+    "departureDate": "1829-12-18",
+    "arrivalDate": "1830-12-10",
+    "lengthOfVoyage": "113"
+  },
+  {
+    "ShipWithYear": "Mary1831",
+    "Sick": 61,
+    "Dead": 8,
+    "Year": "1831",
+    "Ship": "Mary",
+    "departureDate": "1831-06-11",
+    "arrivalDate": "1831-06-19",
+    "lengthOfVoyage": "130"
+  },
+  {
+    "ShipWithYear": "Medina1825",
+    "Sick": 7,
+    "Dead": 2,
+    "Year": "1825",
+    "Ship": "Medina",
+    "departureDate": "1825-04-26",
+    "arrivalDate": "1825-04-14",
+    "lengthOfVoyage": "141"
+  },
+  {
+    "ShipWithYear": "Medway1825",
+    "Sick": 27,
+    "Dead": 4,
+    "Year": "1825",
+    "Ship": "Medway",
+    "departureDate": "1825-08-02",
+    "arrivalDate": "1825-08-14",
+    "lengthOfVoyage": "134"
+  },
+  {
+    "ShipWithYear": "Mellish1830",
+    "Sick": 7,
+    "Dead": 3,
+    "Year": "1830",
+    "Ship": "Mellish",
+    "departureDate": "1830-06-06",
+    "arrivalDate": "1830-06-22",
+    "lengthOfVoyage": "108"
+  },
+  {
+    "ShipWithYear": "Mermaid1828",
+    "Sick": 70,
+    "Dead": 0,
+    "Year": "1828",
+    "Ship": "Mermaid",
+    "departureDate": "1828-02-17",
+    "arrivalDate": "1828-02-29",
+    "lengthOfVoyage": "163"
+  },
+  {
+    "ShipWithYear": "Mexborough1841",
+    "Sick": 59,
+    "Dead": 3,
+    "Year": "1841",
+    "Ship": "Mexborough",
+    "departureDate": "1841-08-12",
+    "arrivalDate": "1841-08-26",
+    "lengthOfVoyage": "136"
+  },
+  {
+    "ShipWithYear": "Midas1825",
+    "Sick": 46,
+    "Dead": 5,
+    "Year": "1825",
+    "Ship": "Midas",
+    "departureDate": "1825-07-24",
+    "arrivalDate": "1825-07-23",
+    "lengthOfVoyage": "122"
+  },
+  {
+    "ShipWithYear": "Midlothian1853",
+    "Sick": 93,
+    "Dead": 2,
+    "Year": "1853",
+    "Ship": "Midlothian",
+    "departureDate": "1852-11-17",
+    "arrivalDate": "1853-11-24",
+    "lengthOfVoyage": "99"
+  },
+  {
+    "ShipWithYear": "Minerva1838",
+    "Sick": 32,
+    "Dead": 2,
+    "Year": "1838",
+    "Ship": "Minerva",
+    "departureDate": "1838-05-28",
+    "arrivalDate": "1838-05-28",
+    "lengthOfVoyage": "123"
+  },
+  {
+    "ShipWithYear": "Moffatt1834",
+    "Sick": 6,
+    "Dead": 0,
+    "Year": "1834",
+    "Ship": "Moffatt",
+    "departureDate": "1833-09-25",
+    "arrivalDate": "1834-09-09",
+    "lengthOfVoyage": "226"
+  },
+  {
+    "ShipWithYear": "Moffatt1838",
+    "Sick": 199,
+    "Dead": 4,
+    "Year": "1838",
+    "Ship": "Moffatt",
+    "departureDate": "1837-11-09",
+    "arrivalDate": "1838-11-01",
+    "lengthOfVoyage": "143"
+  },
+  {
+    "ShipWithYear": "Moffatt1842",
+    "Sick": 125,
+    "Dead": 2,
+    "Year": "1842",
+    "Ship": "Moffatt",
+    "departureDate": "1842-08-14",
+    "arrivalDate": "1842-08-28",
+    "lengthOfVoyage": "106"
+  },
+  {
+    "ShipWithYear": "Morley1823",
+    "Sick": 18,
+    "Dead": 2,
+    "Year": "1823",
+    "Ship": "Morley",
+    "departureDate": "1822-09-25",
+    "arrivalDate": "1823-09-11",
+    "lengthOfVoyage": "108"
+  },
+  {
+    "ShipWithYear": "Mount Stuart Elphinstone1845",
+    "Sick": 153,
+    "Dead": 1,
+    "Year": "1845",
+    "Ship": "Mount Stuart Elphinstone",
+    "departureDate": "1845-03-07",
+    "arrivalDate": "1845-03-19",
+    "lengthOfVoyage": "104"
+  },
+  {
+    "ShipWithYear": "Nautilus1838",
+    "Sick": 149,
+    "Dead": 1,
+    "Year": "1838",
+    "Ship": "Nautilus",
+    "departureDate": "1838-04-29",
+    "arrivalDate": "1838-04-29",
+    "lengthOfVoyage": "122"
+  },
+  {
+    "ShipWithYear": "Navarino 1843",
+    "Sick": 81,
+    "Dead": 2,
+    "Year": "1843",
+    "Ship": "Navarino ",
+    "departureDate": "1842-09-22",
+    "arrivalDate": "1843-09-10",
+    "lengthOfVoyage": "110"
+  },
+  {
+    "ShipWithYear": "Navarino1841",
+    "Sick": 117,
+    "Dead": 3,
+    "Year": "1841",
+    "Ship": "Navarino",
+    "departureDate": "1840-10-12",
+    "arrivalDate": "1841-10-17",
+    "lengthOfVoyage": "97"
+  },
+  {
+    "ShipWithYear": "Neptune1838",
+    "Sick": 179,
+    "Dead": 2,
+    "Year": "1838",
+    "Ship": "Neptune",
+    "departureDate": "1837-10-07",
+    "arrivalDate": "1838-10-18",
+    "lengthOfVoyage": "103"
+  },
+  {
+    "ShipWithYear": "New Grove1835",
+    "Sick": 110,
+    "Dead": 0,
+    "Year": "1835",
+    "Ship": "New Grove",
+    "departureDate": "1834-11-25",
+    "arrivalDate": "1835-11-27",
+    "lengthOfVoyage": "122"
+  },
+  {
+    "ShipWithYear": "Nile1850",
+    "Sick": 11,
+    "Dead": 2,
+    "Year": "1850",
+    "Ship": "Nile",
+    "departureDate": "1850-07-05",
+    "arrivalDate": "1850-07-03",
+    "lengthOfVoyage": "90"
+  },
+  {
+    "ShipWithYear": "Norfolk1835",
+    "Sick": 14,
+    "Dead": 2,
+    "Year": "1835",
+    "Ship": "Norfolk",
+    "departureDate": "1835-05-14",
+    "arrivalDate": "1835-05-28",
+    "lengthOfVoyage": "106"
+  },
+  {
+    "ShipWithYear": "North Briton1843",
+    "Sick": 154,
+    "Dead": 1,
+    "Year": "1843",
+    "Ship": "North Briton",
+    "departureDate": "1842-12-20",
+    "arrivalDate": "1843-12-04",
+    "lengthOfVoyage": "105"
+  },
+  {
+    "ShipWithYear": "Orator1843",
+    "Sick": 63,
+    "Dead": 1,
+    "Year": "1843",
+    "Ship": "Orator",
+    "departureDate": "1843-08-12",
+    "arrivalDate": "1843-08-21",
+    "lengthOfVoyage": "101"
+  },
+  {
+    "ShipWithYear": "Oriental Queen1853",
+    "Sick": 12,
+    "Dead": 3,
+    "Year": "1853",
+    "Ship": "Oriental Queen",
+    "departureDate": "1852-11-04",
+    "arrivalDate": "1853-11-19",
+    "lengthOfVoyage": "107"
+  },
+  {
+    "ShipWithYear": "Palmyra1846",
+    "Sick": 159,
+    "Dead": 2,
+    "Year": "1846",
+    "Ship": "Palmyra",
+    "departureDate": "1846-03-08",
+    "arrivalDate": "1846-03-22",
+    "lengthOfVoyage": "167"
+  },
+  {
+    "ShipWithYear": "Persian1827",
+    "Sick": 10,
+    "Dead": 0,
+    "Year": "1827",
+    "Ship": "Persian",
+    "departureDate": "1827-04-14",
+    "arrivalDate": "1827-04-30",
+    "lengthOfVoyage": "230"
+  },
+  {
+    "ShipWithYear": "Persian1828",
+    "Sick": 13,
+    "Dead": 0,
+    "Year": "1828",
+    "Ship": "Persian",
+    "departureDate": "1827-04-14",
+    "arrivalDate": "1828-04-06",
+    "lengthOfVoyage": "327"
+  },
+  {
+    "ShipWithYear": "Persian1830",
+    "Sick": 91,
+    "Dead": 1,
+    "Year": "1830",
+    "Ship": "Persian",
+    "departureDate": "1830-07-04",
+    "arrivalDate": "1830-07-07",
+    "lengthOfVoyage": "126"
+  },
+  {
+    "ShipWithYear": "Pestongee Bomangee1852",
+    "Sick": 218,
+    "Dead": 4,
+    "Year": "1852",
+    "Ship": "Pestongee Bomangee",
+    "departureDate": "1852-04-18",
+    "arrivalDate": "1852-04-31",
+    "lengthOfVoyage": "104"
+  },
+  {
+    "ShipWithYear": "Pestonjee Bomanjee1847",
+    "Sick": 47,
+    "Dead": 5,
+    "Year": "1847",
+    "Ship": "Pestonjee Bomanjee",
+    "departureDate": "1846-10-25",
+    "arrivalDate": "1847-10-17",
+    "lengthOfVoyage": "115"
+  },
+  {
+    "ShipWithYear": "Pestonjee Bomanjee1849",
+    "Sick": 117,
+    "Dead": 0,
+    "Year": "1849",
+    "Ship": "Pestonjee Bomanjee",
+    "departureDate": "1848-09-20",
+    "arrivalDate": "1849-09-02",
+    "lengthOfVoyage": "104"
+  },
+  {
+    "ShipWithYear": "Pestonjee Bomonjee 1845",
+    "Sick": 121,
+    "Dead": 2,
+    "Year": "1845",
+    "Ship": "Pestonjee Bomonjee ",
+    "departureDate": "1845-09-10",
+    "arrivalDate": "1845-09-30",
+    "lengthOfVoyage": "111"
+  },
+  {
+    "ShipWithYear": "Phoebe1845",
+    "Sick": 82,
+    "Dead": 1,
+    "Year": "1845",
+    "Ship": "Phoebe",
+    "departureDate": "1844-09-25",
+    "arrivalDate": "1845-09-02",
+    "lengthOfVoyage": "99"
+  },
+  {
+    "ShipWithYear": "Phoenix1822",
+    "Sick": 77,
+    "Dead": 3,
+    "Year": "1822",
+    "Ship": "Phoenix",
+    "departureDate": "1821-12-20",
+    "arrivalDate": "1822-12-20",
+    "lengthOfVoyage": "151"
+  },
+  {
+    "ShipWithYear": "Phoenix1824",
+    "Sick": 50,
+    "Dead": 2,
+    "Year": "1824",
+    "Ship": "Phoenix",
+    "departureDate": "1824-03-29",
+    "arrivalDate": "1824-03-21",
+    "lengthOfVoyage": "114"
+  },
+  {
+    "ShipWithYear": "Platina1837",
+    "Sick": 147,
+    "Dead": 2,
+    "Year": "1837",
+    "Ship": "Platina",
+    "departureDate": "1837-05-03",
+    "arrivalDate": "1837-05-22",
+    "lengthOfVoyage": "172"
+  },
+  {
+    "ShipWithYear": "Prince of Orange1822",
+    "Sick": 51,
+    "Dead": 4,
+    "Year": "1822",
+    "Ship": "Prince of Orange",
+    "departureDate": "1822-04-01",
+    "arrivalDate": "1822-04-23",
+    "lengthOfVoyage": "113"
+  },
+  {
+    "ShipWithYear": "Prince Regent1830",
+    "Sick": 59,
+    "Dead": 1,
+    "Year": "1830",
+    "Ship": "Prince Regent",
+    "departureDate": "1829-08-21",
+    "arrivalDate": "1830-08-10",
+    "lengthOfVoyage": "142"
+  },
+  {
+    "ShipWithYear": "Prince Regent1842",
+    "Sick": 26,
+    "Dead": 4,
+    "Year": "1842",
+    "Ship": "Prince Regent",
+    "departureDate": "1841-08-07",
+    "arrivalDate": "1842-08-03",
+    "lengthOfVoyage": "149"
+  },
+  {
+    "ShipWithYear": "Princess Charlotte1824",
+    "Sick": 15,
+    "Dead": 0,
+    "Year": "1824",
+    "Ship": "Princess Charlotte",
+    "departureDate": "1824-07-09",
+    "arrivalDate": "1824-07-09",
+    "lengthOfVoyage": "123"
+  },
+  {
+    "ShipWithYear": "Proteus1831",
+    "Sick": 121,
+    "Dead": 0,
+    "Year": "1831",
+    "Ship": "Proteus",
+    "departureDate": "1831-04-14",
+    "arrivalDate": "1831-04-03",
+    "lengthOfVoyage": "111"
+  },
+  {
+    "ShipWithYear": "Providence1826",
+    "Sick": 37,
+    "Dead": 2,
+    "Year": "1826",
+    "Ship": "Providence",
+    "departureDate": "1825-12-24",
+    "arrivalDate": "1826-12-16",
+    "lengthOfVoyage": "143"
+  },
+  {
+    "ShipWithYear": "Pyramus1839",
+    "Sick": 44,
+    "Dead": 0,
+    "Year": "1839",
+    "Ship": "Pyramus",
+    "departureDate": "1838-11-22",
+    "arrivalDate": "1839-11-24",
+    "lengthOfVoyage": "122"
+  },
+  {
+    "ShipWithYear": "Rajah1841",
+    "Sick": 10,
+    "Dead": 1,
+    "Year": "1841",
+    "Ship": "Rajah",
+    "departureDate": "1841-04-05",
+    "arrivalDate": "1841-04-19",
+    "lengthOfVoyage": "105"
+  },
+  {
+    "ShipWithYear": "Ratcliff1845",
+    "Sick": 96,
+    "Dead": 1,
+    "Year": "1845",
+    "Ship": "Ratcliff",
+    "departureDate": "1845-05-19",
+    "arrivalDate": "1845-05-30",
+    "lengthOfVoyage": "103"
+  },
+  {
+    "ShipWithYear": "Ratcliffe (2)1848",
+    "Sick": 55,
+    "Dead": 5,
+    "Year": "1848",
+    "Ship": "Ratcliffe (2)",
+    "departureDate": "1848-07-29",
+    "arrivalDate": "1848-07-12",
+    "lengthOfVoyage": "106"
+  },
+  {
+    "ShipWithYear": "Red Rover1831",
+    "Sick": 27,
+    "Dead": 2,
+    "Year": "1831",
+    "Ship": "Red Rover",
+    "departureDate": "1830-10-24",
+    "arrivalDate": "1831-10-26",
+    "lengthOfVoyage": "153"
+  },
+  {
+    "ShipWithYear": "Richard Webb1842",
+    "Sick": 130,
+    "Dead": 4,
+    "Year": "1842",
+    "Ship": "Richard Webb",
+    "departureDate": "1841-11-15",
+    "arrivalDate": "1842-11-04",
+    "lengthOfVoyage": "109"
+  },
+  {
+    "ShipWithYear": "Richmond1822",
+    "Sick": 15,
+    "Dead": 0,
+    "Year": "1822",
+    "Ship": "Richmond",
+    "departureDate": "1821-11-27",
+    "arrivalDate": "1822-11-30",
+    "lengthOfVoyage": "154"
+  },
+  {
+    "ShipWithYear": "Rodney (3)1853",
+    "Sick": 15,
+    "Dead": 3,
+    "Year": "1853",
+    "Ship": "Rodney (3)",
+    "departureDate": "1852-11-24",
+    "arrivalDate": "1853-11-12",
+    "lengthOfVoyage": "80"
+  },
+  {
+    "ShipWithYear": "Rodney 21851",
+    "Sick": 107,
+    "Dead": 6,
+    "Year": "1851",
+    "Ship": "Rodney 2",
+    "departureDate": "1851-09-24",
+    "arrivalDate": "1851-09-20",
+    "lengthOfVoyage": "87"
+  },
+  {
+    "ShipWithYear": "Rodney1850",
+    "Sick": 59,
+    "Dead": 7,
+    "Year": "1850",
+    "Ship": "Rodney",
+    "departureDate": "1850-08-23",
+    "arrivalDate": "1850-08-28",
+    "lengthOfVoyage": "97"
+  },
+  {
+    "ShipWithYear": "Roslin Castle1828",
+    "Sick": 16,
+    "Dead": 2,
+    "Year": "1828",
+    "Ship": "Roslin Castle",
+    "departureDate": "1828-08-19",
+    "arrivalDate": "1828-08-16",
+    "lengthOfVoyage": "119"
+  },
+  {
+    "ShipWithYear": "Royal Admiral1842",
+    "Sick": 233,
+    "Dead": 7,
+    "Year": "1842",
+    "Ship": "Royal Admiral",
+    "departureDate": "1842-05-05",
+    "arrivalDate": "1842-05-24",
+    "lengthOfVoyage": "142"
+  },
+  {
+    "ShipWithYear": "Royal George1830",
+    "Sick": 11,
+    "Dead": 4,
+    "Year": "1830",
+    "Ship": "Royal George",
+    "departureDate": "1830-06-27",
+    "arrivalDate": "1830-06-18",
+    "lengthOfVoyage": "113"
+  },
+  {
+    "ShipWithYear": "Royal Sovereign1838",
+    "Sick": 183,
+    "Dead": 0,
+    "Year": "1838",
+    "Ship": "Royal Sovereign",
+    "departureDate": "1837-08-31",
+    "arrivalDate": "1838-08-09",
+    "lengthOfVoyage": "131"
+  },
+  {
+    "ShipWithYear": "Runnymede1840",
+    "Sick": 71,
+    "Dead": 0,
+    "Year": "1840",
+    "Ship": "Runnymede",
+    "departureDate": "1839-12-20",
+    "arrivalDate": "1840-12-28",
+    "lengthOfVoyage": "99"
+  },
+  {
+    "ShipWithYear": "Samuel Boddington1846",
+    "Sick": 24,
+    "Dead": 0,
+    "Year": "1846",
+    "Ship": "Samuel Boddington",
+    "departureDate": "1845-09-23",
+    "arrivalDate": "1846-09-18",
+    "lengthOfVoyage": "117"
+  },
+  {
+    "ShipWithYear": "Sarah (2)1837",
+    "Sick": 129,
+    "Dead": 9,
+    "Year": "1837",
+    "Ship": "Sarah (2)",
+    "departureDate": "1836-12-22",
+    "arrivalDate": "1837-12-29",
+    "lengthOfVoyage": "97"
+  },
+  {
+    "ShipWithYear": "Sea Queen1846",
+    "Sick": 91,
+    "Dead": 1,
+    "Year": "1846",
+    "Ship": "Sea Queen",
+    "departureDate": "1846-05-12",
+    "arrivalDate": "1846-05-29",
+    "lengthOfVoyage": "109"
+  },
+  {
+    "ShipWithYear": "Sir Charles Forbes (2)1827",
+    "Sick": 41,
+    "Dead": 7,
+    "Year": "1827",
+    "Ship": "Sir Charles Forbes (2)",
+    "departureDate": "1826-09-16",
+    "arrivalDate": "1827-09-23",
+    "lengthOfVoyage": "160"
+  },
+  {
+    "ShipWithYear": "Sir Charles Forbes1825",
+    "Sick": 97,
+    "Dead": 3,
+    "Year": "1825",
+    "Ship": "Sir Charles Forbes",
+    "departureDate": "1825-01-05",
+    "arrivalDate": "1825-01-18",
+    "lengthOfVoyage": "103"
+  },
+  {
+    "ShipWithYear": "Sir Charles Forbes1830",
+    "Sick": 191,
+    "Dead": 2,
+    "Year": "1830",
+    "Ship": "Sir Charles Forbes",
+    "departureDate": "1830-04-05",
+    "arrivalDate": "1830-04-27",
+    "lengthOfVoyage": "113"
+  },
+  {
+    "ShipWithYear": "Sir George Seymour1845",
+    "Sick": 75,
+    "Dead": 3,
+    "Year": "1845",
+    "Ship": "Sir George Seymour",
+    "departureDate": "1844-11-09",
+    "arrivalDate": "1845-11-27",
+    "lengthOfVoyage": "110"
+  },
+  {
+    "ShipWithYear": "Sir Robert Peel1844",
+    "Sick": 87,
+    "Dead": 2,
+    "Year": "1844",
+    "Ship": "Sir Robert Peel",
+    "departureDate": "1844-09-09",
+    "arrivalDate": "1844-09-26",
+    "lengthOfVoyage": "108"
+  },
+  {
+    "ShipWithYear": "Sir Robert Seppings1852",
+    "Sick": 383,
+    "Dead": 6,
+    "Year": "1852",
+    "Ship": "Sir Robert Seppings",
+    "departureDate": "1852-03-18",
+    "arrivalDate": "1852-03-08",
+    "lengthOfVoyage": "112"
+  },
+  {
+    "ShipWithYear": "Somersetshire1842",
+    "Sick": 180,
+    "Dead": 1,
+    "Year": "1842",
+    "Ship": "Somersetshire",
+    "departureDate": "1841-12-20",
+    "arrivalDate": "1842-12-30",
+    "lengthOfVoyage": "161"
+  },
+  {
+    "ShipWithYear": "Southworth1830",
+    "Sick": 81,
+    "Dead": 1,
+    "Year": "1830",
+    "Ship": "Southworth",
+    "departureDate": "1830-06-26",
+    "arrivalDate": "1830-06-19",
+    "lengthOfVoyage": "115"
+  },
+  {
+    "ShipWithYear": "Southworth1834",
+    "Sick": 99,
+    "Dead": 2,
+    "Year": "1834",
+    "Ship": "Southworth",
+    "departureDate": "1833-09-25",
+    "arrivalDate": "1834-09-14",
+    "lengthOfVoyage": "111"
+  },
+  {
+    "ShipWithYear": "Sovereign1828",
+    "Sick": 42,
+    "Dead": 1,
+    "Year": "1828",
+    "Ship": "Sovereign",
+    "departureDate": "1827-07-14",
+    "arrivalDate": "1828-07-06",
+    "lengthOfVoyage": "236"
+  },
+  {
+    "ShipWithYear": "St. Vincent (3)1853",
+    "Sick": 154,
+    "Dead": 3,
+    "Year": "1853",
+    "Ship": "St. Vincent (3)",
+    "departureDate": "1853-01-17",
+    "arrivalDate": "1853-01-26",
+    "lengthOfVoyage": "129"
+  },
+  {
+    "ShipWithYear": "St. Vincent1850",
+    "Sick": 72,
+    "Dead": 2,
+    "Year": "1850",
+    "Ship": "St. Vincent",
+    "departureDate": "1849-12-19",
+    "arrivalDate": "1850-12-04",
+    "lengthOfVoyage": "106"
+  },
+  {
+    "ShipWithYear": "Stakesby1833",
+    "Sick": 35,
+    "Dead": 0,
+    "Year": "1833",
+    "Ship": "Stakesby",
+    "departureDate": "1833-05-22",
+    "arrivalDate": "1833-05-04",
+    "lengthOfVoyage": "105"
+  },
+  {
+    "ShipWithYear": "Stately1849",
+    "Sick": 43,
+    "Dead": 5,
+    "Year": "1849",
+    "Ship": "Stately",
+    "departureDate": "1849-05-16",
+    "arrivalDate": "1849-05-02",
+    "lengthOfVoyage": "109"
+  },
+  {
+    "ShipWithYear": "Stratheden1845",
+    "Sick": 37,
+    "Dead": 0,
+    "Year": "1845",
+    "Ship": "Stratheden",
+    "departureDate": "1845-08-03",
+    "arrivalDate": "1845-08-25",
+    "lengthOfVoyage": "144"
+  },
+  {
+    "ShipWithYear": "Strathfieldsay1831",
+    "Sick": 143,
+    "Dead": 4,
+    "Year": "1831",
+    "Ship": "Strathfieldsay",
+    "departureDate": "1831-08-02",
+    "arrivalDate": "1831-08-15",
+    "lengthOfVoyage": "105"
+  },
+  {
+    "ShipWithYear": "Surrey1829",
+    "Sick": 44,
+    "Dead": 1,
+    "Year": "1829",
+    "Ship": "Surrey",
+    "departureDate": "1829-08-11",
+    "arrivalDate": "1829-08-14",
+    "lengthOfVoyage": "125"
+  },
+  {
+    "ShipWithYear": "Surry1833",
+    "Sick": 45,
+    "Dead": 10,
+    "Year": "1833",
+    "Ship": "Surry",
+    "departureDate": "1832-12-04",
+    "arrivalDate": "1833-12-07",
+    "lengthOfVoyage": "124"
+  },
+  {
+    "ShipWithYear": "Susan1837",
+    "Sick": 128,
+    "Dead": 6,
+    "Year": "1837",
+    "Ship": "Susan",
+    "departureDate": "1837-08-05",
+    "arrivalDate": "1837-08-21",
+    "lengthOfVoyage": "108"
+  },
+  {
+    "ShipWithYear": "Susan1842",
+    "Sick": 135,
+    "Dead": 2,
+    "Year": "1842",
+    "Ship": "Susan",
+    "departureDate": "1842-04-24",
+    "arrivalDate": "1842-04-25",
+    "lengthOfVoyage": "92"
+  },
+  {
+    "ShipWithYear": "Tasmania1844",
+    "Sick": 34,
+    "Dead": 3,
+    "Year": "1844",
+    "Ship": "Tasmania",
+    "departureDate": "1844-09-08",
+    "arrivalDate": "1844-09-20",
+    "lengthOfVoyage": "103"
+  },
+  {
+    "ShipWithYear": "Tasmania1845",
+    "Sick": 85,
+    "Dead": 2,
+    "Year": "1845",
+    "Ship": "Tasmania",
+    "departureDate": "1845-09-02",
+    "arrivalDate": "1845-09-04",
+    "lengthOfVoyage": "93"
+  },
+  {
+    "ShipWithYear": "Thames1829",
+    "Sick": 9,
+    "Dead": 2,
+    "Year": "1829",
+    "Ship": "Thames",
+    "departureDate": "1829-07-31",
+    "arrivalDate": "1829-07-21",
+    "lengthOfVoyage": "113"
+  },
+  {
+    "ShipWithYear": "Theresa1845",
+    "Sick": 38,
+    "Dead": 0,
+    "Year": "1845",
+    "Ship": "Theresa",
+    "departureDate": "1845-04-01",
+    "arrivalDate": "1845-04-03",
+    "lengthOfVoyage": "93"
+  },
+  {
+    "ShipWithYear": "Tortoise1842",
+    "Sick": 18,
+    "Dead": 3,
+    "Year": "1842",
+    "Ship": "Tortoise",
+    "departureDate": "1841-10-26",
+    "arrivalDate": "1842-10-19",
+    "lengthOfVoyage": "116"
+  },
+  {
+    "ShipWithYear": "Tory1845",
+    "Sick": 86,
+    "Dead": 1,
+    "Year": "1845",
+    "Ship": "Tory",
+    "departureDate": "1845-03-22",
+    "arrivalDate": "1845-03-04",
+    "lengthOfVoyage": "104"
+  },
+  {
+    "ShipWithYear": "Tory1847",
+    "Sick": 67,
+    "Dead": 7,
+    "Year": "1847",
+    "Ship": "Tory",
+    "departureDate": "1846-11-11",
+    "arrivalDate": "1847-11-18",
+    "lengthOfVoyage": "127"
+  },
+  {
+    "ShipWithYear": "Tory1848",
+    "Sick": 50,
+    "Dead": 0,
+    "Year": "1848",
+    "Ship": "Tory",
+    "departureDate": "1848-04-30",
+    "arrivalDate": "1848-04-06",
+    "lengthOfVoyage": "98"
+  },
+  {
+    "ShipWithYear": "Triton1842",
+    "Sick": 31,
+    "Dead": 4,
+    "Year": "1842",
+    "Ship": "Triton",
+    "departureDate": "1842-08-17",
+    "arrivalDate": "1842-08-19",
+    "lengthOfVoyage": "124"
+  },
+  {
+    "ShipWithYear": "Waterloo1835",
+    "Sick": 68,
+    "Dead": 2,
+    "Year": "1835",
+    "Ship": "Waterloo",
+    "departureDate": "1834-11-20",
+    "arrivalDate": "1835-11-03",
+    "lengthOfVoyage": "103"
+  },
+  {
+    "ShipWithYear": "Waverley1841",
+    "Sick": 29,
+    "Dead": 2,
+    "Year": "1841",
+    "Ship": "Waverley",
+    "departureDate": "1841-04-25",
+    "arrivalDate": "1841-04-12",
+    "lengthOfVoyage": "140"
+  },
+  {
+    "ShipWithYear": "Waverley1842",
+    "Sick": 11,
+    "Dead": 1,
+    "Year": "1842",
+    "Ship": "Waverley",
+    "departureDate": "1842-09-04",
+    "arrivalDate": "1842-09-15",
+    "lengthOfVoyage": "102"
+  },
+  {
+    "ShipWithYear": "Waverley1847",
+    "Sick": 44,
+    "Dead": 7,
+    "Year": "1847",
+    "Ship": "Waverley",
+    "departureDate": "1847-07-18",
+    "arrivalDate": "1847-07-25",
+    "lengthOfVoyage": "99"
+  },
+  {
+    "ShipWithYear": "Westmoreland1836",
+    "Sick": 294,
+    "Dead": 1,
+    "Year": "1836",
+    "Ship": "Westmoreland",
+    "departureDate": "1836-08-12",
+    "arrivalDate": "1836-08-03",
+    "lengthOfVoyage": "113"
+  },
+  {
+    "ShipWithYear": "Westmoreland1841",
+    "Sick": 25,
+    "Dead": 2,
+    "Year": "1841",
+    "Ship": "Westmoreland",
+    "departureDate": "1841-05-19",
+    "arrivalDate": "1841-05-12",
+    "lengthOfVoyage": "116"
+  },
+  {
+    "ShipWithYear": "William Bryan1833",
+    "Sick": 84,
+    "Dead": 7,
+    "Year": "1833",
+    "Ship": "William Bryan",
+    "departureDate": "1833-07-04",
+    "arrivalDate": "1833-07-23",
+    "lengthOfVoyage": "111"
+  },
+  {
+    "ShipWithYear": "William Glen Anderson1831",
+    "Sick": 19,
+    "Dead": 0,
+    "Year": "1831",
+    "Ship": "William Glen Anderson",
+    "departureDate": "1831-06-02",
+    "arrivalDate": "1831-06-01",
+    "lengthOfVoyage": "152"
+  },
+  {
+    "ShipWithYear": "William Jardine1844",
+    "Sick": 287,
+    "Dead": 4,
+    "Year": "1844",
+    "Ship": "William Jardine",
+    "departureDate": "1844-08-11",
+    "arrivalDate": "1844-08-20",
+    "lengthOfVoyage": "101"
+  },
+  {
+    "ShipWithYear": "William Metcalf1834",
+    "Sick": 146,
+    "Dead": 2,
+    "Year": "1834",
+    "Ship": "William Metcalf",
+    "departureDate": "1834-05-25",
+    "arrivalDate": "1834-05-04",
+    "lengthOfVoyage": "102"
+  },
+  {
+    "ShipWithYear": "William Miles1828",
+    "Sick": 136,
+    "Dead": 8,
+    "Year": "1828",
+    "Ship": "William Miles",
+    "departureDate": "1828-03-24",
+    "arrivalDate": "1828-03-25",
+    "lengthOfVoyage": "154"
+  },
+  {
+    "ShipWithYear": "Woodbridge1843",
+    "Sick": 194,
+    "Dead": 3,
+    "Year": "1843",
+    "Ship": "Woodbridge",
+    "departureDate": "1843-09-03",
+    "arrivalDate": "1843-09-25",
+    "lengthOfVoyage": "113"
+  },
+  {
+    "ShipWithYear": "Woodford 1827",
+    "Sick": 125,
+    "Dead": 1,
+    "Year": "1827",
+    "Ship": "Woodford ",
+    "departureDate": "1826-08-05",
+    "arrivalDate": "1827-08-03",
+    "lengthOfVoyage": "151"
+  },
+  {
+    "ShipWithYear": "Woodford1828",
+    "Sick": 32,
+    "Dead": 1,
+    "Year": "1828",
+    "Ship": "Woodford",
+    "departureDate": "1828-05-02",
+    "arrivalDate": "1828-05-25",
+    "lengthOfVoyage": "115"
+  },
+  {
+    "ShipWithYear": "Woodman1826",
+    "Sick": 19,
+    "Dead": 1,
+    "Year": "1826",
+    "Ship": "Woodman",
+    "departureDate": "1825-12-06",
+    "arrivalDate": "1826-12-29",
+    "lengthOfVoyage": "144"
+  },
+  {
+    "ShipWithYear": "York1829",
+    "Sick": 218,
+    "Dead": 0,
+    "Year": "1829",
+    "Ship": "York",
+    "departureDate": "1829-05-11",
+    "arrivalDate": "1829-05-28",
+    "lengthOfVoyage": "109"
+  }
+]

@@ -11,11 +11,12 @@
     "url": "https://github.com/nf-s/utas-tas-convict-datavis"
   },
   "author": "nfs",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "axios": "^0.17.1",
     "d3": "^5.5.0",
     "d3-xyzoom": "^1.5.0",
+    "express": "^4.16.4",
     "finalhandler": "^1.1.1",
     "jquery": "^3.3.1",
     "lodash": "^4.17.10",

@@ -1,14 +1,8 @@
-const finalhandler = require('finalhandler');
-const http = require('http');
-const serveStatic = require('serve-static');
+const express = require('express');
 
-// Serve up public/ftp folder
-const serve = serveStatic('public/dist', { index: ['index.html', 'index.htm'] });
+const app = express();
 
-// Create server
-const server = http.createServer((req, res) => {
-  serve(req, res, finalhandler(req, res));
-});
+app.use('/', express.static('public/static', { index: ['index.html', 'index.htm'] }));
+app.use('/dist', express.static('public/dist'));
 
-// Listen
-server.listen(3000);
+app.listen(3000);
