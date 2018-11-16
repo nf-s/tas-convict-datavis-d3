@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Convict Test</title>
+    <script src="../bundle.js"></script>
+    <link rel="stylesheet" href="index.css" type="text/css">
+</head>
+<body>
+
+<div id="overlay">
+    <label for="groupByVoyage">Group By Voyage</label><input type="radio" value="voyage" name="groupBy" id="groupByVoyage" checked="checked"/>
+    <label for="noGrouping">None</label><input type="radio" value="none" name="groupBy"
+                                                       id="noGrouping"/>
+
+    <select id="sortSelect">
+        <option value="Trade">Trade</option>
+        <option value="Disease.1.Code">Disease.1.Code</option>
+        <option value="Disease.2.Code">Disease.2.Code</option>
+        <option value="OnInDays" selected>OnInDays</option>
+        <option value="OnDate">OnDate</option>
+        <option value="OnPercentVoyage">OnPercentVoyage</option>
+        <option value="OffInDays">OffInDays</option>
+        <option value="OffDate">OffDate</option>
+        <option value="OffPercentVoyage">OffPercentVoyage</option>
+        <option value="TotalInDays">TotalInDays</option>
+        <option value="TotalPercentVoyage">TotalPercentVoyage</option>
+        <option value="Gender">Gender</option>
+        <option value="AgeInYears">AgeInYears</option>
+    </select>
+
+    <label for="xAxisDay">Day</label><input type="radio" value="day" name="xAxis" id="xAxisDay" checked="checked"/>
+    <label for="xAxisPercent">Percentage</label><input type="radio" value="percent" name="xAxis"
+                                                       id="xAxisPercent"/>
+    <label for="xAxisDate">Date</label><input type="radio" value="date" name="xAxis"
+                                              id="xAxisDate"/>
+
+    <button id="zoomInBtn">+</button>
+    <button id="zoomOutBtn">-</button>
+
+    <label for="filterNone">Show All</label><input type="radio" value="" name="filter" id="filterNone" checked="checked"/>
+    <label for="filterDeath">Show Deaths</label><input type="radio" value="Died" name="filter"
+                                               id="filterDeath"/>
+
+</div>
+
+<div id="container">
+    <svg id="main" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 3000 2000">
+    </svg>
+</div>
+
+</body>
+
+<script src="index.js"></script>
+</html>

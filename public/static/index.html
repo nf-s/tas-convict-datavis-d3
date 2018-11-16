@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Convict Test</title>
+</head>
+<body>
+    
+    <div id="overlay">
+        <div id="top-controls">
+            <label for="groupSelect"><b>Group By: </b></label>
+            <select id="groupSelect">
+                <option value="" selected>None</option>
+                <option value="Died">Died</option>
+                <option value="Gender">Gender</option>
+                <option value="AgeInYearsInt">Age in years</option>
+                <option value="ShipWithYear">Voyage</option>
+                <option value="Disease.1.Code">Disease</option>
+                <option value="Status.Code">Status</option>
+                
+                <option value="Crime_SentenceCat">C. Sentence</option>
+                <option value="Occupation.code">C. Occupation</option>
+                <option value="NP_Country">C. Native Country</option>
+                <option value="Coutry.of.Departure">Country of Departure</option>
+            </select>
+            
+            &nbsp;&nbsp;&nbsp;
+            
+            
+            <label for="sortSelect"><b>Sort By: </b></label>
+            <select id="sortSelect">
+                <option value="On" selected>Entered</option>
+                <option value="Off">Discharged</option>
+                <option value="Total">Duration</option>
+                <option value="AgeInYears">Age</option>
+                <option value="Height_Total_Inches">Height (inches)</option>
+            </select>
+            
+            <label>
+                Add Jitter
+                <input type="checkbox" id="sortJitter" value="false">
+            </label>
+            
+            &nbsp;&nbsp;&nbsp;
+            
+            
+            <label for="colourSelect"><b>Colour By: </b></label>
+            <select id="colourSelect">
+                <option value="None">None</option>
+                
+                <option value="On">Entered</option>
+                <option value="Off">Discharged</option>
+                <option value="Total">Duration</option>
+                <option value="AgeInYearsInt">Age in years</option>
+                
+                <option value="Died">Died</option>
+                <option value="Gender">Gender</option>
+                <option value="Height_Total_Inches">Height (inches)</option>
+                
+                <option value="Disease.1.Code">Disease</option>
+                <option value="Status.Code">Status</option>
+                
+                <option value="Crime_SentenceCat">C. Sentence</option>
+                <option value="Occupation.code">C. Occupation</option>
+                <option value="NP_Country">C. Native Country</option>
+                <option value="Coutry.of.Departure">Country of Departure</option>
+            </select>
+            
+            
+            <label for="colourSchemeSelect"><b>with: </b></label>
+            <select id="colourSchemeSelect">
+                <option value="interpolateRdYlGn">i-RdYlGn</option>
+                <option value="interpolateSpectral">i-Spectral</option>
+                <option value="interpolateBlues">ii-Blues</option>
+                <option value="interpolateReds" selected>i-Reds</option>
+                <option value="interpolateViridis">i-Viridis</option>
+                <option value="interpolatePlasma">i-Plasma</option>
+                <option value="interpolateWarm">i-Warm</option>
+                <option value="interpolateCool">i-Cool</option>
+                <option value="interpolateBuPu">i-BuPu</option>
+                <option value="interpolateGnBu">i-GnBu</option>
+                <option value="interpolatePuBuGn">i-PuBuGn</option>
+                <option value="interpolateRdPu">i-RdPu</option>
+                <option value="interpolateYlGnBu">i-YlGnBu</option>
+                <option value="interpolateYlOrRd">i-YlOrRd</option>
+                <option value="interpolateRainbow">i-Rainbow</option>
+            </select>
+            
+            <label>
+                Invert
+                <input type="checkbox" id="colourSchemeInvert" value="false">
+            </label>
+            
+            
+            &nbsp;&nbsp;&nbsp;
+            
+            
+            <label for="animateSelect"><b>Animate By: </b></label>
+            <select id="animateSelect">
+                <option value="" selected>Default</option>
+                <option value="Died">Died</option>
+                <option value="Disease.Classification.1">Disease</option>
+                <option value="OnInDays">OnInDays</option>
+                <option value="OnDate">OnDate</option>
+                <option value="OnPercentVoyage">On %</option>
+                <option value="OffInDays">OffInDays</option>
+                <option value="OffDate">OffDate</option>
+                <option value="OffPercentVoyage">Off%</option>
+                <option value="TotalInDays">TotalInDays</option>
+                <option value="TotalPercentVoyage">Total%</option>
+                <option value="Gender">Gender</option>
+                <option value="AgeInYears">Age in years</option>
+            </select>
+            <label>
+                Invert
+                <input type="checkbox" id="animateInvert" value="false">
+            </label>
+            
+            &nbsp;&nbsp;&nbsp;
+            
+            
+            <label for="opacitySlider"><b>Min Opacity: </b></label>
+            <input type="range" min="0" max="100" value="0" class="slider" id="opacitySlider" style="vertical-align: middle;">
+            
+            &nbsp;&nbsp;&nbsp;
+            
+            <b>Filter: </b>
+            <button id="filterShowBtn">show</button>
+            
+        </div>
+        
+        <svg id="overlay-svg" xmlns="http://www.w3.org/2000/svg" version="1.1">
+        </svg>
+        
+        <div id="left-controls"></div>
+        <div id="bottom-controls">
+            <b>X-Axis: </b>
+            <label for="xAxisDay">Day</label><input type="radio" value="InDays" name="xAxis"
+            id="xAxisDay"
+            checked="checked"/>                                
+            <label for="xAxisPercent">Percentage</label><input type="radio" value="PercentVoyage"
+            name="xAxis"
+            id="xAxisPercent"/>
+            <label for="xAxisDate">Date</label><input type="radio" value="Date" name="xAxis"
+            id="xAxisDate"/>
+        </div>
+        
+    </div>
+    
+    <div id="filter-overlay">
+        <div id="filter-overlay-titlebar">
+            <b>Filter by</b>
+            
+            <button id="filterHideBtn" style="float: right;">X</button>
+            <button id="filterClearBtn" style="float: right;">Clear</button>
+        </div>
+    </div>
+    
+    <div id="container">
+        <canvas id="main-canvas"></canvas>
+        <svg id="main-svg" xmlns="http://www.w3.org/2000/svg" version="1.1">
+        </svg>
+    </div>
+    
+    
+</body>
+
+<script src="dist/bundle.js"></script>
+<script src="js/rectangleOverlays.js"></script>
+<script src="js/rectangles.js"></script>
+<script src="js/touchEvts.js"></script>
+
+<script src="js/index.js"></script>
+<script src="js/init.js"></script>
+<link rel="stylesheet" href="style/index.css" type="text/css">
+
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,700" rel="stylesheet">
+
+
+</html>

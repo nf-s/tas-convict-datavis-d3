@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Convict Test</title>
+    <script src="../bundle.js"></script>
+</head>
+<body>
+
+<canvas id="main-canvas" style="position:absolute; top: 0; left: 0;"></canvas>
+
+</body>
+
+<script>
+  // Get our canvas element
+  const canvas = document.getElementById('main-canvas');
+  const width = 3000;
+  const height = 2000;
+
+  // Create a WebGL 2D platform on the canvas:
+  const platform = Stardust.platform('webgl-2d', canvas, width, height);
+
+  const data = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+
+  const circleSpec = Stardust.mark.circle();
+
+  const circles = Stardust.mark.create(circleSpec, platform);
+
+  circles.attr('center', (d) => [d * 30, 1000]);
+  circles.attr('radius', (d) => d * 3);
+  circles.attr('color', [1, 0, 0, 1]);
+
+  circles.data(data);
+
+  // Clear the previously rendered stuff
+  platform.clear([0, 0, 0, 1]);
+
+  circles.render();
+
+</script>
+</html>
