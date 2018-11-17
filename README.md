@@ -1,4 +1,4 @@
-# Health of Convicts during Voyage to Tasmania Visualisation
+# Health of Convicts during Voyages to Tasmania Visualisation
 
 Using D3 and Stardust.js.
 
