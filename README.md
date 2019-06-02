@@ -2,7 +2,11 @@
 
 Using D3 and Stardust.js.
 
-Currently, the data isn't hosted here &mdash; hopefully it can be included in the future.
+[Demo hosted here](https://nf-s.github.io/tas-convict-datavis-d3/public/static/)  
+**Note**: this needs a dedicated GPU to work properly!  
+And please enter full screen (F11) - otherwise some controls are cut off
+
+Also note: here is no loading indicator - so the screen may stay blank for ~20 seconds while the data is loading
 
 Example &mdash; All Voyages by Date:  
 ![All Voyages](https://github.com/nf-s/utas-tas-convict-datavis/blob/master/docs/img/all%20voyages.png?raw=true)
