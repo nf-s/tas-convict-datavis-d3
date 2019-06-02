@@ -1,12 +1,21 @@
 # Health of Convicts during Voyages to Tasmania Visualisation
 
-Using D3 and Stardust.js.
+Using [D3](https://d3js.org/) and [Stardust.js](https://stardustjs.github.io/).
 
-[Demo hosted here](https://nf-s.github.io/tas-convict-datavis-d3/public/static/)  
-**Note**: this needs a dedicated GPU to work properly!  
-And please enter full screen (F11) - otherwise some controls are cut off
+### [Demo](https://nf-s.github.io/tas-convict-datavis-d3/public/static/)  
 
-Also note: here is no loading indicator - so the screen may stay blank for ~20 seconds while the data is loading
+**Notes**: 
+
+- This needs a dedicated GPU to work properly!  
+If you have a hybrid GPU you can check which one is being utilised at http://webglreport.com/?v=1 (the current GPU is printed to console).
+
+- Please enter full screen (F11) - otherwise some controls are cut off
+
+- There is no loading indicator - so the screen may stay blank for ~20 seconds while the data is loading
+
+- This is made for touchscreen - it doesn't work very well with a mouse.
+
+---
 
 Example &mdash; All Voyages by Date:  
 ![All Voyages](https://github.com/nf-s/utas-tas-convict-datavis/blob/master/docs/img/all%20voyages.png?raw=true)
@@ -16,11 +25,6 @@ Example &mdash; All Voyages by Date:
 `browserify public/app/main.js -o public/dist/bundle.js`
 
 `node server.js`
-
-## GPU
-
-This needs a dedicated GPU &mdash; if you have hybrid GPU you can check which one is being utilised at http://webglreport.com/?v=1.  
-Or you can check the current CPU which is now printed to console on launch.
 
 ## Screenshots
 
