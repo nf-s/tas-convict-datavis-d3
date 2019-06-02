@@ -18,7 +18,7 @@ Using [D3](https://d3js.org/) and [Stardust.js](https://stardustjs.github.io/).
 
 - This is made for touchscreen - it doesn't work very well with a mouse.
 
-- Best performance = Chrome, 2nd best = Firefox
+- Best performance with **Google Chrome**
 
 ---
 
