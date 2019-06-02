@@ -783,10 +783,10 @@ const initSicklist = (shipyearsData, sicklistData) => {
   * STARTUP SCRIPT
   *  - Fetch JSON
   * ------------------------------------------------------------------------------------------ */
-axios.get('data/shipyear.stats.json')
+axios.get('../../public/static/data/shipyear.stats.json')
   .then((shipYearStats) => {
   // Get sicklist data
-    axios.get('data/sicklist.merged.json')
+    axios.get('../../public/static/data/sicklist.merged.json')
       .then((sickList) => {
         initSicklist(shipYearStats.data, sickList.data);
       })
