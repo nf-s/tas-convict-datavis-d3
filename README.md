@@ -7,9 +7,9 @@ Using [D3](https://d3js.org/) and [Stardust.js](https://stardustjs.github.io/).
 **Notes**: 
 
 - This needs a dedicated GPU to work properly!  
-If you have a hybrid GPU you can check which one is being utilised at http://webglreport.com/?v=1 (the current GPU is printed to console).
+If you have a hybrid GPU you can check which one is being utilised at [WebGL Report](http://webglreport.com/?v=1) (the current GPU is also printed to console).
 
-- Please enter full screen (F11) - otherwise some controls are cut off
+- Please enter full screen (`F11`) - otherwise some controls are cut off
 
 - There is no loading indicator - so the screen may stay blank for ~20 seconds while the data is loading
 
@@ -22,9 +22,11 @@ Example &mdash; All Voyages by Date:
 
 ## To start
 
-`browserify public/app/main.js -o public/dist/bundle.js`
+1. Install dependencies: `npm i`
 
-`node server.js`
+2. Bundle npm packages: `browserify public/app/main.js -o public/dist/bundle.js`
+
+3. Then you can either open `public/static/index.html` in a web browser, or you can run a webserver with `node server.js`
 
 ## Screenshots
 
