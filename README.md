@@ -1,6 +1,6 @@
 # Health of Convicts during Voyages to Tasmania Visualisation
 
-Using [D3](https://d3js.org/) and [Stardust.js](https://stardustjs.github.io/).
+Using [D3](https://d3js.org/) and [Stardust.js](https://stardustjs.github.io/)
 
 Developed for the [*Data, Knowledge and Decisions*](http://www.utas.edu.au/research/our-research-themes/data-knowledge-and-decisions) research theme at [The University of Tasmania](http://www.utas.edu.au/)
 
@@ -10,7 +10,7 @@ Developed for the [*Data, Knowledge and Decisions*](http://www.utas.edu.au/resea
 
 - This needs a dedicated GPU to work properly!  
 
-    - If you have a hybrid GPU you can check which one is being utilised at [WebGL Report](http://webglreport.com/?v=1) (the current GPU is also printed to console).
+    - If you have a hybrid GPU you can check which one is being utilised at [WebGL Report](http://webglreport.com/?v=1) (the current GPU is also printed to console)
     - If the wrong GPU is being used, you must assign **High Performance** graphics to your web browser - see [Assign graphics performance preferences to Windows 10 programs](https://www.ghacks.net/2018/11/30/assign-graphics-performance-preferences-windows-10-programs/)
     - If you have a NVIDIA card, there may also be **Run with graphics processor** context menu option (which can be [enabled](https://forums.geforce.com/default/topic/520731/pc-games/can-39-t-find-34-run-with-graphics-processor-34-option/post/3698089/#3698089))
 
@@ -18,7 +18,7 @@ Developed for the [*Data, Knowledge and Decisions*](http://www.utas.edu.au/resea
 
 - There is no loading indicator - so the screen may stay blank for ~20 seconds while the data is loading
 
-- This is made for touchscreen - it doesn't work very well with a mouse.
+- This is made for touchscreen - it doesn't work very well with a mouse
 
 - Best performance with **Google Chrome**
 
