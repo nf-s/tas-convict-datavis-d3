@@ -2,6 +2,8 @@
 
 Using [D3](https://d3js.org/) and [Stardust.js](https://stardustjs.github.io/).
 
+Developed for the [*Data, Knowledge and Decisions*](http://www.utas.edu.au/research/our-research-themes/data-knowledge-and-decisions) research theme at [The University of Tasmania](http://www.utas.edu.au/)
+
 ### [Demo](https://nf-s.github.io/tas-convict-datavis-d3/public/static/)  
 
 **Notes**: 
